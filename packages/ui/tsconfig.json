@@ -1,0 +1,9 @@
+{
+  "extends": "@lumo/configs/typescript/base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "jsx": "react-jsx",
+  },
+  "include": ["src", "./setup-tests.ts"],
+  "exclude": ["dist"]
+}

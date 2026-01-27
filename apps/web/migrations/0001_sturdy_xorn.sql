@@ -1,0 +1,1 @@
+ALTER TABLE "calculator_results" DROP COLUMN "calculation_time";

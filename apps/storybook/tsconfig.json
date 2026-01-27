@@ -1,0 +1,8 @@
+{
+  "extends": "@lumo/configs/typescript/base.json",
+  "compilerOptions": {
+    "jsx": "preserve",
+  },
+  "include": ["src/**/*.stories.tsx", "src/**/*.mdx", ".storybook/preview.ts", "./vite-env.d.ts",],
+  "exclude": ["storybook-static", "node_modules"]
+}

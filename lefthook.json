@@ -1,0 +1,16 @@
+{
+  "pre-commit": {
+    "parallel": true,
+    "commands": {
+      "lint": {
+        "run": "pnpm lint"
+      },
+      "check-types": {
+        "run": "pnpm check-types"
+      },
+      "test": {
+        "run": "pnpm test"
+      }
+    }
+  }
+}

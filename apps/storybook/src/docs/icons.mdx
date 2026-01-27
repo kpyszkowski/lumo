@@ -1,0 +1,20 @@
+import * as icons from '@lumo/ui/icons'
+import { Meta, IconGallery, IconItem } from '@storybook/addon-docs/blocks';
+
+<Meta title="Icons" />
+
+# Icons
+
+Icons are available to be imported from `@lumo/ui/icons`.
+
+It's a curated selection of icons from [Lucide](https://lucide.dev/).
+
+## Available icons
+
+<IconGallery>
+  {Object.entries(icons).map(([name, Icon]) => (
+    <IconItem name={name}>
+      <Icon />
+    </IconItem>
+  ))}
+</IconGallery>

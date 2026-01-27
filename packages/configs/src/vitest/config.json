@@ -1,0 +1,20 @@
+{
+  "test": {
+    "globals": true,
+    "coverage": {
+      "provider": "istanbul",
+      "reporter": ["text", "text-summary", "json", "html", "lcov"],
+      "enabled": true,
+      "reportOnFailure": true,
+      "reportsDirectory": "./coverage",
+      "thresholds": {
+        "autoUpdate": false,
+        "perFile": false,
+        "branches": 50,
+        "lines": 50,
+        "functions": 50,
+        "statements": 50
+      }
+    }
+  }
+}

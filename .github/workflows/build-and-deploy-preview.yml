@@ -1,0 +1,152 @@
+name: Build and Deploy Preview
+
+on:
+  workflow_call:
+    inputs:
+      app:
+        required: true
+        type: string
+      name:
+        required: true
+        type: string
+      enable-database:
+        required: true
+        type: boolean
+    secrets:
+      CLOUDFLARE_API_TOKEN:
+        required: true
+      NEON_API_KEY:
+        required: false
+
+jobs:
+  build-and-deploy-preview:
+    name: Build and deploy preview - ${{ inputs.name }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: ⚡ Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: 🛠️ Setup pnpm
+        id: pnpm-setup
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
+      - name: 🕋 Restore pnpm cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.pnpm-setup.outputs.dest }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: 🔗 Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: 🏎️ Restore Turbo cache
+        uses: actions/cache@v4
+        with:
+          path: .turbo
+          key: ${{ runner.os }}-turbo-${{ inputs.app }}-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-turbo-${{ inputs.app }}-
+
+      - name: 🌿 Create database branch
+        if: inputs.enable-database
+        id: create-branch
+        uses: neondatabase/create-branch-action@v5
+        with:
+          project_id: ${{ vars.NEON_PROJECT_ID }}
+          api_key: ${{ secrets.NEON_API_KEY }}
+          username: neondb_owner 
+          branch_name: preview/pr-${{ github.event.pull_request.number }}
+
+      - name: 🪄 Run database migrations
+        if: inputs.enable-database
+        working-directory: apps/${{ inputs.app }}
+        run: pnpm run db:migrate
+        env:
+          DATABASE_URL: ${{ steps.create-branch.outputs.db_url_with_pooler }}
+
+      - name: 📦 Build ${{ inputs.name }}
+        id: build
+        run: pnpm run build --filter=./apps/${{ inputs.app }}
+        env:
+          DATABASE_URL: ${{ steps.create-branch.outputs.db_url_with_pooler }}
+
+      - name: 🚀 Deploy ${{ inputs.name }}
+        id: deploy
+        if: success()
+        uses: cloudflare/wrangler-action@v3
+        with:
+          workingDirectory: apps/${{ inputs.app }}
+          preCommands: |
+            echo "Uploading secrets..."
+            echo "DATABASE_URL=${{ steps.create-branch.outputs.db_url_with_pooler }}" >> .env.temp
+            pnpm wrangler versions secret bulk .env.temp --message "Upload secrets for PR ${{ github.event.pull_request.number }}"
+          command: versions upload --preview-alias pr-${{ github.event.pull_request.number }} --message "Preview deployment for PR ${{ github.event.pull_request.number }}"
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+
+      - name: 📬 Update PR comment
+        if: always()
+        uses: actions/github-script@v7
+        env:
+          MATRIX: ${{ toJson(inputs) }}
+          STEPS: ${{ toJson(steps) }}
+        with:
+          script: |
+            const matrix = JSON.parse(process.env.MATRIX)
+            const steps = JSON.parse(process.env.STEPS)
+            const prNumber = context.issue.number
+            const commentTag = '<!-- pr-preview-deployment -->'
+
+            const output = steps.deploy.outputs['command-output']
+            const urlRegex = /Version Preview Alias URL:\s+(https:\/\/[^\s]+)/
+            const match = output?.match(urlRegex)
+            const url = match ? match[1] : null
+
+            const updatedRow = `| ${matrix.name} | ${url ?? "⚠️ Deployment failed"} |`
+ 
+            const { data: comments } = await github.rest.issues.listComments({
+              ...context.repo,
+              issue_number: prNumber,
+            })
+
+            const existing = comments.find(c => c.body.includes(commentTag))
+
+            if (existing) {
+              const rowRegex = new RegExp(`\\| ${matrix.name} \\| .* \\|`)
+              const hasAppRow = existing.body.match(rowRegex) !== null
+
+              const updatedBody = hasAppRow
+                ? existing.body.replace(rowRegex, updatedRow)
+                : existing.body + `\n${updatedRow}`
+
+              await github.rest.issues.updateComment({
+                ...context.repo,
+                comment_id: existing.id,
+                body: updatedBody
+              })
+            } else {
+              const body = [
+                commentTag,
+                '### 🚀 PR Preview Deployments',
+                '| Application | Preview URL |',
+                '|-------------|-------------|',
+                updatedRow,
+              ].join('\n')
+
+              await github.rest.issues.createComment({
+                ...context.repo,
+                issue_number: prNumber,
+                body,
+              })
+            }
+
+            console.log(`💬 Updated PR comment for ${matrix.name}`)

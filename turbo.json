@@ -1,0 +1,31 @@
+{
+  "$schema": "https://turborepo.com/schema.json",
+  "ui": "tui",
+  "tasks": {
+    "lint": {
+      "dependsOn": ["^lint"]
+    },
+    "format": {
+      "dependsOn": ["^format"]
+    },
+    "check-types": {
+      "dependsOn": ["^check-types", "^build"]
+    },
+    "build": {
+      "dependsOn": ["lint", "check-types", "^build"],
+      "outputs": [".open-next/**", "storybook-static/**", "dist/**"],
+      "env": ["DATABASE_URL"]
+    },
+    "deploy": {
+      "dependsOn": ["build"],
+      "env": ["CLOUDFLARE_*", "STORYBOOK_*"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "test": {
+      "inputs": ["$TURBO_DEFAULT$", "$TURBO_ROOT$/vitest.config.ts"]
+    }
+  }
+}

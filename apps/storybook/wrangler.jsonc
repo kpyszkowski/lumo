@@ -1,0 +1,10 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "lumo-storybook",
+  "compatibility_date": "2025-08-18",
+  "assets": {
+    "directory": "./storybook-static",
+    "binding": "ASSETS"
+  },
+  "main": "./.storybook/worker.ts"
+}

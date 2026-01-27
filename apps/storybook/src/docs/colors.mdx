@@ -1,0 +1,76 @@
+import { Meta, ColorPalette, ColorItem } from "@storybook/addon-docs/blocks";
+
+<Meta title="Colors" />
+
+# Colors
+
+Lumo theme is built on top of Tailwind CSS.
+
+Since theme is extended, 
+[all Tailwind default colors](https://tailwindcss.com/docs/colors) are 
+available.
+
+In addition to that, colors were tokenized to provide them meaning and 
+semantics.
+
+## Content colors
+
+These colors are applicable for color utilities besides background.
+
+export const mapCssVariableToPaletteItem = (cssVariable) => {
+  let token = cssVariable.replace(/^--(?:color|background-color)-/, "")
+  const isInverted = token.endsWith('-inv')
+  if (isInverted) token = token.replace('-inv', '')
+
+  const title = 
+    token.at(0)?.toUpperCase() + 
+    token.slice(1) + 
+    (isInverted ? ' (inverted)' : '')
+  const colors = [`var(${cssVariable})`]
+  
+  return <ColorItem title={title} colors={colors} />
+}
+
+<ColorPalette>
+  {[
+    "--color-primary",
+    "--color-secondary",
+    "--color-tertiary",
+    "--color-primary-inv",
+    "--color-secondary-inv",
+    "--color-tertiary-inv",
+  ].map(mapCssVariableToPaletteItem)}
+</ColorPalette>
+
+## Background colors
+
+These colors are applicable only for background color utilities.
+
+Such differentiation allows to have more control over color usage and creates
+natural contrasting color pairs.
+
+<ColorPalette>
+  {[
+    "--background-color-primary",
+    "--background-color-secondary",
+    "--background-color-tertiary",
+    "--background-color-primary-inv",
+    "--background-color-secondary-inv",
+    "--background-color-tertiary-inv",
+  ].map(mapCssVariableToPaletteItem)}
+</ColorPalette>
+
+## Accent colors
+
+These colors are used to highlight certain elements.
+
+<ColorPalette>
+  {[
+    "--color-accent-content",
+    "--color-accent-primary",
+    "--color-accent-secondary",
+    "--color-accent-tertiary",
+    "--color-accent-primary-muted",
+    "--color-accent-secondary-muted",
+  ].map(mapCssVariableToPaletteItem)}
+</ColorPalette>

@@ -1,0 +1,20 @@
+@import "tailwindcss";
+@import "@lumo/ui/theme";
+
+/* 
+To watch for sources in components source code
+Ref: https://tailwindcss.com/docs/detecting-classes-in-source-files#explicitly-registering-sources
+*/
+@source "../../node_modules/@lumo/ui";
+
+body {
+  font-family: var(--font-sans);
+  color: var(--text-color-primary);
+  background-color: var(--background-color-tertiary);
+}
+
+@variant dark {
+  body {
+    background-color: var(--background-color-primary);
+  }
+}

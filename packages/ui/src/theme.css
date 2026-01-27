@@ -1,0 +1,70 @@
+/*
+  The Tailwind core is imported only for Tailwind CSS IntelliSense support.
+  It will not be included in the final build.
+*/
+/* postcss-ignore-next */
+@import "tailwindcss";
+
+/*
+  Note:
+  - `--background-color-<smth>` variable aims only for background colors.
+  - `--color-<smth>` variable aims for any other so text, borders, rings etc.
+  - `--<smth>-inv` variables are inverse colors of the corresponding
+    `--color-<smth>` variable.
+
+  Such differentiation allows to define content-background color variations
+  that are easy to maintain. With inverted colors it allows to compose 
+  contrasting color schemes.
+
+  In majority of cases the use of `dark:` modifier won't be even needed.
+*/
+
+@theme {
+  --font-sans: "system-ui";
+  --font-mono: "monospace";
+
+  --color-primary: var(--color-neutral-900);
+  --color-primary-inv: var(--color-neutral-50);
+  --background-color-primary: var(--color-neutral-50);
+  --background-color-primary-inv: var(--color-neutral-900);
+
+  --color-secondary: var(--color-neutral-700);
+  --color-secondary-inv: var(--color-neutral-200);
+  --background-color-secondary: var(--color-neutral-200);
+  --background-color-secondary-inv: var(--color-neutral-800);
+
+  --color-tertiary: var(--color-neutral-500);
+  --color-tertiary-inv: var(--color-neutral-400);
+  --background-color-tertiary: var(--color-neutral-100);
+  --background-color-tertiary-inv: var(--color-neutral-700);
+
+  --color-accent-content: var(--color-blue-900);
+  --color-accent-primary: var(--color-blue-500);
+  --color-accent-secondary: var(--color-blue-600);
+  --color-accent-tertiary: var(--color-blue-400);
+  --color-accent-primary-muted: var(--color-blue-100);
+  --color-accent-secondary-muted: var(--color-blue-200);
+}
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+@variant dark {
+  --color-primary: var(--color-neutral-50);
+  --color-primary-inv: var(--color-neutral-900);
+  --background-color-primary: var(--color-neutral-900);
+  --background-color-primary-inv: var(--color-neutral-50);
+
+  --color-secondary: var(--color-neutral-200);
+  --color-secondary-inv: var(--color-neutral-700);
+  --background-color-secondary: var(--color-neutral-800);
+  --background-color-secondary-inv: var(--color-neutral-200);
+
+  --color-tertiary: var(--color-neutral-400);
+  --color-tertiary-inv: var(--color-neutral-500);
+  --background-color-tertiary: var(--color-neutral-700);
+  --background-color-tertiary-inv: var(--color-neutral-100);
+
+  --color-accent-content: var(--color-blue-50);
+  --color-accent-primary-muted: var(--color-blue-900);
+  --color-accent-secondary-muted: var(--color-blue-950);
+}

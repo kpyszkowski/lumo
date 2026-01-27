@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+@import "@lumo/ui/theme";
+
+/* 
+To watch for sources in components source code
+Ref: https://tailwindcss.com/docs/detecting-classes-in-source-files#explicitly-registering-sources
+*/
+@source "../node_modules/@lumo/ui";
+
+body,
+.docs-story {
+  @apply bg-primary text-primary;
+}
+
+@theme {
+  --font-sans: "Manrope", sans-serif;
+}
