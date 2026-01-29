@@ -1,0 +1,5 @@
+{
+  "extends": "@lumo/configs/typescript/base.json",
+  "include": ["src"],
+  "exclude": ["dist", "node_modules"]
+}

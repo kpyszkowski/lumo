@@ -1,0 +1,33 @@
+{
+  "name": "@lumo/data-scraper",
+  "version": "0.1.0",
+  "description": "A CLI tool for scraping catalog data from AutoBild website.",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "pnpm dlx puppeteer browsers install chrome",
+    "start": "pnpm dlx tsx src/cli.ts",
+    "build": "tsdown",
+    "dev": "tsdown --watch --clean=false",
+    "clean": "rm -rf .turbo dist",
+    "check-types": "tsc --noEmit",
+    "lint": "eslint . --max-warnings 0",
+    "format": "eslint . --fix"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.28.2",
+  "dependencies": {
+    "commander": "^14.0.2",
+    "puppeteer": "^24.36.1",
+    "yocto-spinner": "^1.0.0",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@lumo/configs": "workspace:*",
+    "eslint": "^9.39.2",
+    "prettier": "^3.6.2",
+    "tsdown": "^0.20.1",
+    "typescript": "5.9.2"
+  }
+}
