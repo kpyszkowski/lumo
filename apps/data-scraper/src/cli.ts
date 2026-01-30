@@ -4,6 +4,7 @@ import { getAppMetadata } from '~/lib/get-app-metadata'
 import { scrapeMakesCommand } from '~/features/makes/cli/scrape-makes-command'
 import { slugify } from '~/utils/slugify'
 import { scrapeModelsCommand } from '~/features/models/cli/scrape-models-command'
+import { scrapeGenerationsCommand } from '~/features/generations/cli/scrape-generations-command'
 
 const program = new Command()
 const appMetadata = getAppMetadata()
@@ -15,5 +16,6 @@ program
 
 program.addCommand(scrapeMakesCommand)
 program.addCommand(scrapeModelsCommand)
+program.addCommand(scrapeGenerationsCommand)
 
 program.parse()

@@ -4,7 +4,7 @@ import { getPathFromURL } from '~/utils/get-path-from-url'
 import { getXPathSelector } from '~/utils/get-x-path-selector'
 import { slugify } from '~/utils/slugify'
 
-interface Model {
+export interface Model {
   /**
    * The unique identifier for the model. It's slugified version of the name.
    * @dev It's a prefferred way to reference models in consumer applications.
