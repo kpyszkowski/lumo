@@ -1,4 +1,6 @@
 import { getBrowser } from '~/lib/get-browser'
+import { getPathFromURL } from '~/utils/get-path-from-url'
+import { getXPathSelector } from '~/utils/get-x-path-selector'
 import { slugify } from '~/utils/slugify'
 
 export interface Make {
@@ -18,6 +20,19 @@ export interface Make {
   name: string
 }
 
+type PageContext = {
+  irContent: {
+    brandsAZ: {
+      brands: {
+        name: string
+        url: string
+      }[]
+    }
+  }
+}
+
+const PAGE_CONTEXT_XPATH = getXPathSelector('//*[@id="vike_pageContext"]')
+
 /**
  * Scrapes a list of vehicle makes from a specified source.
  * @returns A promise that resolves to an array of {@link Make} objects.
@@ -28,37 +43,12 @@ export async function scrapeMakes(): Promise<Make[]> {
   const page = await browser.newPage()
   await page.goto('https://www.autobild.de/marken-modelle/')
 
-  const content = await page.evaluate(() => {
-    const MAKE_ELEMENT_SELECTOR = '.brandTeaser'
-    const MAKE_ELEMENT_ANCHOR_SELECTOR = 'a.brandTeaser__link'
-    const MAKE_ELEMENT_NAME_SELECTOR = '.brandTeaser__title'
+  const data = await page.$eval(PAGE_CONTEXT_XPATH, (element) => {
+    const data = JSON.parse(element.textContent) as PageContext
 
-    const makeElements = Array.from(
-      document.querySelectorAll<HTMLElement>(MAKE_ELEMENT_SELECTOR),
-    )
-
-    return makeElements.map((element) => {
-      const anchorElement = element.querySelector<HTMLAnchorElement>(
-        MAKE_ELEMENT_ANCHOR_SELECTOR,
-      )
-      const nameElement = element.querySelector<HTMLElement>(
-        MAKE_ELEMENT_NAME_SELECTOR,
-      )
-
-      if (!anchorElement || !nameElement) {
-        throw new Error('Make element is missing required child elements')
-      }
-
-      const url = new URL(anchorElement.href)
-      const [, sourceId] = url.pathname.split('/').slice(1)
-      if (!sourceId) {
-        throw new Error('Unable to extract sourceId from make URL')
-      }
-
-      const name = nameElement.textContent?.trim() ?? ''
-
+    return data.irContent.brandsAZ.brands.map(({ name, url }) => {
       return {
-        sourceId,
+        url,
         name,
       }
     })
@@ -66,10 +56,13 @@ export async function scrapeMakes(): Promise<Make[]> {
 
   await browser.close()
 
-  const data = content.map((make) => ({
-    ...make,
-    id: slugify(make.name),
-  }))
-
-  return data
+  return data.map(({ name, url }) => {
+    const [, sourceId = ''] = getPathFromURL(url)
+    const id = slugify(name)
+    return {
+      id,
+      sourceId,
+      name,
+    }
+  })
 }

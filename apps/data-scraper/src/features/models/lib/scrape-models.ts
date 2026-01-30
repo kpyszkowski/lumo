@@ -1,5 +1,7 @@
 import { type Make } from '~/features/makes/lib/scrape-makes'
 import { getBrowser } from '~/lib/get-browser'
+import { getPathFromURL } from '~/utils/get-path-from-url'
+import { getXPathSelector } from '~/utils/get-x-path-selector'
 import { slugify } from '~/utils/slugify'
 
 interface Model {
@@ -19,7 +21,30 @@ interface Model {
   name: string
 }
 
-type MakeModelsPair = { makeId: string; models: Model[] }
+type MakeModelsPair = { make: Make; models: Model[] }
+
+type PageContext = {
+  irContent: {
+    brandPage: {
+      models: {
+        url: string
+        mdbAssignment: {
+          brands: [
+            {
+              models: [
+                {
+                  name: string
+                },
+              ]
+            },
+          ]
+        }
+      }[]
+    }
+  }
+}
+
+const PAGE_CONTEXT_XPATH = getXPathSelector('//*[@id="vike_pageContext"]')
 
 type ScrapeModelsOptions = {
   makes: Make[]
@@ -38,77 +63,58 @@ export async function scrapeModels(
 
   const browser = await getBrowser()
 
-  const contents: Pick<Model, 'sourceId' | 'name'>[][] = []
+  const data: { url: string; name: string }[][] = []
 
   for (const make of makes) {
     const page = await browser.newPage()
     await page.goto(`https://www.autobild.de/marken-modelle/${make.sourceId}/`)
 
-    const results = await page.evaluate(() => {
-      const MODEL_ELEMENT_SELECTOR = '.modelTeaser'
-      const MODEL_ELEMENT_ANCHOR_SELECTOR = 'a.modelTeaser__link'
-      const MODEL_ELEMENT_NAME_SELECTOR = '.modelTeaser__title'
-
-      const makeElements = Array.from(
-        document.querySelectorAll<HTMLElement>(MODEL_ELEMENT_SELECTOR),
-      )
-
-      return makeElements.map((element) => {
-        const anchorElement = element.querySelector<HTMLAnchorElement>(
-          MODEL_ELEMENT_ANCHOR_SELECTOR,
-        )
-        const nameElement = element.querySelector<HTMLElement>(
-          MODEL_ELEMENT_NAME_SELECTOR,
-        )
-
-        if (!anchorElement || !nameElement) {
-          throw new Error('Make element is missing required child elements')
-        }
-
-        const url = new URL(anchorElement.href)
-        const [, sourceId] = url.pathname.split('/').slice(1)
-        if (!sourceId) {
-          throw new Error('Unable to extract sourceId from make URL')
-        }
-
-        const name = nameElement.textContent?.trim() ?? ''
+    const item = await page.$eval(PAGE_CONTEXT_XPATH, (element) => {
+      const data = JSON.parse(element.textContent) as PageContext
+      return data.irContent.brandPage.models.map(({ mdbAssignment, url }) => {
+        const name = mdbAssignment.brands[0].models[0].name
 
         return {
-          sourceId,
+          url,
           name,
         }
       })
     })
 
+    console.log(`Found ${item.length} models of ${make.name}`)
+
     if (onProgress) {
       onProgress(
         make,
-        results.map((result) => result.name),
+        item.map(({ name }) => name),
       )
     }
 
-    await page.close()
-
-    contents.push(results)
+    data.push(item)
   }
 
   await browser.close()
 
-  if (contents.length !== makes.length) {
+  if (data.length !== makes.length) {
     throw new Error(
       'Scraped models data length does not match makes data length',
     )
   }
 
-  const data = contents.map((modelsData, index) => {
-    const makeId = makes[index]!.id // Non-null assertion as lengths are verified above
-    const models = modelsData.map((model) => ({
-      ...model,
-      id: slugify(model.name),
-    }))
+  return data.map((modelsData, index) => {
+    const make = makes[index]! // Non-null assertion as lengths are verified above
 
-    return { makeId, models } satisfies MakeModelsPair
+    const models = modelsData.map(({ name, url }) => {
+      const [, , sourceId = ''] = getPathFromURL(url)
+      const id = slugify(name)
+
+      return {
+        id,
+        sourceId,
+        name,
+      }
+    })
+
+    return { make, models }
   })
-
-  return data
 }
