@@ -17,7 +17,7 @@ export const scrapeMakesCommand = new Command('scrape-makes')
   )
   .action(async (options: { output?: string }) => {
     try {
-      spinner.start('Starting to scrape makes...')
+      spinner.start('Scraping makes...')
       const makes = await scrapeMakes()
 
       if (options.output) {

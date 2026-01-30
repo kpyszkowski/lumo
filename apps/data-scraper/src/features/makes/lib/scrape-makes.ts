@@ -1,5 +1,4 @@
-import { parsePage } from '~/lib/parse-page'
-import { removeURLTrailingSlash } from '~/utils/remove-url-trailing-slash'
+import { getBrowser } from '~/lib/get-browser'
 import { slugify } from '~/utils/slugify'
 
 interface Make {
@@ -19,60 +18,59 @@ interface Make {
   name: string
 }
 
-const MAKES_URL = 'https://www.autobild.de/marken-modelle/'
-
-const MAKE_ELEMENT_SELECTOR = '.brandTeaser'
-const MAKE_ELEMENT_ANCHOR_SELECTOR = 'a.brandTeaser__link'
-const MAKE_ELEMENT_NAME_SELECTOR = '.brandTeaser__title'
-
 /**
  * Scrapes a list of vehicle makes from a specified source.
  * @param onProgress Optional callback function that reports progress with current count of scraped makes
  * @returns A promise that resolves to an array of {@link Make} objects.
  */
 export async function scrapeMakes(): Promise<Make[]> {
-  return parsePage({
-    url: MAKES_URL,
-    handleParse: async (page) => {
-      const parsed: Make[] = []
-      const makeElements = await page.$$(MAKE_ELEMENT_SELECTOR)
+  const browser = await getBrowser()
 
-      for (const makeElement of makeElements) {
-        const makeAnchorElement = await makeElement.$(
-          MAKE_ELEMENT_ANCHOR_SELECTOR,
-        )
-        if (!makeAnchorElement) continue
+  const page = await browser.newPage()
+  await page.goto('https://www.autobild.de/marken-modelle/')
 
-        const makeNameElement = await makeElement.$(MAKE_ELEMENT_NAME_SELECTOR)
-        if (!makeNameElement) continue
+  const content = await page.evaluate(() => {
+    const MAKE_ELEMENT_SELECTOR = '.brandTeaser'
+    const MAKE_ELEMENT_ANCHOR_SELECTOR = 'a.brandTeaser__link'
+    const MAKE_ELEMENT_NAME_SELECTOR = '.brandTeaser__title'
 
-        const makeAnchorElementHref =
-          await makeAnchorElement.getProperty('href')
-        const makeAnchorElementHrefValue =
-          await makeAnchorElementHref.jsonValue()
+    const makeElements = Array.from(
+      document.querySelectorAll<HTMLElement>(MAKE_ELEMENT_SELECTOR),
+    )
 
-        const makeURL = removeURLTrailingSlash(
-          new URL(makeAnchorElementHrefValue),
-        )
+    return makeElements.map((element) => {
+      const anchorElement = element.querySelector<HTMLAnchorElement>(
+        MAKE_ELEMENT_ANCHOR_SELECTOR,
+      )
+      const nameElement = element.querySelector<HTMLElement>(
+        MAKE_ELEMENT_NAME_SELECTOR,
+      )
 
-        // Pathname shape is `/marken-modelle/{sourceId}`
-        const [, sourceId] = makeURL.pathname.split('/').slice(1)
-        const name = await makeNameElement.evaluate((element) =>
-          element.textContent.trim(),
-        )
-
-        if (!sourceId || !name) continue
-
-        const id = slugify(name)
-
-        parsed.push({
-          id,
-          sourceId,
-          name,
-        })
+      if (!anchorElement || !nameElement) {
+        throw new Error('Make element is missing required child elements')
       }
 
-      return parsed
-    },
+      const url = new URL(anchorElement.href)
+      const [, sourceId] = url.pathname.split('/').slice(1)
+      if (!sourceId) {
+        throw new Error('Unable to extract sourceId from make URL')
+      }
+
+      const name = nameElement.textContent?.trim() ?? ''
+
+      return {
+        sourceId,
+        name,
+      }
+    })
   })
+
+  await page.close()
+
+  const data = content.map((make) => ({
+    ...make,
+    id: slugify(make.name),
+  }))
+
+  return data
 }
