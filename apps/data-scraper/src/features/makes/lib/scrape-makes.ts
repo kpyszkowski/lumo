@@ -1,7 +1,7 @@
 import { getBrowser } from '~/lib/get-browser'
 import { slugify } from '~/utils/slugify'
 
-interface Make {
+export interface Make {
   /**
    * The unique identifier for the make. It's slugified version of the name.
    * @dev It's a prefferred way to reference makes in consumer applications.
@@ -20,7 +20,6 @@ interface Make {
 
 /**
  * Scrapes a list of vehicle makes from a specified source.
- * @param onProgress Optional callback function that reports progress with current count of scraped makes
  * @returns A promise that resolves to an array of {@link Make} objects.
  */
 export async function scrapeMakes(): Promise<Make[]> {
@@ -65,7 +64,7 @@ export async function scrapeMakes(): Promise<Make[]> {
     })
   })
 
-  await page.close()
+  await browser.close()
 
   const data = content.map((make) => ({
     ...make,

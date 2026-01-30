@@ -3,6 +3,7 @@ import { getAppMetadata } from '~/lib/get-app-metadata'
 
 import { scrapeMakesCommand } from '~/features/makes/cli/scrape-makes-command'
 import { slugify } from '~/utils/slugify'
+import { scrapeModelsCommand } from '~/features/models/cli/scrape-models-command'
 
 const program = new Command()
 const appMetadata = getAppMetadata()
@@ -13,5 +14,6 @@ program
   .version(appMetadata.version)
 
 program.addCommand(scrapeMakesCommand)
+program.addCommand(scrapeModelsCommand)
 
 program.parse()

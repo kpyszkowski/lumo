@@ -3,12 +3,12 @@
  * @param data - Array of objects to format
  * @returns CSV formatted string
  */
-export function formatAsCSV<TRow>(data: TRow[]): string {
+export function formatAsCSV<TRow extends object>(data: TRow[]): string {
   if (data.length === 0) {
     return ''
   }
 
-  const headers = Object.keys(data[0] as keyof TRow)
+  const headers = Object.keys(data[0] as unknown as string)
 
   const rows = [
     headers.join(','),

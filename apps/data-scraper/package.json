@@ -17,8 +17,12 @@
   "license": "ISC",
   "packageManager": "pnpm@10.28.2",
   "dependencies": {
+    "@types/tmp": "^0.2.6",
     "commander": "^14.0.2",
     "puppeteer": "^24.36.1",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2",
+    "tmp": "^0.2.5",
     "yocto-spinner": "^1.0.0",
     "zod": "^4.1.12"
   },
