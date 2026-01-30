@@ -8,5 +8,5 @@ export default defineConfig({
   dts: true,
   unbundle: true,
   minify: true,
-  platform: 'neutral',
+  platform: 'node',
 })
