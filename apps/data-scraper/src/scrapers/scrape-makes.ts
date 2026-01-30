@@ -1,35 +1,8 @@
 import { getBrowser } from '~/lib/get-browser'
+import { type PageContext, type Make } from '~/types'
 import { getPathFromURL } from '~/utils/get-path-from-url'
 import { getXPathSelector } from '~/utils/get-x-path-selector'
 import { slugify } from '~/utils/slugify'
-
-export interface Make {
-  /**
-   * The unique identifier for the make. It's slugified version of the name.
-   * @dev It's a prefferred way to reference makes in consumer applications.
-   */
-  id: string
-  /**
-   * The source identifier for the make.
-   * @dev Used to link to the original data source - eg. in URLs or selectors.
-   */
-  sourceId: string
-  /**
-   * The human-readable name of the make.
-   */
-  name: string
-}
-
-type PageContext = {
-  irContent: {
-    brandsAZ: {
-      brands: {
-        name: string
-        url: string
-      }[]
-    }
-  }
-}
 
 const PAGE_CONTEXT_XPATH = getXPathSelector('//*[@id="vike_pageContext"]')
 

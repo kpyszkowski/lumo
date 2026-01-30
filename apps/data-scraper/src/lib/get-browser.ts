@@ -1,10 +1,6 @@
 import { type Browser, type LaunchOptions } from 'puppeteer'
 import puppeteer from 'puppeteer-extra'
 import StealthPlugin from 'puppeteer-extra-plugin-stealth'
-import { createHash } from 'crypto'
-
-let BROWSER: Browser | null
-let BROWSER_LAUNCH_HASH: string | null
 
 export type { LaunchOptions }
 
@@ -20,20 +16,8 @@ export function getBrowser(
     headless: true,
   },
 ): Promise<Browser> {
-  const launchHash = createHash('sha256')
-    .update(JSON.stringify(options))
-    .digest('hex')
-
-  if (BROWSER && BROWSER_LAUNCH_HASH === launchHash) {
-    return Promise.resolve(BROWSER)
-  }
-
   try {
-    return puppeteer.launch(options).then((browser) => {
-      BROWSER = browser
-      BROWSER_LAUNCH_HASH = launchHash
-      return browser
-    })
+    return puppeteer.launch(options)
   } catch (error) {
     console.error('Error launching browser:', error)
     throw error

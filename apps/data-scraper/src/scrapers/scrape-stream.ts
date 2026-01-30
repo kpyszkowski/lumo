@@ -1,0 +1,33 @@
+import { scrapeGenerations } from '~/scrapers/scrape-generations'
+import { scrapeMakes } from '~/scrapers/scrape-makes'
+import { scrapeModels } from '~/scrapers/scrape-models'
+import { type Make, type Model, type Generation } from '~/types'
+
+export type ScrapeEvent =
+  | { type: 'make'; make: Make }
+  | { type: 'model'; make: Make; model: Model }
+  | { type: 'generation'; make: Make; model: Model; generation: Generation }
+
+export async function* scrapeStream(): AsyncGenerator<ScrapeEvent> {
+  const makes = await scrapeMakes()
+
+  for (const make of makes) {
+    yield { type: 'make', make }
+
+    const models = await scrapeModels({ make })
+
+    for (const model of models) {
+      yield { type: 'model', make, model }
+
+      const generations = await scrapeGenerations({ make, model })
+      for (const generation of generations) {
+        yield {
+          type: 'generation',
+          make,
+          model,
+          generation,
+        }
+      }
+    }
+  }
+}
