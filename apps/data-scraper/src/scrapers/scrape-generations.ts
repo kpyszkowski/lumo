@@ -1,4 +1,4 @@
-import { getBrowser } from '~/lib/get-browser'
+import { type Browser } from 'puppeteer'
 import {
   type Generation,
   type PageContext,
@@ -11,7 +11,7 @@ import { slugify } from '~/utils/slugify'
 
 const PAGE_CONTEXT_XPATH = getXPathSelector('//*[@id="vike_pageContext"]')
 
-type ScrapeGenerationsOptions = {
+type ScrapeGenerationsParameters = {
   make: Make
   model: Model
 }
@@ -22,11 +22,10 @@ type ScrapeGenerationsOptions = {
  * @returns A promise that resolves to an array of tuples, each containing a make ID and an array of its corresponding {@link Model} objects.
  */
 export async function scrapeGenerations(
-  options: ScrapeGenerationsOptions,
+  browser: Browser,
+  options: ScrapeGenerationsParameters,
 ): Promise<Generation[]> {
   const { make, model } = options
-
-  const browser = await getBrowser()
 
   const page = await browser.newPage()
 
@@ -50,7 +49,7 @@ export async function scrapeGenerations(
     )
   })
 
-  await browser.close()
+  await page.close()
 
   const generations = data.map(({ name, url, productionYears }) => {
     const id = slugify(name)

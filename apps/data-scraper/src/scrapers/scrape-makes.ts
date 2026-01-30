@@ -1,4 +1,4 @@
-import { getBrowser } from '~/lib/get-browser'
+import { type Browser } from 'puppeteer'
 import { type PageContext, type Make } from '~/types'
 import { getPathFromURL } from '~/utils/get-path-from-url'
 import { getXPathSelector } from '~/utils/get-x-path-selector'
@@ -10,9 +10,7 @@ const PAGE_CONTEXT_XPATH = getXPathSelector('//*[@id="vike_pageContext"]')
  * Scrapes a list of vehicle makes from a specified source.
  * @returns A promise that resolves to an array of {@link Make} objects.
  */
-export async function scrapeMakes(): Promise<Make[]> {
-  const browser = await getBrowser()
-
+export async function scrapeMakes(browser: Browser): Promise<Make[]> {
   const page = await browser.newPage()
   await page.goto('https://www.autobild.de/marken-modelle/')
 
@@ -27,7 +25,7 @@ export async function scrapeMakes(): Promise<Make[]> {
     })
   })
 
-  await browser.close()
+  await page.close()
 
   return data.map(({ name, url }) => {
     const [, sourceId = ''] = getPathFromURL(url)

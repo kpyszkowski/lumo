@@ -1,3 +1,4 @@
+import { getBrowser } from '~/lib/get-browser'
 import { scrapeGenerations } from '~/scrapers/scrape-generations'
 import { scrapeMakes } from '~/scrapers/scrape-makes'
 import { scrapeModels } from '~/scrapers/scrape-models'
@@ -9,17 +10,19 @@ export type ScrapeEvent =
   | { type: 'generation'; make: Make; model: Model; generation: Generation }
 
 export async function* scrapeStream(): AsyncGenerator<ScrapeEvent> {
-  const makes = await scrapeMakes()
+  const browser = await getBrowser()
+
+  const makes = await scrapeMakes(browser)
 
   for (const make of makes) {
     yield { type: 'make', make }
 
-    const models = await scrapeModels({ make })
+    const models = await scrapeModels(browser, { make })
 
     for (const model of models) {
       yield { type: 'model', make, model }
 
-      const generations = await scrapeGenerations({ make, model })
+      const generations = await scrapeGenerations(browser, { make, model })
       for (const generation of generations) {
         yield {
           type: 'generation',
