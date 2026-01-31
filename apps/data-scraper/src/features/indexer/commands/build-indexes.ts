@@ -1,4 +1,4 @@
-import { input as inputPropmpt } from '@inquirer/prompts'
+import { input as inputPrompt } from '@inquirer/prompts'
 import { Command } from 'commander'
 import initializeSpinner from 'yocto-spinner'
 import { readFile } from 'fs/promises'
@@ -14,7 +14,7 @@ export const buildIndexes = new Command('build-indexes')
   .action(async (options: { input?: string; output?: string }) => {
     const input =
       options.input ??
-      (await inputPropmpt({
+      (await inputPrompt({
         message: 'Where is the input file located?',
         default: options.input,
         required: true,
@@ -22,7 +22,7 @@ export const buildIndexes = new Command('build-indexes')
 
     const output =
       options.output ??
-      (await inputPropmpt({
+      (await inputPrompt({
         message: 'Where would you like to save the output?',
         default: options.output,
         required: !options.output,

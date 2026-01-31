@@ -6,7 +6,7 @@
   "scripts": {
     "postinstall": "pnpm dlx puppeteer browsers install chrome",
     "start": "node dist/cli.mjs",
-    "dev": "pnpm dlx tsx src/cli.ts",
+    "start:dev": "pnpm dlx tsx src/cli.ts",
     "build": "tsdown",
     "clean": "rm -rf .turbo dist",
     "check-types": "tsc --noEmit",
