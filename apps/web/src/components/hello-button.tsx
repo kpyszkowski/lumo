@@ -1,5 +1,5 @@
 'use client'
-import { Eye } from '@lumo/ui/icons'
+import { IconGauge } from '@lumo/ui/icons'
 import { Button, type ButtonProps } from '@lumo/ui/components'
 
 type HelloButtonProps = Omit<ButtonProps, 'children' | 'icon'>
@@ -16,7 +16,7 @@ function HelloButton(props: HelloButtonProps) {
 
   return (
     <Button
-      icon={Eye}
+      icon={IconGauge}
       onClick={handleAlert}
       {...restProps}
     >

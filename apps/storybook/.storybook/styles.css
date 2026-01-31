@@ -10,9 +10,9 @@ Ref: https://tailwindcss.com/docs/detecting-classes-in-source-files#explicitly-r
 
 body,
 .docs-story {
-  @apply bg-primary text-primary;
+  @apply bg-main text-main;
 }
 
 @theme {
-  --font-sans: "Manrope", sans-serif;
+  --font-sans: "Satoshi Variable", sans-serif;
 }

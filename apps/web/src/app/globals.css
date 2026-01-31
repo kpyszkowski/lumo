@@ -9,12 +9,6 @@ Ref: https://tailwindcss.com/docs/detecting-classes-in-source-files#explicitly-r
 
 body {
   font-family: var(--font-sans);
-  color: var(--text-color-primary);
-  background-color: var(--background-color-tertiary);
-}
-
-@variant dark {
-  body {
-    background-color: var(--background-color-primary);
-  }
+  color: var(--color-main);
+  background-color: var(--background-color-main);
 }

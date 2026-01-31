@@ -2,6 +2,7 @@ import { withThemeByDataAttribute } from '@storybook/addon-themes'
 import type { Preview } from '@storybook/react-vite'
 
 import './styles.css'
+import './satoshi-variable.ttf'
 
 // TODO: Add Figma token rotation in CI for preview deployment
 const isFigmaAccessTokenProvided = !!import.meta.env

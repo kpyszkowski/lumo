@@ -16,10 +16,6 @@ const iconButtonStyles = createStyles({
   },
   variants: {
     variant: {
-      solid: {
-        container: baseVariantStyles.solid.container,
-        icon: baseVariantStyles.solid.wrapper,
-      },
       outline: {
         container: baseVariantStyles.outline.container,
         icon: baseVariantStyles.outline.wrapper,
@@ -31,21 +27,21 @@ const iconButtonStyles = createStyles({
     },
     size: {
       sm: {
-        container: 'rounded-lg p-2',
+        container: 'rounded-2xl p-2',
         icon: 'size-4',
       },
       md: {
-        container: 'rounded-xl p-2.5',
+        container: 'rounded-3xl p-2.5',
         icon: 'size-6',
       },
       lg: {
-        container: 'rounded-2xl p-3',
+        container: 'rounded-4xl p-3',
         icon: 'size-8',
       },
     },
   },
   defaultVariants: {
-    variant: 'solid',
+    variant: 'outline',
     size: 'md',
   },
 })

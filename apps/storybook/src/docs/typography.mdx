@@ -10,9 +10,9 @@ Lumo theme is built on top of
 Predefined typography styles are 
 [available unchanged](https://tailwindcss.com/docs/font-size).
 
-Used typeface is [Manrope](https://fonts.google.com/specimen/Manrope/).
-It is consumer app's responsibility to load the font. Preferably via [`next/font`](https://nextjs.org/docs/pages/getting-started/fonts)
-or [`@fontsource-variable/manrope`](https://fontsource.org/fonts/manrope/install) accodringly to the project.
+Used typeface is [Satoshi](https://www.fontshare.com/fonts/satoshi).
+It is consumer app's responsibility to load the font. UI library does not
+include it for flexibility reasons.
 
 export const fontSizes = [
   12, 14, 16, 18, 20, 24, 30, 36, 48, 60, 72, 96, 128
@@ -20,7 +20,7 @@ export const fontSizes = [
 
 <Typeset 
   sampleText='The quick brown fox jumps over the lazy dog'
-  fontFamily='Manrope, sans-serif'
+  fontFamily='"Satoshi Variable", sans-serif'
   fontSizes={fontSizes.map(size => `${size}px`)}
   fontWeight={400}
 />

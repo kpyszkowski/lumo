@@ -1,7 +1,6 @@
 import { createStyles } from '@lumo/ui/utils'
 import Image from 'next/image'
 import HelloButton from '~/components/hello-button'
-import Calculator from '~/features/calculator/components/calculator'
 
 const pageStyles = createStyles({
   slots: {
@@ -12,7 +11,7 @@ const pageStyles = createStyles({
     logoLight: 'block dark:hidden',
     paragraph: 'text-center text-base',
     button: 'w-full flex-1',
-    code: 'bg-secondary rounded-md px-2 py-0.5 font-[monospace] text-sm',
+    code: 'bg-elevated rounded-md px-2 py-0.5 font-[monospace] text-sm',
   },
 })
 
@@ -47,8 +46,6 @@ export default async function Home() {
         </p>
 
         <HelloButton className={styles.button()} />
-
-        <Calculator />
       </main>
     </div>
   )

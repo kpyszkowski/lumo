@@ -23,48 +23,61 @@
   --font-sans: "system-ui";
   --font-mono: "monospace";
 
-  --color-primary: var(--color-neutral-900);
-  --color-primary-inv: var(--color-neutral-50);
-  --background-color-primary: var(--color-neutral-50);
-  --background-color-primary-inv: var(--color-neutral-900);
+  --color-mud-50:  #F6F3F3;
+  --color-mud-100: #E8E0DF;
+  --color-mud-200: #D2C4C2;
+  --color-mud-300: #9A8684;
+  --color-mud-400: #8F7A78;
+  --color-mud-500: #846E6C;
+  --color-mud-600: #6F5957;
+  --color-mud-700: #594341;
+  --color-mud-800: #3F2C2B;
+  --color-mud-900: #321312;
+  --color-mud-950: #290500;
 
-  --color-secondary: var(--color-neutral-700);
-  --color-secondary-inv: var(--color-neutral-200);
-  --background-color-secondary: var(--color-neutral-200);
-  --background-color-secondary-inv: var(--color-neutral-800);
+  --color-sand-50:  #FEF7F6;
+  --color-sand-100: #F7EEED;
+  --color-sand-200: #E6DAD9;
+  --color-sand-300: #CBB9B7;
+  --color-sand-400: #B09C9A;
+  --color-sand-500: #9A8684;
+  --color-sand-600: #846E6C;
+  --color-sand-700: #6B5452;
+  --color-sand-800: #4A2F2D;
+  --color-sand-900: #321312;
+  --color-sand-950: #290500;
 
-  --color-tertiary: var(--color-neutral-500);
-  --color-tertiary-inv: var(--color-neutral-400);
-  --background-color-tertiary: var(--color-neutral-100);
-  --background-color-tertiary-inv: var(--color-neutral-700);
+  --color-vermilion-50:  #FFF2EF;
+  --color-vermilion-100: #FFDAD4;
+  --color-vermilion-200: #FFB5A8;
+  --color-vermilion-300: #FF8A74;
+  --color-vermilion-400: #F95A3B;
+  --color-vermilion-500: #E81D00;
+  --color-vermilion-600: #C61700;
+  --color-vermilion-700: #9F1200;
+  --color-vermilion-800: #770D00;
+  --color-vermilion-900: #520800;
+  --color-vermilion-950: #2E0400;
 
-  --color-accent-content: var(--color-blue-900);
-  --color-accent-primary: var(--color-blue-500);
-  --color-accent-secondary: var(--color-blue-600);
-  --color-accent-tertiary: var(--color-blue-400);
-  --color-accent-primary-muted: var(--color-blue-100);
-  --color-accent-secondary-muted: var(--color-blue-200);
+  --color-main: var(--color-mud-950);
+  --color-muted: var(--color-mud-500);
+  --color-subtle: var(--color-mud-300);
+
+  --background-color-main: var(--color-sand-50);
+  --background-color-elevated: var(--color-sand-100);
+
+  --color-accent: var(--color-vermilion-500);
 }
 
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 @variant dark {
-  --color-primary: var(--color-neutral-50);
-  --color-primary-inv: var(--color-neutral-900);
-  --background-color-primary: var(--color-neutral-900);
-  --background-color-primary-inv: var(--color-neutral-50);
+  --color-main: var(--color-mud-50);
+  --color-muted: var(--color-mud-300);
+  --color-subtle: var(--color-mud-700);
 
-  --color-secondary: var(--color-neutral-200);
-  --color-secondary-inv: var(--color-neutral-700);
-  --background-color-secondary: var(--color-neutral-800);
-  --background-color-secondary-inv: var(--color-neutral-200);
+  --background-color-main: var(--color-sand-950);
+  --background-color-elevated: var(--color-sand-900);
 
-  --color-tertiary: var(--color-neutral-400);
-  --color-tertiary-inv: var(--color-neutral-500);
-  --background-color-tertiary: var(--color-neutral-700);
-  --background-color-tertiary-inv: var(--color-neutral-100);
-
-  --color-accent-content: var(--color-blue-50);
-  --color-accent-primary-muted: var(--color-blue-900);
-  --color-accent-secondary-muted: var(--color-blue-950);
+  --color-accent: var(--color-vermilion-600);
 }

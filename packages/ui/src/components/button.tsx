@@ -5,40 +5,36 @@ import { type Icon } from '~/icons'
 const buttonStyles = createStyles({
   slots: {
     container: 'inline-block cursor-pointer transition-all',
-    wrapper: 'flex h-6 items-center justify-center outline-none',
+    wrapper: 'flex h-6 items-center justify-center transition-all outline-none',
     label: 'whitespace-nowrap antialiased',
-    icon: 'text-current',
+    icon: 'block',
   },
   variants: {
     variant: {
-      solid: {
-        container:
-          'bg-accent-primary hover:bg-accent-secondary focus-visible:bg-accent-primary active:bg-accent-primary',
-        wrapper: 'text-primary-inv dark:text-primary',
-      },
       outline: {
         container:
-          'border-accent-primary hover:border-accent-secondary focus-visible:border-accent-primary active:border-accent-primary border-2',
+          'border-subtle hover:border-muted focus-visible:border-muted active:border-accent border-2 active:scale-95',
         wrapper: 'text-primary -m-0.5',
+        icon: 'text-accent',
       },
       ghost: {
-        container:
-          'hover:bg-accent-primary-muted active:bg-accent-secondary-muted',
+        container: 'hover:bg-elevated',
+        wrapper: 'active:text-accent',
       },
     },
     size: {
       sm: {
-        container: 'rounded-lg px-3 py-1',
+        container: 'rounded-2xl px-3 py-1',
         label: 'px-2 text-sm/none font-medium',
         icon: 'size-4',
       },
       md: {
-        container: 'rounded-xl px-4 py-2.5',
+        container: 'rounded-3xl px-4 py-2.5',
         label: 'px-3 text-base/none font-medium',
         icon: 'size-5',
       },
       lg: {
-        container: 'rounded-2xl px-5 py-4',
+        container: 'rounded-4xl px-5 py-4',
         label: 'px-4 text-lg/none font-medium',
         icon: 'size-6',
       },
@@ -55,7 +51,7 @@ const buttonStyles = createStyles({
     },
   },
   defaultVariants: {
-    variant: 'solid',
+    variant: 'outline',
     size: 'md',
     iconPosition: 'left',
   },

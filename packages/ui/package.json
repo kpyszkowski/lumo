@@ -22,7 +22,12 @@
         "default": "./dist/utils.mjs"
       }
     },
-    "./theme": "./dist/theme.css"
+    "./theme": "./dist/theme.css",
+    "./font": {
+      "import": {
+        "default": "./dist/font.mjs"
+      }
+    } 
   },
   "scripts": {
     "build": "tsdown",
@@ -57,7 +62,7 @@
   },
   "dependencies": {
     "@base-ui/react": "^1.1.0",
-    "lucide-react": "^0.540.0",
+    "@tabler/icons-react": "^3.36.1",
     "motion": "^12.23.22",
     "tailwind-merge": "^3.3.1",
     "tailwind-variants": "^3.1.1"

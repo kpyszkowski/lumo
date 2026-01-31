@@ -8,13 +8,10 @@ const meta: Meta<typeof IconButton> = {
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
-    design: {
-      url: 'https://www.figma.com/design/Q6gHpqqCadBiEmuHzJBSAK/Untitled?node-id=44-43&t=xaxh0HRWc3j83nrO-4',
-    },
   },
   argTypes: {
     variant: {
-      options: ['solid', 'outline', 'ghost'],
+      options: ['outline', 'ghost'],
       control: { type: 'radio' },
     },
     size: {
@@ -30,20 +27,14 @@ const meta: Meta<typeof IconButton> = {
     },
   },
   args: {
-    icon: icons.ChevronRight,
-    variant: 'solid',
+    icon: icons.IconHeart,
+    variant: 'outline',
     size: 'md',
   },
 }
 
 export default meta
 type Story = StoryObj<typeof IconButton>
-
-export const Solid: Story = {
-  args: {
-    variant: 'solid',
-  },
-}
 
 export const Outline: Story = {
   args: {
