@@ -1,1 +1,0 @@
-ALTER TABLE "calculator_results" ALTER COLUMN "result" SET DATA TYPE numeric;

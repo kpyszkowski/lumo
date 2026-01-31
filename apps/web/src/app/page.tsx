@@ -1,5 +1,5 @@
+import { Logo } from '@lumo/ui/components'
 import { createStyles } from '@lumo/ui/utils'
-import Image from 'next/image'
 import HelloButton from '~/components/hello-button'
 
 const pageStyles = createStyles({
@@ -21,23 +21,7 @@ export default async function Home() {
   return (
     <div className={styles.container()}>
       <main className={styles.main()}>
-        <Image
-          alt="Turborepo logo"
-          className={styles.logo({ className: styles.logoDark() })}
-          height={38}
-          priority
-          src="turborepo-light.svg"
-          width={180}
-        />
-
-        <Image
-          alt="Turborepo logo"
-          className={styles.logo({ className: styles.logoLight() })}
-          height={38}
-          priority
-          src="turborepo-dark.svg"
-          width={180}
-        />
+        <Logo className={styles.logo()} />
 
         <p className={styles.paragraph()}>
           Get started by editing{' '}
