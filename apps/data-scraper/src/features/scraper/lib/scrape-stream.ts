@@ -1,7 +1,7 @@
+import { scrapeGenerations } from '~/features/scraper/lib/scrape-generations'
+import { scrapeMakes } from '~/features/scraper/lib/scrape-makes'
+import { scrapeModels } from '~/features/scraper/lib/scrape-models'
 import { getBrowser } from '~/lib/get-browser'
-import { scrapeGenerations } from '~/scrapers/scrape-generations'
-import { scrapeMakes } from '~/scrapers/scrape-makes'
-import { scrapeModels } from '~/scrapers/scrape-models'
 import { type Make, type Model, type Generation } from '~/types'
 
 export type ScrapeEvent =

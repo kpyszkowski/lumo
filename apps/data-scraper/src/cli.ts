@@ -2,7 +2,7 @@ import { Command } from 'commander'
 import { getAppMetadata } from '~/lib/get-app-metadata'
 
 import { slugify } from '~/utils/slugify'
-import { scrape } from '~/cli/commands/scrape'
+import { scrape } from '~/features/scraper/commands/scrape'
 
 const program = new Command()
 const appMetadata = getAppMetadata()

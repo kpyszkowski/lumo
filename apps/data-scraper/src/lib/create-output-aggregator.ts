@@ -1,4 +1,4 @@
-import { type ScrapeEvent } from '~/scrapers/scrape-stream'
+import { type ScrapeEvent } from '~/features/scraper/lib/scrape-stream'
 import { type OutputTree } from '~/types'
 
 export function createOutputAggregator() {

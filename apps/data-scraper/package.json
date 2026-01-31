@@ -1,8 +1,8 @@
 {
   "name": "@lumo/data-scraper",
   "version": "0.1.0",
-  "description": "A CLI tool for scraping catalog data from AutoBild website.",
-  "main": "dist/cli.mjs",
+  "description": "A CLI tool for scraping catalog data from Auto Motor und Sport website.",
+  "bin": "dist/cli.mjs",
   "scripts": {
     "postinstall": "pnpm dlx puppeteer browsers install chrome",
     "start": "node dist/cli.mjs",
