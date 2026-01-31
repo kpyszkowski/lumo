@@ -1,15 +1,9 @@
 import { type Browser } from 'puppeteer'
-import {
-  type Generation,
-  type PageContext,
-  type Make,
-  type Model,
-} from '~/types'
+import { type Generation, type Make, type Model, type PageData } from '~/types'
 import { getPathFromURL } from '~/utils/get-path-from-url'
-import { getXPathSelector } from '~/utils/get-x-path-selector'
 import { slugify } from '~/utils/slugify'
 
-const PAGE_CONTEXT_XPATH = getXPathSelector('//*[@id="vike_pageContext"]')
+const PAGE_DATA_SELECTOR = '#__NEXT_DATA__'
 
 type ScrapeGenerationsParameters = {
   make: Make
@@ -30,28 +24,30 @@ export async function scrapeGenerations(
   const page = await browser.newPage()
 
   await page.goto(
-    `https://www.autobild.de/marken-modelle/${make.sourceId}/${model.sourceId}`,
+    `https://www.auto-motor-und-sport.de/marken-modelle/${make.sourceId}/${model.sourceId}`,
   )
 
-  const data = await page.$eval(PAGE_CONTEXT_XPATH, (element) => {
-    const data = JSON.parse(element.textContent) as PageContext
-    return data.irContent.modelGeneration.generations.map(
-      ({ buildingPeriod, mdbAssignment, url }) => {
-        const name = mdbAssignment.brands[0].models[0].generations[0].name
-        const { fromYear, tillYear } = buildingPeriod
+  const data = await page.$eval(PAGE_DATA_SELECTOR, (element) => {
+    const data = JSON.parse(element.textContent) as PageData
 
-        return {
-          url,
+    return (
+      data.props.pageProps.pageData.data.mobile
+        .find((item) => item.id === 'brandtree.listGenerationsBySeriesOverview')
+        ?.data.map(({ name, type, url, productionStart, productionEnd }) => ({
           name,
-          productionYears: tillYear ? [fromYear, tillYear] : [fromYear],
-        }
-      },
+          type,
+          url,
+          productionYears:
+            productionEnd === '0'
+              ? [parseInt(productionStart)]
+              : [parseInt(productionStart), parseInt(productionEnd)],
+        })) ?? []
     )
   })
 
   await page.close()
 
-  const generations = data.map(({ name, url, productionYears }) => {
+  const generations = data.map(({ name, type, url, productionYears }) => {
     const id = slugify(name)
     const [, , , sourceId = ''] = getPathFromURL(url)
 
@@ -59,6 +55,7 @@ export async function scrapeGenerations(
       id,
       sourceId,
       name,
+      type,
       productionYears,
     }
   })

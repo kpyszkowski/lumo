@@ -1,10 +1,9 @@
 import { type Browser } from 'puppeteer'
-import { type Model, type Make, type PageContext } from '~/types'
+import { type Model, type Make, type PageData } from '~/types'
 import { getPathFromURL } from '~/utils/get-path-from-url'
-import { getXPathSelector } from '~/utils/get-x-path-selector'
 import { slugify } from '~/utils/slugify'
 
-const PAGE_CONTEXT_XPATH = getXPathSelector('//*[@id="vike_pageContext"]')
+const PAGE_DATA_SELECTOR = '#__NEXT_DATA__'
 
 type ScrapeModelsParameters = {
   make: Make
@@ -22,16 +21,22 @@ export async function scrapeModels(
   const { make } = options
 
   const page = await browser.newPage()
-  await page.goto(`https://www.autobild.de/marken-modelle/${make.sourceId}`)
+  await page.goto(
+    `https://www.auto-motor-und-sport.de/marken-modelle/${make.sourceId}`,
+  )
 
-  const data = await page.$eval(PAGE_CONTEXT_XPATH, (element) => {
-    const data = JSON.parse(element.textContent) as PageContext
-    return data.irContent.brandPage.models.map(({ mdbAssignment, url }) => {
-      const name = mdbAssignment.brands[0].models[0].name
+  const data = await page.$eval(PAGE_DATA_SELECTOR, (element) => {
+    const pageData = JSON.parse(element.textContent) as PageData
 
+    const { current = [], past = [] } =
+      pageData.props.pageProps.pageData.data.mobile.find(
+        (item) => item.id === 'brandtree.listSeries',
+      ) ?? {}
+
+    return [...past, ...current].map(({ title, url }) => {
       return {
+        name: title,
         url,
-        name,
       }
     })
   })

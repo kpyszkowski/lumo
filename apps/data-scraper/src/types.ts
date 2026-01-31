@@ -26,6 +26,58 @@ export type Generation = Entity & {
 }
 
 /**
+ * Represents the structure of the page data used in scraping.
+ */
+export interface PageData {
+  props: {
+    pageProps: {
+      pageData: {
+        data: {
+          mobile: (
+            | {
+                id: 'brandtree.overview'
+                data: {
+                  allBrands: {
+                    title: string
+                    url: string
+                  }[]
+                }
+              }
+            | ({
+                id: 'brandtree.listSeries'
+              } & {
+                [key in 'past' | 'current']: {
+                  title: string
+                  url: string
+                }[]
+              })
+            | {
+                id: 'brandtree.listGenerationsBySeriesOverview'
+                data: {
+                  name: string
+                  url: string
+                  productionStart: string
+                  productionEnd: string | '0'
+                  type: string
+                }[]
+              }
+            | {
+                id: 'brandtree.navigation'
+                techData: {
+                  techdata: {
+                    ModellNameJATO: string
+                    Modell_Name: string
+                  }
+                }[]
+              }
+          )[]
+        }
+      }
+    }
+  }
+}
+
+/**
  * Represents the structure of the page context data used in scraping.
  */
 export interface PageContext {

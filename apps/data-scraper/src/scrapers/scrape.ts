@@ -1,3 +1,4 @@
+import { getBrowser } from '~/lib/get-browser'
 import { scrapeGenerations } from '~/scrapers/scrape-generations'
 import { scrapeMakes } from '~/scrapers/scrape-makes'
 import { scrapeModels } from '~/scrapers/scrape-models'
@@ -25,18 +26,20 @@ export async function scrape(
   make?: Make,
   model?: Model,
 ): Promise<Make[] | Model[] | Generation[]> {
+  const browser = await getBrowser()
+
   if (!make) {
-    const makes = await scrapeMakes()
+    const makes = await scrapeMakes(browser)
     return makes
   }
 
   if (make && !model) {
-    const models = await scrapeModels({ make })
+    const models = await scrapeModels(browser, { make })
     return models
   }
 
   if (make && model) {
-    const generations = await scrapeGenerations({ make, model })
+    const generations = await scrapeGenerations(browser, { make, model })
     return generations
   }
 
