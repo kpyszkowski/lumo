@@ -1,3 +1,4 @@
+'use client'
 import { createStyles, type StylesProps } from '~/utils'
 import { Button as ButtonPrimitive } from '@base-ui/react/button'
 import { type Icon } from '~/icons'
@@ -7,18 +8,18 @@ const buttonStyles = createStyles({
     container: 'inline-block cursor-pointer transition-all',
     wrapper: 'flex h-6 items-center justify-center transition-all outline-none',
     label: 'whitespace-nowrap antialiased',
-    icon: 'block',
+    icon: 'stroke-[1.5]',
   },
   variants: {
     variant: {
       outline: {
         container:
-          'border-subtle hover:border-muted focus-visible:border-muted active:border-accent border-2 active:scale-95',
+          'border-subtle hover:border-muted focus-visible:border-muted active:border-accent border-2 active:scale-96',
         wrapper: 'text-primary -m-0.5',
         icon: 'text-accent',
       },
       ghost: {
-        container: 'hover:bg-elevated',
+        container: 'hover:bg-elevated active:bg-highlighted',
         wrapper: 'active:text-accent',
       },
     },

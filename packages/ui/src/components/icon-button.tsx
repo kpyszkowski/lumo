@@ -1,3 +1,4 @@
+'use client'
 import { buttonStyles } from '~/components/button'
 import { Button as ButtonPrimitive } from '@base-ui/react/button'
 import type { Icon } from '~/icons'
@@ -12,7 +13,7 @@ const iconButtonStyles = createStyles({
   slots: {
     container: baseContainer,
     label: 'sr-only',
-    icon: 'text-current',
+    icon: 'pointer-events-none stroke-[1.5] text-current',
   },
   variants: {
     variant: {

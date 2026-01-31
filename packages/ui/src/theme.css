@@ -7,14 +7,11 @@
 
 /*
   Note:
-  - `--background-color-<smth>` variable aims only for background colors.
   - `--color-<smth>` variable aims for any other so text, borders, rings etc.
-  - `--<smth>-inv` variables are inverse colors of the corresponding
-    `--color-<smth>` variable.
+  - `--background-color-<smth>` variable aims only for background colors.
 
   Such differentiation allows to define content-background color variations
-  that are easy to maintain. With inverted colors it allows to compose 
-  contrasting color schemes.
+  that are easy to maintain.
 
   In majority of cases the use of `dark:` modifier won't be even needed.
 */
@@ -23,41 +20,43 @@
   --font-sans: "system-ui";
   --font-mono: "monospace";
 
-  --color-mud-50:  #F6F3F3;
-  --color-mud-100: #E8E0DF;
-  --color-mud-200: #D2C4C2;
-  --color-mud-300: #9A8684;
-  --color-mud-400: #8F7A78;
-  --color-mud-500: #846E6C;
-  --color-mud-600: #6F5957;
-  --color-mud-700: #594341;
-  --color-mud-800: #3F2C2B;
-  --color-mud-900: #321312;
-  --color-mud-950: #290500;
-
-  --color-sand-50:  #FEF7F6;
-  --color-sand-100: #F7EEED;
-  --color-sand-200: #E6DAD9;
-  --color-sand-300: #CBB9B7;
-  --color-sand-400: #B09C9A;
-  --color-sand-500: #9A8684;
-  --color-sand-600: #846E6C;
-  --color-sand-700: #6B5452;
-  --color-sand-800: #4A2F2D;
-  --color-sand-900: #321312;
-  --color-sand-950: #290500;
-
-  --color-vermilion-50:  #FFF2EF;
-  --color-vermilion-100: #FFDAD4;
-  --color-vermilion-200: #FFB5A8;
-  --color-vermilion-300: #FF8A74;
-  --color-vermilion-400: #F95A3B;
-  --color-vermilion-500: #E81D00;
-  --color-vermilion-600: #C61700;
-  --color-vermilion-700: #9F1200;
-  --color-vermilion-800: #770D00;
-  --color-vermilion-900: #520800;
-  --color-vermilion-950: #2E0400;
+  --color-mud-50: oklch(96.65% 0.0032 17.2);
+  --color-mud-100: oklch(91.27% 0.0089 26.0);
+  --color-mud-200: oklch(83.12% 0.0160 27.3);
+  --color-mud-300: oklch(63.76% 0.0246 24.6);
+  --color-mud-400: oklch(59.84% 0.0263 24.4);
+  --color-mud-500: oklch(55.86% 0.0281 24.1);
+  --color-mud-600: oklch(48.55% 0.0293 24.3);
+  --color-mud-700: oklch(40.60% 0.0308 24.5);
+  --color-mud-800: oklch(31.51% 0.0284 22.2);
+  --color-mud-900: oklch(23.41% 0.0506 23.6);
+  --color-mud-950: oklch(18.68% 0.0634 36.4);
+  
+  --color-sand-50:  oklch(97.6% 0.006 27);
+  --color-sand-100: oklch(94.4% 0.008 26);
+  --color-sand-200: oklch(88.1% 0.011 25);
+  --color-sand-300: oklch(77.2% 0.017 25);
+  --color-sand-400: oklch(67.8% 0.021 24);
+  --color-sand-500: oklch(58.4% 0.024 24);
+  --color-sand-600: oklch(49.2% 0.026 24);
+  --color-sand-700: oklch(40.2% 0.028 24);
+  --color-sand-800: oklch(30.2% 0.030 23);
+  --color-sand-900: oklch(21.8% 0.032 22);
+  --color-sand-950: oklch(14.8% 0.045 28);
+  
+  
+  --color-vermilion-50: oklch(97.05% 0.0146 33.1);
+  --color-vermilion-100: oklch(91.77% 0.0422 28.8);
+  --color-vermilion-200: oklch(83.94% 0.0889 30.2);
+  --color-vermilion-300: oklch(75.71% 0.1463 31.8);
+  --color-vermilion-400: oklch(67.50% 0.2000 33.0);
+  --color-vermilion-500: oklch(59.26% 0.2324 30.8);
+  --color-vermilion-600: oklch(52.61% 0.2064 30.8);
+  --color-vermilion-700: oklch(44.80% 0.1746 31.0);
+  --color-vermilion-800: oklch(36.44% 0.1402 31.4);
+  --color-vermilion-900: oklch(28.25% 0.1066 32.2);
+  --color-vermilion-950: oklch(19.65% 0.0710 33.8);  
+  
 
   --color-main: var(--color-mud-950);
   --color-muted: var(--color-mud-500);
@@ -65,6 +64,7 @@
 
   --background-color-main: var(--color-sand-50);
   --background-color-elevated: var(--color-sand-100);
+  --background-color-highlighted: var(--color-sand-200);
 
   --color-accent: var(--color-vermilion-500);
 }
@@ -73,11 +73,12 @@
 
 @variant dark {
   --color-main: var(--color-mud-50);
-  --color-muted: var(--color-mud-300);
-  --color-subtle: var(--color-mud-700);
+  --color-muted: var(--color-mud-200);
+  --color-subtle: var(--color-mud-600);
 
-  --background-color-main: var(--color-sand-950);
-  --background-color-elevated: var(--color-sand-900);
+  --background-color-main: var(--color-sand-900);
+  --background-color-elevated: var(--color-sand-800);
+  --background-color-highlighted: var(--color-sand-700);
 
-  --color-accent: var(--color-vermilion-600);
+  --color-accent: var(--color-vermilion-400);
 }

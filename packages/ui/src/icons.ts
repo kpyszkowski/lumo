@@ -1,3 +1,4 @@
+'use client'
 export {
   type Icon,
   IconBell,
@@ -11,4 +12,5 @@ export {
   IconCalendarDot,
   IconMapPin,
   IconPlus,
+  IconSearch,
 } from '@tabler/icons-react'

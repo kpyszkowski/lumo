@@ -3,6 +3,7 @@ import localFont from 'next/font/local'
 import '~/app/globals.css'
 import '~/rpc/server'
 import { Providers } from '~/app/providers'
+import { Header } from '~/components/header'
 
 const satoshiVariable = localFont({
   src: '../fonts/satoshi-variable.ttf',
@@ -29,7 +30,13 @@ export default function RootLayout(
       className={satoshiVariable.variable}
     >
       <body>
-        <Providers>{children}</Providers>
+        <Providers>
+          <main>
+            <Header />
+
+            <div>{children}</div>
+          </main>
+        </Providers>
       </body>
     </html>
   )
