@@ -59,6 +59,7 @@ export interface PageData {
                 id: 'brandtree.listGenerationsBySeriesOverview'
                 data: {
                   name: string
+                  seriesName: string
                   url: string
                   productionStart: string
                   productionEnd: string | '0'

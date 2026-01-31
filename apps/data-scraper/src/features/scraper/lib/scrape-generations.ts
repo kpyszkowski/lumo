@@ -33,32 +33,58 @@ export async function scrapeGenerations(
     return (
       data.props.pageProps.pageData.data.mobile
         .find((item) => item.id === 'brandtree.listGenerationsBySeriesOverview')
-        ?.data.map(({ name, type, url, productionStart, productionEnd }) => ({
-          name,
-          type,
-          url,
-          production: {
-            start: parseInt(productionStart),
-            end: parseInt(productionEnd) || null,
-          },
-        })) ?? []
+        ?.data.map(
+          ({
+            seriesName,
+            name,
+            type,
+            url,
+            productionStart,
+            productionEnd,
+          }) => ({
+            name,
+            seriesName,
+            type,
+            url,
+            productionStart,
+            productionEnd,
+          }),
+        ) ?? []
     )
   })
 
   await page.close()
 
-  const generations = data.map(({ name, type, url, production }) => {
-    const id = slugify(type ?? name)
-    const [, , , sourceId = ''] = getPathFromURL(url)
+  const generations = data.map(
+    (
+      { name, seriesName, type, url, productionStart, productionEnd },
+      index,
+    ) => {
+      const [, , , sourceId = ''] = getPathFromURL(url)
 
-    return {
-      id,
-      sourceId,
-      name,
-      type,
-      production,
-    }
-  })
+      const parsedType =
+        type.startsWith((index + 1).toString()) || type === ''
+          ? (index + 1).toString()
+          : type
+
+      const id = slugify(parsedType)
+
+      const parsedName = seriesName === model.name ? name : seriesName
+
+      const production = {
+        start: parseInt(productionStart),
+        end: parseInt(productionEnd) || null,
+      }
+
+      return {
+        id,
+        sourceId,
+        name: parsedName,
+        type: parsedType,
+        production,
+      }
+    },
+  )
 
   return generations
 }

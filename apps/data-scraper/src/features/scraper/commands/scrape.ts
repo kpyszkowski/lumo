@@ -53,7 +53,7 @@ export const scrape = new Command('scrape')
           case 'generation':
             generations++
             spinner.text = [
-              `Scraped ${event.make.name} ${event.model.name} (${event.generation.type})`,
+              `Scraped ${event.make.name} ${event.model.name} (${[event.generation.name, event.generation.type].filter(Boolean).join(' - ')})`,
               `(${makes} makes / ${models} models / ${generations} generations)`,
             ].join('\n  ')
             break
