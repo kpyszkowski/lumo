@@ -22,7 +22,11 @@ type Entity = {
 export type Make = Entity
 export type Model = Entity
 export type Generation = Entity & {
-  productionYears: number[]
+  production: {
+    start: number
+    end: number | null
+  }
+  type?: string
 }
 
 /**

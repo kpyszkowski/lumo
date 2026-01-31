@@ -52,7 +52,7 @@ export const scrape = new Command('scrape')
             break
           case 'generation':
             generations++
-            spinner.text = `Scraped ${event.make.name} ${event.model.name} ${event.generation.name} (${makes} makes / ${models} models / ${generations} generations)…`
+            spinner.text = `Scraped ${event.make.name} ${event.model.name} (${event.generation.type})\n(${makes} makes / ${models} models / ${generations} generations)`
             break
         }
       }

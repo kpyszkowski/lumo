@@ -37,18 +37,18 @@ export async function scrapeGenerations(
           name,
           type,
           url,
-          productionYears:
-            productionEnd === '0'
-              ? [parseInt(productionStart)]
-              : [parseInt(productionStart), parseInt(productionEnd)],
+          production: {
+            start: parseInt(productionStart),
+            end: parseInt(productionEnd) || null,
+          },
         })) ?? []
     )
   })
 
   await page.close()
 
-  const generations = data.map(({ name, type, url, productionYears }) => {
-    const id = slugify(name)
+  const generations = data.map(({ name, type, url, production }) => {
+    const id = slugify(type ?? name)
     const [, , , sourceId = ''] = getPathFromURL(url)
 
     return {
@@ -56,7 +56,7 @@ export async function scrapeGenerations(
       sourceId,
       name,
       type,
-      productionYears,
+      production,
     }
   })
 
