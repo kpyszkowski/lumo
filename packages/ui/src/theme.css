@@ -74,7 +74,7 @@
 @variant dark {
   --color-main: var(--color-mud-50);
   --color-muted: var(--color-mud-200);
-  --color-subtle: var(--color-mud-600);
+  --color-subtle: var(--color-mud-400);
 
   --background-color-main: var(--color-sand-900);
   --background-color-elevated: var(--color-sand-800);

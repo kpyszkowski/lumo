@@ -4,6 +4,7 @@
   "private": true,
   "sideEffects": false,
   "exports": {
+    "./theme": "./dist/theme.css",
     "./components": {
       "import": {
         "types": "./dist/components.d.ts",
@@ -22,12 +23,12 @@
         "default": "./dist/utils.mjs"
       }
     },
-    "./theme": "./dist/theme.css",
-    "./font": {
+    "./motion": {
       "import": {
-        "default": "./dist/font.mjs"
+        "types": "./dist/motion.d.ts",
+        "default": "./dist/motion.mjs"
       }
-    } 
+    }
   },
   "scripts": {
     "build": "tsdown",

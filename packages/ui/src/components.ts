@@ -1,3 +1,5 @@
 export * from '~/components/button'
 export * from '~/components/icon-button'
 export * from '~/components/logo'
+export * from '~/components/staggered-text'
+export * as StaggeredList from '~/components/staggered-list'
