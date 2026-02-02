@@ -1,3 +1,4 @@
+'use client'
 import { StaggeredList } from '@lumo/ui/components'
 import { createStyles, type StylesProps } from '@lumo/ui/utils'
 import Link from 'next/link'
@@ -5,9 +6,10 @@ import Link from 'next/link'
 const recommendedSearchQueriesStyles = createStyles({
   slots: {
     container: 'grid auto-cols-fr grid-flow-col gap-6',
+    section: 'flex flex-col',
     heading: 'text-subtle mb-2 text-sm font-bold uppercase',
     itemWrapper: 'overflow-hidden',
-    item: 'text-main text-3xl/snug font-bold',
+    item: 'text-main w-fit text-3xl/snug font-bold',
   },
 })
 
@@ -68,35 +70,42 @@ export default function RecommendedSearchQueries(
       className={styles.container({ className })}
       {...restProps}
     >
-      {MOCK.map((section, sectionIndex) => (
-        <StaggeredList.Root
+      {MOCK.map((section) => (
+        <div
           key={section.heading}
-          delay={0.02 + sectionIndex * 0.04}
+          className={styles.section()}
         >
           <h2 className={styles.heading()}>{section.heading}</h2>
 
-          {section.items.map((item) => (
-            <StaggeredList.Item
-              key={item.label}
-              className={styles.item()}
-              hidden={{
-                clipPath: 'ellipse(0% 0% at 100% 0%)',
-                x: 16,
-              }}
-              visible={{
-                clipPath: 'ellipse(135% 135% at 100% 0%)',
-                x: 0,
-              }}
-              transition={{
-                type: 'tween',
-                duration: 1,
-                ease: 'easeOut',
-              }}
-            >
-              <Link href={item.href}>{item.label}</Link>
-            </StaggeredList.Item>
-          ))}
-        </StaggeredList.Root>
+          <StaggeredList.Root
+            delay={0.12}
+            delayOptions={{
+              from: 'last',
+            }}
+          >
+            {section.items.map((item) => (
+              <StaggeredList.Item
+                key={item.label}
+                className={styles.item()}
+                hidden={{
+                  clipPath: 'ellipse(0% 0% at 100% 0%)',
+                  x: 16,
+                }}
+                visible={{
+                  clipPath: 'ellipse(150% 150% at 100% 0%)',
+                  x: 0,
+                }}
+                transition={{
+                  type: 'tween',
+                  duration: 0.88,
+                  ease: 'easeOut',
+                }}
+              >
+                <Link href={item.href}>{item.label}</Link>
+              </StaggeredList.Item>
+            ))}
+          </StaggeredList.Root>
+        </div>
       ))}
     </div>
   )

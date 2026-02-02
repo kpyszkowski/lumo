@@ -1,3 +1,4 @@
+'use client'
 import { createStyles, type StylesProps } from '~/utils'
 import * as ToggleGroupPrimitive from '@base-ui/react/toggle-group'
 import { createContext, useContext } from 'react'

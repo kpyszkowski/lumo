@@ -1,3 +1,4 @@
+'use client'
 import { type Icon } from '@tabler/icons-react'
 import { createStyles, type StylesProps } from '~/utils'
 import * as TogglePrimitive from '@base-ui/react/toggle'
@@ -7,7 +8,7 @@ import { motion, type MotionProps } from 'motion/react'
 const toggleButtonStyles = createStyles({
   slots: {
     container:
-      'group relative rounded-[20px] px-2 py-1 transition-transform active:scale-95',
+      'group relative cursor-pointer rounded-[20px] px-2 py-1 transition-transform active:scale-95',
     icon: 'stroke-main group-data-pressed:stroke-accent pointer-events-none size-10 stroke-1 transition-colors',
     indicator: 'absolute inset-0 -z-10 rounded-3xl',
   },
@@ -26,6 +27,8 @@ const toggleButtonStyles = createStyles({
   },
 })
 
+const MotionTogglePrimitiveToggle = motion.create(TogglePrimitive.Toggle)
+
 type ToggleButtonProps = Omit<TogglePrimitive.ToggleProps, 'render'> &
   StylesProps<typeof toggleButtonStyles> & {
     className?: string
@@ -40,10 +43,10 @@ function ToggleButton(props: ToggleButtonProps) {
   const styles = toggleButtonStyles({ variant: propsVariant ?? contextVariant })
 
   return (
-    <TogglePrimitive.Toggle
+    <MotionTogglePrimitiveToggle
       className={styles.container({ className })}
       render={(toggleProps, toggleState) => (
-        <motion.button {...(toggleProps as MotionProps)}>
+        <button {...toggleProps}>
           <Icon className={styles.icon()} />
 
           {toggleState.pressed && (
@@ -52,9 +55,9 @@ function ToggleButton(props: ToggleButtonProps) {
               className={styles.indicator()}
             />
           )}
-        </motion.button>
+        </button>
       )}
-      {...restProps}
+      {...(restProps as MotionProps)}
     />
   )
 }
