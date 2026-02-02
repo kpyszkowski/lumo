@@ -14,3 +14,7 @@ export {
   IconPlus,
   IconSearch,
 } from '@tabler/icons-react'
+export { IconCarBodyLimousine } from './car-body-limousine'
+export { IconCarBodyEstate } from './car-body-estate'
+export { IconCarBodySuv } from './car-body-suv'
+export { IconCarBodyCoupe } from './car-body-coupe'

@@ -13,8 +13,8 @@
     },
     "./icons": {
       "import": {
-        "types": "./dist/icons.d.ts",
-        "default": "./dist/icons.mjs"
+        "types": "./dist/icons/index.d.ts",
+        "default": "./dist/icons/index.mjs"
       }
     },
     "./utils": {
