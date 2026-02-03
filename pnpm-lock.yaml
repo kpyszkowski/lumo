@@ -275,6 +275,9 @@ importers:
       '@tabler/icons-react':
         specifier: ^3.36.1
         version: 3.36.1(react@19.2.4)
+      cmdk-base:
+        specifier: ^1.0.0
+        version: 1.0.0(@base-ui/react@1.1.0(@types/react@19.2.6)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@types/react@19.2.6)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       motion:
         specifier: ^12.23.22
         version: 12.23.24(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -3799,6 +3802,13 @@ packages:
 
   cloudflare@4.5.0:
     resolution: {integrity: sha512-fPcbPKx4zF45jBvQ0z7PCdgejVAPBBCZxwqk1k7krQNfpM07Cfj97/Q6wBzvYqlWXx/zt1S9+m8vnfCe06umbQ==}
+
+  cmdk-base@1.0.0:
+    resolution: {integrity: sha512-/iInN1zXfyRx+Koz5m+g6zc9Psvt92AUhly6inv8o3ssm9dwfze+0Gdv0HEIWEhYfSSzTglI+XuZClTcRp9TtQ==}
+    peerDependencies:
+      '@base-ui/react': ^1.0.0
+      react: ^18 || ^19 || ^19.0.0-rc
+      react-dom: ^18 || ^19 || ^19.0.0-rc
 
   collection-visit@1.0.0:
     resolution: {integrity: sha512-lNkKvzEeMBBjUGHZ+q6z9pSJla0KWAQPvtzhEV9+iGyQYG+pBpl7xKDhxoNSOZH2hhv0v5k0y2yAM4o4SjoSkw==}
@@ -11071,6 +11081,15 @@ snapshots:
       node-fetch: 2.7.0
     transitivePeerDependencies:
       - encoding
+
+  cmdk-base@1.0.0(@base-ui/react@1.1.0(@types/react@19.2.6)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@types/react@19.2.6)(react-dom@19.2.4(react@19.2.4))(react@19.2.4):
+    dependencies:
+      '@base-ui/react': 1.1.0(@types/react@19.2.6)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      '@base-ui/utils': 0.2.4(@types/react@19.2.6)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      react: 19.2.4
+      react-dom: 19.2.4(react@19.2.4)
+    transitivePeerDependencies:
+      - '@types/react'
 
   collection-visit@1.0.0:
     dependencies:
