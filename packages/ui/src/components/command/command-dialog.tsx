@@ -1,0 +1,90 @@
+'use client'
+import { Dialog as DialogPrimitive } from '@base-ui/react/dialog'
+import { AnimatePresence, motion } from 'motion/react'
+import { useState } from 'react'
+import {
+  CommandRoot,
+  type CommandRootProps,
+  commandRootStyles,
+} from '~/components/command/command-root'
+import { createStyles } from '~/utils'
+
+const commandDialogStyles = createStyles({
+  slots: {
+    popup: 'pointer-events-none fixed top-20 bottom-20 left-1/2 flex w-fit',
+    container: 'pointer-events-all z-50 max-h-128 w-2xl',
+    backdrop: 'fixed inset-0',
+  },
+  variants: {
+    variant: {
+      inverted: {
+        backdrop: 'bg-main/1',
+      },
+    },
+  },
+  defaultVariants: commandRootStyles.defaultVariants,
+})
+
+const MotionDialogPopup = motion.create(DialogPrimitive.Popup)
+const MotionDialogBackdrop = motion.create(DialogPrimitive.Backdrop)
+
+type CommandDialogProps = CommandRootProps &
+  Pick<DialogPrimitive.Root.Props, 'defaultOpen' | 'open' | 'onOpenChange'>
+
+function CommandDialog(props: CommandDialogProps) {
+  const {
+    className,
+    variant,
+    open,
+    onOpenChange,
+    defaultOpen = false,
+    ...restProps
+  } = props
+
+  const [_open, _onOpenChange] = useState(defaultOpen)
+
+  const styles = commandDialogStyles({ variant })
+
+  return (
+    <DialogPrimitive.Root
+      open={open ?? _open}
+      onOpenChange={onOpenChange ?? _onOpenChange}
+      defaultOpen={defaultOpen}
+    >
+      <DialogPrimitive.Portal>
+        <AnimatePresence>
+          {(open ?? _open) && (
+            <MotionDialogBackdrop
+              className={styles.backdrop()}
+              initial={{ backdropFilter: 'blur(0px)' }}
+              animate={{ backdropFilter: 'blur(8px)' }}
+              exit={{ backdropFilter: 'blur(0px)' }}
+              transition={{ ease: 'easeOut' }}
+            />
+          )}
+        </AnimatePresence>
+
+        <DialogPrimitive.Viewport>
+          <AnimatePresence>
+            {(open ?? _open) && (
+              <MotionDialogPopup
+                className={styles.popup({ className })}
+                initial={{ opacity: 0, y: -12, x: '-50%' }}
+                animate={{ opacity: 1, y: 0, x: '-50%' }}
+                exit={{ opacity: 0, y: 12, x: '-50%' }}
+                transition={{ ease: 'easeOut' }}
+              >
+                <CommandRoot
+                  className={styles.container({ variant })}
+                  {...restProps}
+                />
+              </MotionDialogPopup>
+            )}
+          </AnimatePresence>
+        </DialogPrimitive.Viewport>
+      </DialogPrimitive.Portal>
+    </DialogPrimitive.Root>
+  )
+}
+
+export { CommandDialog, type CommandDialogProps }

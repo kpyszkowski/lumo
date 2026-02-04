@@ -10,7 +10,7 @@ const commandRootStyles = createStyles({
   variants: {
     variant: {
       inverted: {
-        container: 'bg-main-inv/96 text-main-inv rounded-3xl backdrop-blur-xl',
+        container: 'bg-main-inv/94 text-main-inv rounded-3xl',
       },
     },
   },
@@ -54,4 +54,5 @@ export {
   type CommandRootProps,
   commandRootStyles,
   useCommandRootContext,
+  CommandRootContext,
 }

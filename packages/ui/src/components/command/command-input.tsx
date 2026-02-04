@@ -6,7 +6,7 @@ import { useCommandRootContext } from '~/components/command/command-root'
 
 const commandInputStyles = createStyles({
   slots: {
-    container: 'p-6',
+    container: 'p-6 outline-none',
   },
   variants: {
     variant: {

@@ -7,6 +7,7 @@ import {
   IconSearch,
 } from '@lumo/ui/icons'
 import { createStyles, type StylesProps } from '@lumo/ui/utils'
+import AdSearchCommand from '~/features/ads/components/ad-filter-command'
 
 const headerStyles = createStyles({
   slots: {
@@ -36,12 +37,7 @@ function Header(props: HeaderProps) {
       <Logo />
 
       <div className={styles.searchBarWrapper()}>
-        <div className="bg-elevated mx-auto flex w-full max-w-lg items-center gap-3 rounded-4xl px-3 py-2">
-          <IconSearch className="text-main size-4" />
-          <span className="text-muted text-sm">
-            Marka, model, rok produkcji...
-          </span>
-        </div>
+        <AdSearchCommand />
       </div>
 
       <div className={styles.userPanelWrapper()}>

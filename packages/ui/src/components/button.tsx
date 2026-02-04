@@ -5,37 +5,48 @@ import { type Icon } from '~/icons'
 
 const buttonStyles = createStyles({
   slots: {
-    container: 'inline-block cursor-pointer transition-all',
+    container: 'block cursor-pointer transition-all',
     wrapper: 'flex h-6 items-center justify-center transition-all outline-none',
     label: 'whitespace-nowrap antialiased',
     icon: 'stroke-[1.5]',
   },
   variants: {
+    shape: {
+      pill: {},
+      rounded: {},
+    },
+    inverted: {
+      true: {},
+    },
     variant: {
       outline: {
         container:
-          'border-subtle hover:border-muted focus-visible:border-muted active:border-accent border-2 active:scale-96',
-        wrapper: 'text-primary -m-0.5',
-        icon: 'text-accent',
+          'border-subtle-inv hover:border-muted-inv focus-visible:border-muted-inv active:border-accent border-2 active:scale-96',
+        wrapper: 'text-main dark:text-main-inv -m-0.5',
       },
       ghost: {
         container: 'hover:bg-elevated active:bg-highlighted',
-        wrapper: 'active:text-accent',
+        wrapper: 'text-main',
+      },
+      solid: {
+        container:
+          'bg-elevated hover:bg-highlighted focus-visible:bg-highlighted',
+        wrapper: 'text-muted',
       },
     },
     size: {
       sm: {
-        container: 'rounded-2xl px-3 py-1',
+        container: 'px-3 py-1',
         label: 'px-2 text-sm/none font-medium',
         icon: 'size-4',
       },
       md: {
-        container: 'rounded-3xl px-4 py-2.5',
+        container: 'px-4 py-2.5',
         label: 'px-3 text-base/none font-medium',
         icon: 'size-5',
       },
       lg: {
-        container: 'rounded-4xl px-5 py-4',
+        container: 'px-5 py-4',
         label: 'px-4 text-lg/none font-medium',
         icon: 'size-6',
       },
@@ -50,12 +61,62 @@ const buttonStyles = createStyles({
         icon: 'ml-0',
       },
     },
+    contentAlignment: {
+      center: {
+        wrapper: 'justify-center',
+      },
+      start: {
+        wrapper: 'justify-end',
+      },
+      end: {
+        wrapper: 'justify-start',
+      },
+    },
   },
   defaultVariants: {
     variant: 'outline',
+    shape: 'pill',
+    inverted: false,
     size: 'md',
     iconPosition: 'left',
   },
+  compoundSlots: [
+    {
+      shape: 'pill',
+      slots: ['container'],
+      className: 'rounded-full',
+    },
+    {
+      shape: 'rounded',
+      size: 'sm',
+      slots: ['container'],
+      className: 'rounded-lg',
+    },
+    {
+      shape: 'rounded',
+      size: 'md',
+      slots: ['container'],
+      className: 'rounded-xl',
+    },
+    {
+      shape: 'rounded',
+      size: 'lg',
+      slots: ['container'],
+      className: 'rounded-2xl',
+    },
+    {
+      inverted: true,
+      variant: 'ghost',
+      slots: ['container'],
+      className: 'hover:bg-elevated-inv active:bg-highlighted-inv',
+    },
+    {
+      inverted: true,
+      variant: 'ghost',
+      slots: ['wrapper'],
+      className: 'text-main-inv',
+    },
+  ],
 })
 
 type ButtonProps = Omit<ButtonPrimitive.Props, 'children' | 'nativeButton'> &
@@ -71,8 +132,11 @@ function Button(props: ButtonProps) {
     icon: Icon,
     render,
     variant,
+    shape,
+    inverted,
     iconPosition,
     size,
+    contentAlignment,
     ...restProps
   } = props
 
@@ -80,6 +144,9 @@ function Button(props: ButtonProps) {
     variant,
     iconPosition,
     size,
+    shape,
+    inverted,
+    contentAlignment,
   })
 
   return (

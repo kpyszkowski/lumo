@@ -30,12 +30,26 @@ const meta: Meta<typeof Button> = {
       options: Object.keys(icons),
       mapping: icons,
     },
+    shape: {
+      options: ['pill', 'rounded'],
+      control: { type: 'radio' },
+    },
+    inverted: {
+      control: { type: 'boolean' },
+    },
+    contentAlignment: {
+      options: ['center', 'start', 'end'],
+      control: { type: 'radio' },
+    },
   },
   args: {
     children: 'Button',
     variant: 'outline',
     size: 'md',
     iconPosition: 'left',
+    shape: 'pill',
+    inverted: false,
+    contentAlignment: 'center',
   },
 }
 

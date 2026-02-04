@@ -26,3 +26,7 @@ export {
   CommandSeparator as Separator,
   type CommandSeparatorProps as SeparatorProps,
 } from './command-separator'
+export {
+  CommandDialog as Dialog,
+  type CommandDialogProps as DialogProps,
+} from './command-dialog'

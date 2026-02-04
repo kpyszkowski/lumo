@@ -5,10 +5,9 @@ import {
   IconCarBodyEstate,
   IconCarBodyLimousine,
   IconCarBodySuv,
-  IconHeart,
 } from '@lumo/ui/icons'
 import { createStyles } from '@lumo/ui/utils'
-import RecommendedSearchQueries from '~/features/homepage/components/recommended-search-queries'
+import RecommendedSearchQueries from '~/features/recommendations/components/recommended-search-queries'
 
 const pageStyles = createStyles({
   slots: {
