@@ -7,6 +7,7 @@ import {
   IconCarBodySuv,
 } from '@lumo/ui/icons'
 import { createStyles } from '@lumo/ui/utils'
+import AdTile from '~/features/ads/components/ad-tile'
 import RecommendedSearchQueries from '~/features/recommendations/components/recommended-search-queries'
 
 const pageStyles = createStyles({
@@ -69,6 +70,13 @@ export default async function Homepage() {
         >
           Filtrowanie
         </Button>
+      </div>
+
+      <div className="grid grid-cols-3 gap-x-6 gap-y-8 py-3">
+        <AdTile />
+        <AdTile />
+        <AdTile />
+        <AdTile />
       </div>
     </div>
   )
