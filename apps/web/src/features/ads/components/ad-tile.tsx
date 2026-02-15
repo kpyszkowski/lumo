@@ -1,6 +1,7 @@
 import { IconButton } from '@lumo/ui/components'
 import {
   IconCalendarDot,
+  IconEngine,
   IconGasStation,
   IconGauge,
   IconHeart,
@@ -14,25 +15,26 @@ import React, { useMemo } from 'react'
 
 const adTileStyles = createStyles({
   slots: {
-    container: 'flex flex-col gap-3',
+    container: 'flex flex-col',
     galleryWrapper:
-      'bg-elevated relative aspect-video w-full grow rounded-2xl p-2',
+      'bg-elevated relative mb-4 aspect-video w-full grow rounded-2xl p-2',
     gallery: 'absolute inset-0',
     galleryButtons: 'hidden gap-2', // TODO: Show later
-    detailsList: 'flex gap-3',
+    detailsList: 'mt-3 ml-14 flex flex-wrap gap-1',
+    // TODO: Establish semantic color token for border color
     detailItem:
-      'bg-elevated flex grow basis-1/5 flex-col gap-1 overflow-hidden rounded-2xl px-2 py-3',
-    detailIcon: 'text-muted size-4',
-    detailValue: 'mask-r-from-88% text-sm tracking-tighter whitespace-nowrap',
+      'flex items-center gap-2 rounded-3xl border border-(--background-color-elevated) px-3 py-2',
+    detailIcon: 'text-subtle size-4 stroke-[1.5]',
+    detailValue: 'text-sm tracking-tight whitespace-nowrap',
     infoWrapper: 'flex items-start gap-3',
     makeIconWrapper: 'bg-elevated size-12 rounded-2xl',
-    makeModelWrapper: 'flex flex-1 grow flex-col gap-1',
-    makeModel: 'font-bold',
-    trim: 'text-muted text-sm',
+    makeModelWrapper: 'flex flex-1 grow flex-col',
+    makeModel: 'mb-1 font-semibold',
+    trim: 'text-muted mb-1 text-sm',
     locationWrapper: 'text-muted flex items-center gap-2',
     locationIcon: 'size-4',
-    location: 'text-sm tracking-tighter whitespace-nowrap',
-    price: 'text-lg font-bold',
+    location: 'text-sm whitespace-nowrap',
+    price: 'text-lg font-semibold',
   },
 })
 
@@ -50,7 +52,8 @@ const MOCK = {
   details: {
     productionYear: 2020,
     mileage: 15000,
-    engine: [2000, 288] as const,
+    engineCapacity: 2000,
+    power: 288,
     fuelType: 'plugin',
     transmission: 'automatic',
   },
@@ -59,7 +62,8 @@ const MOCK = {
 const detailKeyToIcon = {
   productionYear: IconCalendarDot,
   mileage: IconRoad,
-  engine: IconGauge,
+  engineCapacity: IconEngine,
+  power: IconGauge,
   fuelType: IconGasStation,
   transmission: IconManualGearbox,
 }
@@ -92,8 +96,12 @@ function AdTile(props: AdTileProps) {
         value: `${MOCK.details.mileage} km`,
       },
       {
-        icon: detailKeyToIcon.engine,
-        value: `${(MOCK.details.engine[0] / 1000).toFixed(1)} L ${MOCK.details.engine[1]} KM`,
+        icon: detailKeyToIcon.engineCapacity,
+        value: `${(MOCK.details.engineCapacity / 1000).toFixed(1)} L`,
+      },
+      {
+        icon: detailKeyToIcon.power,
+        value: `${MOCK.details.power} KM`,
       },
       {
         icon: detailKeyToIcon.fuelType,
@@ -145,21 +153,6 @@ function AdTile(props: AdTileProps) {
         </ul>
       </div>
 
-      <dl className={styles.detailsList()}>
-        {details.map((detail) => (
-          <div
-            className={styles.detailItem()}
-            key={detail.value}
-          >
-            <dt>
-              <detail.icon className={styles.detailIcon()} />
-            </dt>
-
-            <dd className={styles.detailValue()}>{detail.value}</dd>
-          </div>
-        ))}
-      </dl>
-
       <div className={styles.infoWrapper()}>
         <div className={styles.makeIconWrapper()} />
 
@@ -177,6 +170,21 @@ function AdTile(props: AdTileProps) {
 
         <span className={styles.price()}>{priceLabel}</span>
       </div>
+
+      <dl className={styles.detailsList()}>
+        {details.map((detail) => (
+          <div
+            className={styles.detailItem()}
+            key={detail.value}
+          >
+            <dt>
+              <detail.icon className={styles.detailIcon()} />
+            </dt>
+
+            <dd className={styles.detailValue()}>{detail.value}</dd>
+          </div>
+        ))}
+      </dl>
     </div>
   )
 }
