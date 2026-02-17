@@ -51,8 +51,9 @@ const adFilterCommandStyles = createStyles({
     commandPageButtons: 'mb-6 flex w-64 flex-col gap-1',
     commandPageButton: 'data-[page-active=true]:bg-elevated-inv',
     commandItem: 'data-[selected=true]:bg-elevated-inv transition-none',
+    commandList: 'flex w-full gap-6',
+    commandScrollArea: 'grow',
     commandScrollAreaViewport: 'h-full pb-6',
-    commandScrollAreaContent: 'flex w-full gap-6',
     commandScrollAreaScrollbar: 'group -mr-6 px-2.5 pb-6',
     commandScrollAreaThumb:
       'bg-elevated-inv group-data-scrolling:bg-highlighted-inv transition-colors',
@@ -215,14 +216,14 @@ export default function AdFilterCommand(props: AdFilterCommandProps) {
             ))}
           </div>
 
-          <ScrollArea.Root className="grow">
+          <ScrollArea.Root className={styles.commandScrollArea()}>
             <ScrollArea.Viewport
               className={styles.commandScrollAreaViewport()}
               ref={scrollViewportRef}
             >
               <ScrollArea.Content>
                 <Command.List
-                  className={styles.commandScrollAreaContent()}
+                  className={styles.commandList()}
                   key={MOCK[activePage!]?.label}
                 >
                   {MOCK[activePage]?.data.map((group) => (

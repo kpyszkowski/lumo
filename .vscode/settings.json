@@ -1,6 +1,6 @@
 {
-  // Editor formatting can be disabled - it is handled by ESLint
   "editor.formatOnSave": false,
+  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "always"
   },

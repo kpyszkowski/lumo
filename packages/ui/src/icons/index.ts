@@ -13,6 +13,9 @@ export {
   IconMapPin,
   IconPlus,
   IconSearch,
+  IconMinus,
+  IconCheck,
+  IconChevronDown,
 } from '@tabler/icons-react'
 export { IconCarBodyLimousine } from './car-body-limousine'
 export { IconCarBodyEstate } from './car-body-estate'

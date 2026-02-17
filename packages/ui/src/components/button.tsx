@@ -119,9 +119,8 @@ const buttonStyles = createStyles({
   ],
 })
 
-type ButtonProps = Omit<ButtonPrimitive.Props, 'children' | 'nativeButton'> &
+type ButtonProps = Omit<ButtonPrimitive.Props, 'nativeButton'> &
   StylesProps<typeof buttonStyles> & {
-    children: string
     icon?: Icon
   }
 
