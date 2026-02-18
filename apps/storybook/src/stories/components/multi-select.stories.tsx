@@ -72,6 +72,10 @@ export const Default: Story = (args) => (
       }}
     />
 
-    <MultiSelect.Popup searchPlaceholder="Szukaj marek..." />
+    <MultiSelect.Popup
+      searchPlaceholder="Szukaj marek..."
+      selectedLabel="Wybrane"
+      itemsLabel="Alfabetycznie"
+    />
   </MultiSelect.Root>
 )

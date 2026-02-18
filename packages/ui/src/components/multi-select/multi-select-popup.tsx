@@ -12,12 +12,14 @@ const MotionRootPopup = motion.create(PopoverPrimitive.Popup)
 const commandRootStyles = createStyles({
   slots: {
     container:
-      'bg-main-inv/96 text-main-inv dark:bg-elevated/96 dark:text-main flex flex-col rounded-xl backdrop-blur-sm dark:backdrop-contrast-75',
-    inputWrapper: 'flex items-center gap-3 px-4 py-3',
+      'bg-main-inv/96 text-main-inv dark:bg-elevated/96 dark:text-main overflow-hidden rounded-xl backdrop-blur-sm dark:backdrop-contrast-75',
+    wrapper: 'flex flex-col',
+    inputWrapper:
+      'border-muted dark:border-muted/25 flex items-center gap-3 border-b px-4 py-3',
     inputIcon: 'size-4',
     inputField: 'outline-none',
-    separator: 'border-muted dark:border-muted/25 border-t',
-    group: 'flex flex-col px-2 py-2',
+    group:
+      '[&_[cmdk-group-heading]]:text-subtle mt-3 flex flex-col px-2 [&_[cmdk-group-heading]]:mb-2 [&_[cmdk-group-heading]]:text-sm',
     item: [
       'group flex cursor-pointer items-center gap-3 rounded-md px-3 py-2',
       'hover:bg-elevated-inv dark:hover:bg-elevated focus:bg-elevated-inv dark:focus:bg-elevated data-[selected=true]:bg-highlighted-inv dark:data-[selected=true]:bg-highlighted',
@@ -37,6 +39,8 @@ type MultiSelectPopupProps = StylesProps<typeof commandRootStyles> &
   Omit<PopoverPrimitive.Positioner.Props, 'keepMounted'> & {
     className?: string
     searchPlaceholder?: string
+    selectedLabel?: string
+    itemsLabel?: string
   }
 
 function MultiSelectPopup(props: MultiSelectPopupProps) {
@@ -45,6 +49,8 @@ function MultiSelectPopup(props: MultiSelectPopupProps) {
     align = 'start',
     sideOffset = 8,
     searchPlaceholder = 'Search...',
+    selectedLabel = 'Selected',
+    itemsLabel = 'Items',
     ...restProps
   } = props
 
@@ -93,13 +99,36 @@ function MultiSelectPopup(props: MultiSelectPopupProps) {
           <AnimatePresence>
             {open && (
               <MotionRootPopup
-                initial={{ opacity: 0, y: -12 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 12 }}
-                transition={{ ease: 'easeOut' }}
+                className={styles.container()}
+                style={{ transformOrigin: 'var(--transform-origin)' }}
+                initial={{
+                  opacity: 0,
+                  scale: 0.92,
+                  height: 'calc(var(--positioner-height) * 0.92)',
+                }}
+                animate={{
+                  opacity: 1,
+                  scale: 1,
+                  height: 'var(--positioner-height)',
+                }}
+                exit={{
+                  opacity: 0,
+                  scale: 0.92,
+                  height: 'calc(var(--positioner-height) * 0.92)',
+                }}
+                transition={{
+                  type: 'spring',
+                  stiffness: 240,
+                  damping: 16,
+                  mass: 0.8,
+                  opacity: {
+                    type: 'tween',
+                    ease: [0.16, 1, 0.3, 1],
+                  },
+                }}
               >
                 <CommandPrimitive
-                  className={styles.container({ className })}
+                  className={styles.wrapper({ className })}
                   onKeyDown={() => {
                     // It forwards focus to input when it's blurred allowing user to type
                     // anytime
@@ -118,8 +147,6 @@ function MultiSelectPopup(props: MultiSelectPopupProps) {
                     />
                   </div>
 
-                  <CommandPrimitive.Separator className={styles.separator()} />
-
                   <ScrollArea.Root className={styles.scrollArea()}>
                     <ScrollArea.Viewport
                       className={styles.scrollAreaViewport()}
@@ -129,31 +156,31 @@ function MultiSelectPopup(props: MultiSelectPopupProps) {
                         render={<CommandPrimitive.List />}
                       >
                         {!search && valueToItems.length > 0 && (
-                          <>
-                            <CommandPrimitive.Group className={styles.group()}>
-                              {valueToItems.map((item) => (
-                                <CommandPrimitive.Item
-                                  className={styles.item()}
-                                  key={item.value}
-                                  value={item.value}
-                                  onSelect={handleValueChange}
-                                >
-                                  <IconMinus
-                                    className={styles.itemIcon()}
-                                    data-checked
-                                  />
-                                  {item.label}
-                                </CommandPrimitive.Item>
-                              ))}
-                            </CommandPrimitive.Group>
-
-                            <CommandPrimitive.Separator
-                              className={styles.separator()}
-                            />
-                          </>
+                          <CommandPrimitive.Group
+                            className={styles.group()}
+                            heading={selectedLabel}
+                          >
+                            {valueToItems.map((item) => (
+                              <CommandPrimitive.Item
+                                className={styles.item()}
+                                key={item.value}
+                                value={item.value}
+                                onSelect={handleValueChange}
+                              >
+                                <IconMinus
+                                  className={styles.itemIcon()}
+                                  data-checked
+                                />
+                                {item.label}
+                              </CommandPrimitive.Item>
+                            ))}
+                          </CommandPrimitive.Group>
                         )}
 
-                        <CommandPrimitive.Group className={styles.group()}>
+                        <CommandPrimitive.Group
+                          className={styles.group()}
+                          heading={itemsLabel}
+                        >
                           {items.map((item) => (
                             <CommandPrimitive.Item
                               className={styles.item()}

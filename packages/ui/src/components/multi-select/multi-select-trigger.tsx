@@ -1,6 +1,11 @@
 'use client'
 import { Popover as PopoverPrimitive } from '@base-ui/react/popover'
-import { cloneElement, type ReactElement, type ReactNode } from 'react'
+import {
+  cloneElement,
+  forwardRef,
+  type ReactElement,
+  type ReactNode,
+} from 'react'
 import { Button, type ButtonProps } from '~/components'
 import {
   type MultiSelectRootContextValue,
@@ -17,14 +22,18 @@ type MultiSelectTriggerProps = Omit<ButtonProps, 'render' | 'children'> &
       }
   )
 
-// eslint-disable-next-line react-props/must-destructure-first
-function MultiSelectTrigger(props: MultiSelectTriggerProps) {
+const MultiSelectTrigger = forwardRef<
+  HTMLButtonElement,
+  MultiSelectTriggerProps
+  // eslint-disable-next-line react-props/must-destructure-first
+>((props, ref) => {
   const context = useMultiSelectRootContext()
 
   if ('children' in props) {
     const { children, ...restPropsWithChildren } = props
     return (
       <PopoverPrimitive.Trigger
+        ref={ref}
         render={(triggerProps) => (
           <Button
             {...restPropsWithChildren}
@@ -41,6 +50,7 @@ function MultiSelectTrigger(props: MultiSelectTriggerProps) {
 
   return (
     <PopoverPrimitive.Trigger
+      ref={ref}
       render={(triggerProps) =>
         cloneElement(render(context) as ReactElement, {
           ...restPropsWithRenderFunction,
@@ -49,6 +59,8 @@ function MultiSelectTrigger(props: MultiSelectTriggerProps) {
       }
     />
   )
-}
+})
+
+MultiSelectTrigger.displayName = 'MultiSelectTrigger'
 
 export { MultiSelectTrigger, type MultiSelectTriggerProps }
