@@ -1,5 +1,4 @@
 'use client'
-import { Popover as PopoverPrimitive } from '@base-ui/react/popover'
 import {
   createContext,
   type Dispatch,
@@ -11,9 +10,10 @@ import {
   useRef,
   useState,
 } from 'react'
+import { Popover } from '~/components'
 
 type MultiSelectRootProps = Pick<
-  PopoverPrimitive.Root.Props,
+  Popover.RootProps,
   'defaultOpen' | 'open' | 'onOpenChange'
 > & {
   className?: string
@@ -28,8 +28,6 @@ type MultiSelectRootContextValue = {
   inputRef: RefObject<HTMLInputElement | null>
   search: string
   onSearchChange: Dispatch<SetStateAction<string>>
-  open: NonNullable<MultiSelectRootProps['open']>
-  onOpenChange: NonNullable<MultiSelectRootProps['onOpenChange']>
   value: NonNullable<MultiSelectRootProps['value']>
   onValueChange: NonNullable<MultiSelectRootProps['onValueChange']>
   items: NonNullable<MultiSelectRootProps['items']>
@@ -54,9 +52,6 @@ const useMultiSelectRootContext = () => {
 
 function MultiSelectRoot(props: MultiSelectRootProps) {
   const {
-    open: controlledOpen,
-    onOpenChange: controlledOnOpenChange,
-    defaultOpen = false,
     value: controlledValue,
     onValueChange: controlledOnValueChange,
     defaultValue = [],
@@ -64,17 +59,10 @@ function MultiSelectRoot(props: MultiSelectRootProps) {
     ...restProps
   } = props
 
-  const [_open, _onOpenChange] = useState(defaultOpen)
   const [_value, _onValueChange] = useState<string[]>(defaultValue)
   const [search, onSearchChange] = useState('')
 
   const inputRef = useRef<HTMLInputElement>(null)
-
-  const open = controlledOpen !== undefined ? controlledOpen : _open
-  const onOpenChange =
-    controlledOnOpenChange !== undefined
-      ? controlledOnOpenChange
-      : _onOpenChange
 
   const value = controlledValue !== undefined ? controlledValue : _value
   const onValueChange =
@@ -90,17 +78,10 @@ function MultiSelectRoot(props: MultiSelectRootProps) {
         onValueChange,
         search,
         onSearchChange,
-        open,
-        onOpenChange,
         items,
       }}
     >
-      <PopoverPrimitive.Root
-        open={open}
-        onOpenChange={onOpenChange}
-        defaultOpen={defaultOpen}
-        {...restProps}
-      />
+      <Popover.Root {...restProps} />
     </MultiSelectRootContext.Provider>
   )
 }

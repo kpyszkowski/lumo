@@ -45,7 +45,7 @@ export const Default: Story = (args) => (
     items={brands}
   >
     <MultiSelect.Trigger
-      render={({ value, open, items }) => {
+      render={({ value, items }, { open }) => {
         const selectedItem =
           value.length === 1
             ? items.find((item) => item.value === value[0])

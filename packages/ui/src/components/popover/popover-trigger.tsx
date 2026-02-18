@@ -18,7 +18,7 @@ type PopoverTriggerProps = Omit<ButtonProps, 'render' | 'children'> &
         children: ReactNode
       }
     | {
-        render: (context: PopoverRootContextValue) => ReactNode
+        render: ((context: PopoverRootContextValue) => ReactNode) | undefined
       }
   )
 
@@ -51,11 +51,14 @@ const PopoverTrigger = forwardRef<
   return (
     <PopoverPrimitive.Trigger
       ref={ref}
-      render={(triggerProps) =>
-        cloneElement(render(context) as ReactElement, {
-          ...restPropsWithRenderFunction,
-          ...triggerProps,
-        })
+      render={
+        render
+          ? (triggerProps) =>
+              cloneElement(render(context) as ReactElement, {
+                ...restPropsWithRenderFunction,
+                ...triggerProps,
+              })
+          : undefined
       }
     />
   )

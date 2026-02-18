@@ -2,24 +2,20 @@
 import { useMemo } from 'react'
 import { Command as CommandPrimitive } from 'cmdk-base'
 import { createStyles, type StylesProps } from '~/utils'
-import { ScrollArea } from '~/components'
+import { Popover, ScrollArea } from '~/components'
 import { IconCheck, IconMinus, IconSearch } from '~/icons'
 import { useMultiSelectRootContext } from '~/components/multi-select/multi-select-root'
-import { AnimatePresence, motion } from '~/motion'
-import { Popover as PopoverPrimitive } from '@base-ui/react/popover'
+import { type Popover as PopoverPrimitive } from '@base-ui/react/popover'
 
-const MotionRootPopup = motion.create(PopoverPrimitive.Popup)
 const commandRootStyles = createStyles({
   slots: {
-    container:
-      'bg-main-inv/96 text-main-inv dark:bg-elevated/96 dark:text-main overflow-hidden rounded-xl backdrop-blur-sm dark:backdrop-contrast-75',
-    wrapper: 'flex flex-col',
+    container: 'flex flex-col',
     inputWrapper:
       'border-muted dark:border-muted/25 flex items-center gap-3 border-b px-4 py-3',
     inputIcon: 'size-4',
     inputField: 'outline-none',
     group:
-      '[&_[cmdk-group-heading]]:text-subtle mt-3 flex flex-col px-2 [&_[cmdk-group-heading]]:mb-2 [&_[cmdk-group-heading]]:text-sm',
+      '[&_[cmdk-group-heading]]:text-subtle mt-3 flex flex-col px-2 [&_[cmdk-group-heading]]:mb-2 [&_[cmdk-group-heading]]:px-1 [&_[cmdk-group-heading]]:text-sm',
     item: [
       'group flex cursor-pointer items-center gap-3 rounded-md px-3 py-2',
       'hover:bg-elevated-inv dark:hover:bg-elevated focus:bg-elevated-inv dark:focus:bg-elevated data-[selected=true]:bg-highlighted-inv dark:data-[selected=true]:bg-highlighted',
@@ -46,23 +42,14 @@ type MultiSelectPopupProps = StylesProps<typeof commandRootStyles> &
 function MultiSelectPopup(props: MultiSelectPopupProps) {
   const {
     className,
-    align = 'start',
-    sideOffset = 8,
     searchPlaceholder = 'Search...',
     selectedLabel = 'Selected',
     itemsLabel = 'Items',
     ...restProps
   } = props
 
-  const {
-    inputRef,
-    search,
-    onSearchChange,
-    value,
-    onValueChange,
-    items,
-    open,
-  } = useMultiSelectRootContext()
+  const { inputRef, search, onSearchChange, value, onValueChange, items } =
+    useMultiSelectRootContext()
 
   const styles = commandRootStyles()
 
@@ -89,132 +76,86 @@ function MultiSelectPopup(props: MultiSelectPopupProps) {
   )
 
   return (
-    <PopoverPrimitive.Portal keepMounted>
-      <PopoverPrimitive.Positioner
-        align={align}
-        sideOffset={sideOffset}
+    <Popover.Content>
+      <CommandPrimitive
+        className={styles.container({ className })}
+        onKeyDown={() => {
+          // It forwards focus to input when it's blurred allowing user to type
+          // anytime
+          inputRef.current?.focus()
+        }}
         {...restProps}
       >
-        <PopoverPrimitive.Viewport>
-          <AnimatePresence>
-            {open && (
-              <MotionRootPopup
-                className={styles.container()}
-                style={{ transformOrigin: 'var(--transform-origin)' }}
-                initial={{
-                  opacity: 0,
-                  scale: 0.92,
-                  height: 'calc(var(--positioner-height) * 0.92)',
-                }}
-                animate={{
-                  opacity: 1,
-                  scale: 1,
-                  height: 'var(--positioner-height)',
-                }}
-                exit={{
-                  opacity: 0,
-                  scale: 0.92,
-                  height: 'calc(var(--positioner-height) * 0.92)',
-                }}
-                transition={{
-                  type: 'spring',
-                  stiffness: 240,
-                  damping: 16,
-                  mass: 0.8,
-                  opacity: {
-                    type: 'tween',
-                    ease: [0.16, 1, 0.3, 1],
-                  },
-                }}
-              >
-                <CommandPrimitive
-                  className={styles.wrapper({ className })}
-                  onKeyDown={() => {
-                    // It forwards focus to input when it's blurred allowing user to type
-                    // anytime
-                    inputRef.current?.focus()
-                  }}
-                  {...restProps}
+        <div className={styles.inputWrapper()}>
+          <IconSearch className={styles.inputIcon()} />
+          <CommandPrimitive.Input
+            className={styles.inputField()}
+            placeholder={searchPlaceholder}
+            value={search}
+            onValueChange={onSearchChange}
+            ref={inputRef}
+          />
+        </div>
+
+        <ScrollArea.Root className={styles.scrollArea()}>
+          <ScrollArea.Viewport className={styles.scrollAreaViewport()}>
+            <ScrollArea.Content
+              className={styles.list()}
+              render={<CommandPrimitive.List />}
+            >
+              {!search && valueToItems.length > 0 && (
+                <CommandPrimitive.Group
+                  className={styles.group()}
+                  heading={selectedLabel}
                 >
-                  <div className={styles.inputWrapper()}>
-                    <IconSearch className={styles.inputIcon()} />
-                    <CommandPrimitive.Input
-                      className={styles.inputField()}
-                      placeholder={searchPlaceholder}
-                      value={search}
-                      onValueChange={onSearchChange}
-                      ref={inputRef}
-                    />
-                  </div>
-
-                  <ScrollArea.Root className={styles.scrollArea()}>
-                    <ScrollArea.Viewport
-                      className={styles.scrollAreaViewport()}
+                  {valueToItems.map((item) => (
+                    <CommandPrimitive.Item
+                      className={styles.item()}
+                      key={item.value}
+                      value={item.value}
+                      onSelect={handleValueChange}
                     >
-                      <ScrollArea.Content
-                        className={styles.list()}
-                        render={<CommandPrimitive.List />}
-                      >
-                        {!search && valueToItems.length > 0 && (
-                          <CommandPrimitive.Group
-                            className={styles.group()}
-                            heading={selectedLabel}
-                          >
-                            {valueToItems.map((item) => (
-                              <CommandPrimitive.Item
-                                className={styles.item()}
-                                key={item.value}
-                                value={item.value}
-                                onSelect={handleValueChange}
-                              >
-                                <IconMinus
-                                  className={styles.itemIcon()}
-                                  data-checked
-                                />
-                                {item.label}
-                              </CommandPrimitive.Item>
-                            ))}
-                          </CommandPrimitive.Group>
-                        )}
+                      <IconMinus
+                        className={styles.itemIcon()}
+                        data-checked
+                      />
+                      {item.label}
+                    </CommandPrimitive.Item>
+                  ))}
+                </CommandPrimitive.Group>
+              )}
 
-                        <CommandPrimitive.Group
-                          className={styles.group()}
-                          heading={itemsLabel}
-                        >
-                          {items.map((item) => (
-                            <CommandPrimitive.Item
-                              className={styles.item()}
-                              key={item.value}
-                              value={item.value}
-                              onSelect={handleValueChange}
-                            >
-                              <IconCheck
-                                className={styles.itemIcon()}
-                                data-checked={value.includes(item.value)}
-                              />
-                              {item.label}
-                            </CommandPrimitive.Item>
-                          ))}
-                        </CommandPrimitive.Group>
-                      </ScrollArea.Content>
+              <CommandPrimitive.Group
+                className={styles.group()}
+                heading={itemsLabel}
+              >
+                {items.map((item) => (
+                  <CommandPrimitive.Item
+                    className={styles.item()}
+                    key={item.value}
+                    value={item.value}
+                    onSelect={handleValueChange}
+                  >
+                    <IconCheck
+                      className={styles.itemIcon()}
+                      data-checked={value.includes(item.value)}
+                    />
+                    {item.label}
+                  </CommandPrimitive.Item>
+                ))}
+              </CommandPrimitive.Group>
+            </ScrollArea.Content>
 
-                      <ScrollArea.Scrollbar
-                        orientation="vertical"
-                        className={styles.scrollAreaScrollbar()}
-                      >
-                        <ScrollArea.Thumb
-                          className={styles.scrollAreaThumb()}
-                        />
-                      </ScrollArea.Scrollbar>
-                    </ScrollArea.Viewport>
-                  </ScrollArea.Root>
-                </CommandPrimitive>
-              </MotionRootPopup>
-            )}
-          </AnimatePresence>
-        </PopoverPrimitive.Viewport>
-      </PopoverPrimitive.Positioner>
-    </PopoverPrimitive.Portal>
+            <ScrollArea.Scrollbar
+              orientation="vertical"
+              className={styles.scrollAreaScrollbar()}
+            >
+              <ScrollArea.Thumb className={styles.scrollAreaThumb()} />
+            </ScrollArea.Scrollbar>
+          </ScrollArea.Viewport>
+        </ScrollArea.Root>
+      </CommandPrimitive>
+    </Popover.Content>
   )
 }
 
