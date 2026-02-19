@@ -22,11 +22,7 @@ const commandRootStyles = createStyles({
     itemIcon:
       'text-muted-inv dark:text-muted bg-elevated-inv dark:bg-highlighted group-data-[selected=true]:dark:bg-elevated size-4 rounded-sm stroke-2 p-0.5 [transition-property:color] not-data-[checked=true]:text-transparent',
     list: 'gap-6',
-    scrollArea: 'grow overflow-hidden',
-    scrollAreaViewport: 'h-full max-h-96 min-w-64 pr-2',
-    scrollAreaScrollbar: 'group p-1.5',
-    scrollAreaThumb:
-      'bg-elevated-inv group-data-scrolling:bg-highlighted-inv transition-colors',
+    scrollAreaViewport: 'max-h-96 min-w-64 pr-2',
   },
 })
 
@@ -95,7 +91,7 @@ function MultiSelectPopup(props: MultiSelectPopupProps) {
           />
         </div>
 
-        <ScrollArea.Root className={styles.scrollArea()}>
+        <ScrollArea.Root>
           <ScrollArea.Viewport className={styles.scrollAreaViewport()}>
             <ScrollArea.Content
               className={styles.list()}
@@ -144,11 +140,8 @@ function MultiSelectPopup(props: MultiSelectPopupProps) {
               </CommandPrimitive.Group>
             </ScrollArea.Content>
 
-            <ScrollArea.Scrollbar
-              orientation="vertical"
-              className={styles.scrollAreaScrollbar()}
-            >
-              <ScrollArea.Thumb className={styles.scrollAreaThumb()} />
+            <ScrollArea.Scrollbar orientation="vertical">
+              <ScrollArea.Thumb />
             </ScrollArea.Scrollbar>
           </ScrollArea.Viewport>
         </ScrollArea.Root>

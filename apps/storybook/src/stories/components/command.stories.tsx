@@ -161,8 +161,8 @@ export const AsDialog: Story = (args) => {
         {...args}
       >
         <Command.Input placeholder="Marka, model, generacja pojazdu..." />
-        <div className="flex gap-4 overflow-hidden px-4">
-          <div className="flex flex-col gap-1">
+        <div className="flex overflow-hidden">
+          <div className="flex flex-col gap-1 px-2">
             {tabs.map((tab, index) => (
               <Button
                 className={index === activeTab ? 'bg-elevated-inv' : ''}
@@ -179,9 +179,9 @@ export const AsDialog: Story = (args) => {
             ))}
           </div>
 
-          <ScrollArea.Root className="grow">
-            <ScrollArea.Viewport className="h-full">
-              <ScrollArea.Content>
+          <ScrollArea.Root>
+            <ScrollArea.Viewport>
+              <ScrollArea.Content className="mb-6 px-4">
                 <Command.List
                   className="flex w-full gap-6"
                   key={tabs[activeTab!]?.label}
@@ -199,11 +199,8 @@ export const AsDialog: Story = (args) => {
                 </Command.List>
               </ScrollArea.Content>
 
-              <ScrollArea.Scrollbar
-                orientation="vertical"
-                className="group -mr-4 px-1.5 pb-6"
-              >
-                <ScrollArea.Thumb className="bg-elevated-inv group-data-scrolling:bg-highlighted-inv transition-colors" />
+              <ScrollArea.Scrollbar orientation="vertical">
+                <ScrollArea.Thumb />
               </ScrollArea.Scrollbar>
             </ScrollArea.Viewport>
           </ScrollArea.Root>

@@ -47,16 +47,13 @@ const adFilterCommandStyles = createStyles({
   slots: {
     triggerButton:
       'text-muted active:[&>div]:text-muted bg-elevated hover:bg-highlighted focus-visible::bg-highlighted mx-auto w-full max-w-lg [&>div]:justify-end',
-    commandWrapper: 'flex gap-6 overflow-hidden px-6',
-    commandPageButtons: 'mb-6 flex w-64 flex-col gap-1',
+    commandWrapper: 'flex overflow-hidden',
+    commandPageButtons: 'mb-6 flex w-64 flex-col gap-1 px-4',
     commandPageButton: 'data-[page-active=true]:bg-elevated-inv',
     commandItem: 'data-[selected=true]:bg-elevated-inv transition-none',
-    commandList: 'flex w-full gap-6',
-    commandScrollArea: 'grow',
-    commandScrollAreaViewport: 'h-full pb-6',
-    commandScrollAreaScrollbar: 'group -mr-6 px-2.5 pb-6',
-    commandScrollAreaThumb:
-      'bg-elevated-inv group-data-scrolling:bg-highlighted-inv transition-colors',
+    commandList: 'flex w-full gap-6 px-4',
+    commandScrollAreaViewport: 'pb-6',
+    commandScrollAreaScrollbar: 'pb-6',
   },
 })
 
@@ -216,7 +213,7 @@ export default function AdFilterCommand(props: AdFilterCommandProps) {
             ))}
           </div>
 
-          <ScrollArea.Root className={styles.commandScrollArea()}>
+          <ScrollArea.Root>
             <ScrollArea.Viewport
               className={styles.commandScrollAreaViewport()}
               ref={scrollViewportRef}
@@ -249,7 +246,7 @@ export default function AdFilterCommand(props: AdFilterCommandProps) {
                 orientation="vertical"
                 className={styles.commandScrollAreaScrollbar()}
               >
-                <ScrollArea.Thumb className={styles.commandScrollAreaThumb()} />
+                <ScrollArea.Thumb />
               </ScrollArea.Scrollbar>
             </ScrollArea.Viewport>
           </ScrollArea.Root>

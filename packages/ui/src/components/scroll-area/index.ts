@@ -1,10 +1,22 @@
 import { ScrollArea as ScrollAreaPrimitive } from '@base-ui/react/scroll-area'
 
-export const Root = ScrollAreaPrimitive.Root
-export const Viewport = ScrollAreaPrimitive.Viewport
 export const Content = ScrollAreaPrimitive.Content
 export const Corner = ScrollAreaPrimitive.Corner
-export const Scrollbar = ScrollAreaPrimitive.Scrollbar
+
+export {
+  ScrollAreaRoot as Root,
+  type ScrollAreaRootProps as RootProps,
+} from '~/components/scroll-area/scroll-area-root'
+
+export {
+  ScrollAreaViewport as Viewport,
+  type ScrollAreaViewportProps as ViewportProps,
+} from '~/components/scroll-area/scroll-area-viewport'
+
+export {
+  ScrollAreaScrollbar as Scrollbar,
+  type ScrollAreaScrollbarProps as ScrollbarProps,
+} from '~/components/scroll-area/scroll-area-scrollbar'
 
 export {
   ScrollAreaThumb as Thumb,
@@ -12,9 +24,6 @@ export {
 } from '~/components/scroll-area/scroll-area-thumb'
 
 export {
-  type ScrollAreaRootProps as RootProps,
-  type ScrollAreaViewportProps as ViewportProps,
   type ScrollAreaContentProps as ContentProps,
   type ScrollAreaCornerProps as CornerProps,
-  type ScrollAreaScrollbarProps as ScrollbarProps,
 } from '@base-ui/react/scroll-area'

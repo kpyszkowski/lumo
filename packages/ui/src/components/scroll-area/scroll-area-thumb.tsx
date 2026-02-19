@@ -4,7 +4,8 @@ import { ScrollArea as ScrollAreaPrimitive } from '@base-ui/react/scroll-area'
 
 const scrollAreaThumbStyles = createStyles({
   slots: {
-    container: 'size-1 rounded-lg',
+    container:
+      'bg-elevated-inv group-data-scrolling:bg-highlighted-inv size-1 rounded-lg transition-colors',
   },
 })
 

@@ -6,6 +6,7 @@ import {
   type StorybookConfig,
 } from 'storybook-react-rsbuild'
 import { mergeRsbuildConfig } from '@rsbuild/core'
+import { pluginReact } from '@rsbuild/plugin-react'
 
 type Config = Omit<StorybookConfig, 'framework'> & {
   framework: {
@@ -44,6 +45,8 @@ const config: Config = {
   },
   rsbuildFinal: (config) => {
     return mergeRsbuildConfig(config, {
+      plugins: [pluginReact()],
+      logLevel: 'silent',
       tools: {
         postcss: {
           postcssOptions: {
