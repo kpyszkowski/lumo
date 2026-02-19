@@ -24,6 +24,7 @@ function PopoverContent(props: PopoverContentProps) {
   const {
     className,
     align = 'start',
+    side = 'bottom',
     sideOffset = 8,
     children,
     ...restProps
@@ -33,10 +34,13 @@ function PopoverContent(props: PopoverContentProps) {
 
   const styles = commandRootStyles()
 
+  const sizeProperty = ['top', 'bottom'].includes(side) ? 'height' : 'width'
+
   return (
     <PopoverPrimitive.Portal keepMounted>
       <PopoverPrimitive.Positioner
         align={align}
+        side={side}
         sideOffset={sideOffset}
         {...restProps}
       >
@@ -49,20 +53,21 @@ function PopoverContent(props: PopoverContentProps) {
                 initial={{
                   opacity: 0,
                   scale: 0.92,
-                  height: 'calc(var(--positioner-height) * 0.92)',
+                  [sizeProperty]: `calc(var(--positioner-${sizeProperty}) * 0.92)`,
                 }}
                 animate={{
                   opacity: 1,
                   scale: 1,
-                  height: 'var(--positioner-height)',
+                  [sizeProperty]: `var(--positioner-${sizeProperty})`,
                 }}
                 exit={{
                   opacity: 0,
                   scale: 0.92,
-                  height: 'calc(var(--positioner-height) * 0.92)',
+                  [sizeProperty]: `calc(var(--positioner-${sizeProperty}) * 0.92)`,
                 }}
                 transition={{
                   type: 'spring',
+                  visualDuration: 5,
                   stiffness: 240,
                   damping: 16,
                   mass: 0.8,

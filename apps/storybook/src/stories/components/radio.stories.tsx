@@ -1,4 +1,4 @@
-import type { Meta, StoryFn, StoryObj } from '@storybook/react-vite'
+import type { Meta, StoryFn, StoryObj } from '@storybook/react'
 
 import { Radio } from '@lumo/ui/components'
 

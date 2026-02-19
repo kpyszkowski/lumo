@@ -1,4 +1,4 @@
-import type { Meta, StoryFn } from '@storybook/react-vite'
+import type { Meta, StoryFn } from '@storybook/react'
 
 import { Button, MultiSelect } from '@lumo/ui/components'
 import { IconChevronDown } from '@lumo/ui/icons'

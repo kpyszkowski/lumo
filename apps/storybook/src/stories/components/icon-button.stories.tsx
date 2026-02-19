@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react-vite'
+import type { Meta, StoryObj } from '@storybook/react'
 import { IconButton } from '@lumo/ui/components'
 import * as icons from '@lumo/ui/icons'
 

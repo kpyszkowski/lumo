@@ -5,7 +5,6 @@ import { createStyles, type StylesProps } from '~/utils'
 import { Popover, ScrollArea } from '~/components'
 import { IconCheck, IconMinus, IconSearch } from '~/icons'
 import { useMultiSelectRootContext } from '~/components/multi-select/multi-select-root'
-import { type Popover as PopoverPrimitive } from '@base-ui/react/popover'
 
 const commandRootStyles = createStyles({
   slots: {
@@ -32,7 +31,7 @@ const commandRootStyles = createStyles({
 })
 
 type MultiSelectPopupProps = StylesProps<typeof commandRootStyles> &
-  Omit<PopoverPrimitive.Positioner.Props, 'keepMounted'> & {
+  Omit<Popover.ContentProps, 'keepMounted'> & {
     className?: string
     searchPlaceholder?: string
     selectedLabel?: string
@@ -76,7 +75,7 @@ function MultiSelectPopup(props: MultiSelectPopupProps) {
   )
 
   return (
-    <Popover.Content>
+    <Popover.Content {...restProps}>
       <CommandPrimitive
         className={styles.container({ className })}
         onKeyDown={() => {
@@ -84,7 +83,6 @@ function MultiSelectPopup(props: MultiSelectPopupProps) {
           // anytime
           inputRef.current?.focus()
         }}
-        {...restProps}
       >
         <div className={styles.inputWrapper()}>
           <IconSearch className={styles.inputIcon()} />
