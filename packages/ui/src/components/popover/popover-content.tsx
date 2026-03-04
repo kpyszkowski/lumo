@@ -67,7 +67,6 @@ function PopoverContent(props: PopoverContentProps) {
                 }}
                 transition={{
                   type: 'spring',
-                  visualDuration: 5,
                   stiffness: 240,
                   damping: 16,
                   mass: 0.8,

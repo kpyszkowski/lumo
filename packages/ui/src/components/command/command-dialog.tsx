@@ -59,7 +59,10 @@ function CommandDialog(props: CommandDialogProps) {
               initial={{ backdropFilter: 'blur(0px)' }}
               animate={{ backdropFilter: 'blur(8px)' }}
               exit={{ backdropFilter: 'blur(0px)' }}
-              transition={{ ease: 'easeOut' }}
+              transition={{
+                type: 'tween',
+                ease: [0.16, 1, 0.3, 1],
+              }}
             />
           )}
         </AnimatePresence>
@@ -69,10 +72,27 @@ function CommandDialog(props: CommandDialogProps) {
             {(open ?? _open) && (
               <MotionDialogPopup
                 className={styles.popup({ className })}
-                initial={{ opacity: 0, y: -12, x: '-50%' }}
-                animate={{ opacity: 1, y: 0, x: '-50%' }}
-                exit={{ opacity: 0, y: 12, x: '-50%' }}
-                transition={{ ease: 'easeOut' }}
+                initial={{
+                  opacity: 0,
+                  scale: 0.92,
+                  x: '-50%',
+                }}
+                animate={{
+                  opacity: 1,
+                  scale: 1,
+                  x: '-50%',
+                }}
+                exit={{
+                  opacity: 0,
+                  scale: 0.92,
+                  x: '-50%',
+                }}
+                transition={{
+                  type: 'spring',
+                  stiffness: 240,
+                  damping: 16,
+                  mass: 0.8,
+                }}
               >
                 <CommandRoot
                   className={styles.container({ variant })}
