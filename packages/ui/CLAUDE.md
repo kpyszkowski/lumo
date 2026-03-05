@@ -127,6 +127,10 @@ export { Foo, type FooProps, fooStyles }
 
 Key rules:
 
+- **Never destructure props in the function signature** — always use `props` as
+  the parameter name (`react-props/no-destructure-in-params`)
+- **First line of the body must destructure `props`** — `const { ... } = props`
+  must be the very first statement (`react-props/must-destructure-first`)
 - Destructure all variant props **explicitly** before spreading `...restProps`
 - Instantiate styles _inside_ the function (`const styles = fooStyles(...)`)
 - Export the styles object so other components can reuse or extend it
@@ -445,6 +449,8 @@ Rules:
 - [ ] Styles declared with `createStyles` and exported
 - [ ] Props type intersects primitive props + `StylesProps<typeof styles>` +
       `{ className?: string }`
+- [ ] Function signature uses `props` param (never destructure in params)
+- [ ] First line of body is `const { ... } = props`
 - [ ] Variant props destructured explicitly; non-variant props spread via
       `...restProps`
 - [ ] Folder has `index.ts` with renamed exports
