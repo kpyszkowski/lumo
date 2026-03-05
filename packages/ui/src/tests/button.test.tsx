@@ -1,10 +1,10 @@
 import { fireEvent, render, screen } from '@testing-library/react'
-import { ArrowRight } from 'lucide-react'
+import { IconArrowRight } from '@tabler/icons-react'
 import { describe, expect, it, vi } from 'vitest'
 import { Button } from '~/components'
 
-vi.mock('lucide-react', () => ({
-  ArrowRight: vi.fn(({ className }) => (
+vi.mock('@tabler/icons-react', () => ({
+  IconArrowRight: vi.fn(({ className }) => (
     <svg
       data-testid="mock-icon"
       className={className}
@@ -88,7 +88,7 @@ describe('Button', () => {
       render(
         <Button
           {...defaultProps}
-          icon={ArrowRight}
+          icon={IconArrowRight}
         />,
       )
 
@@ -103,7 +103,7 @@ describe('Button', () => {
       render(
         <Button
           {...defaultProps}
-          icon={ArrowRight}
+          icon={IconArrowRight}
           iconPosition="right"
         />,
       )

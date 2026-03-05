@@ -20,7 +20,7 @@ const commandRootStyles = createStyles({
       'hover:bg-elevated-inv dark:hover:bg-elevated focus:bg-elevated-inv dark:focus:bg-elevated data-[selected=true]:bg-highlighted-inv dark:data-[selected=true]:bg-highlighted',
     ],
     itemIcon:
-      'text-muted-inv dark:text-muted bg-elevated-inv dark:bg-highlighted group-data-[selected=true]:dark:bg-elevated size-4 rounded-sm stroke-2 p-0.5 [transition-property:color] not-data-[checked=true]:text-transparent',
+      'text-muted-inv dark:text-muted bg-elevated-inv dark:bg-highlighted group-data-[selected=true]:dark:bg-elevated not-data-[checked=true]:text-transparent size-4 rounded-sm stroke-2 p-0.5 [transition-property:color]',
     list: 'gap-6',
     scrollAreaViewport: 'max-h-96 min-w-64 pr-2',
   },

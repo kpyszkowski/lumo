@@ -11,8 +11,8 @@ import { createStyles } from '~/utils'
 
 const commandDialogStyles = createStyles({
   slots: {
-    popup: 'fixed top-20 bottom-20 left-1/2 flex w-fit',
-    container: 'z-50 max-h-128 w-2xl',
+    popup: 'fixed bottom-20 left-1/2 top-20 flex w-fit',
+    container: 'max-h-128 w-2xl z-50',
     backdrop: 'fixed inset-0',
   },
   variants: {

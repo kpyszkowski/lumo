@@ -1,24 +1,27 @@
 # packages/ui — Component Authoring Guidelines
 
-Reference for creating components that are consistent with the existing codebase. All rules are derived from reading the actual source.
+Reference for creating components that are consistent with the existing
+codebase. All rules are derived from reading the actual source.
 
 ---
 
 ## Before Creating Any Component — Fetch Live Docs First
 
-A `context7` MCP server is wired into this project. Before writing any component code, resolve and fetch documentation for the libraries you will use:
+A `context7` MCP server is wired into this project. Before writing any component
+code, resolve and fetch documentation for the libraries you will use:
 
 1. Call `resolve-library-id` with the package name to get its Context7 ID
-2. Call `get-library-docs` with that ID and a topic (e.g. the specific primitive or API surface)
+2. Call `get-library-docs` with that ID and a topic (e.g. the specific primitive
+   or API surface)
 
 Libraries to fetch when relevant:
 
-| Library | When to fetch |
-|---|---|
-| `@base-ui/react` | Any component that wraps a base-ui primitive |
-| `tailwind-variants` | Any time you use `createStyles` / slots / compoundSlots |
-| `motion/react` | Any component that has animation (`motion.create`, `AnimatePresence`) |
-| `@storybook/react` | When creating or modifying story files |
+| Library             | When to fetch                                                         |
+| ------------------- | --------------------------------------------------------------------- |
+| `@base-ui/react`    | Any component that wraps a base-ui primitive                          |
+| `tailwind-variants` | Any time you use `createStyles` / slots / compoundSlots               |
+| `motion/react`      | Any component that has animation (`motion.create`, `AnimatePresence`) |
+| `@storybook/react`  | When creating or modifying story files                                |
 
 Always fetch docs **before** writing code, not after encountering an error.
 
@@ -26,13 +29,13 @@ Always fetch docs **before** writing code, not after encountering an error.
 
 ## Stack & Key Imports
 
-| What | How |
-|---|---|
+| What                | How                                                                            |
+| ------------------- | ------------------------------------------------------------------------------ |
 | Headless primitives | `@base-ui/react/<name>` (button, radio-group, toggle, popover, scroll-area, …) |
-| Styling | `createStyles`, `StylesProps` from `~/utils` (aliases for `tailwind-variants`) |
-| Animation | `motion`, `AnimatePresence` from `~/motion` |
-| Icons | `Icon` type + individual icons from `~/icons` |
-| Path alias | `~/` → `src/` |
+| Styling             | `createStyles`, `StylesProps` from `~/utils` (aliases for `tailwind-variants`) |
+| Animation           | `motion`, `AnimatePresence` from `~/motion`                                    |
+| Icons               | `Icon` type + individual icons from `~/icons`                                  |
+| Path alias          | `~/` → `src/`                                                                  |
 
 ```ts
 import { createStyles, type StylesProps } from '~/utils'
@@ -45,7 +48,7 @@ import { type Icon } from '~/icons'
 
 ## File & Directory Structure
 
-```
+```text
 src/components/
 ├── button.tsx               ← simple component (single file)
 ├── icon-button.tsx
@@ -57,8 +60,11 @@ src/components/
 ```
 
 Rules:
-- **Simple component** (no context needed) → single `kebab-case.tsx` directly in `src/components/`
-- **Compound component** (multiple parts or needs context) → `kebab-case/` folder with sub-files named `<name>-<part>.tsx`
+
+- **Simple component** (no context needed) → single `kebab-case.tsx` directly in
+  `src/components/`
+- **Compound component** (multiple parts or needs context) → `kebab-case/`
+  folder with sub-files named `<name>-<part>.tsx`
 - Every folder **must** have an `index.ts` barrel file
 - Register the new component in `src/components.ts`
 
@@ -66,23 +72,24 @@ Rules:
 
 ## Naming Conventions
 
-| Thing | Pattern | Example |
-|---|---|---|
-| File | `kebab-case.tsx` | `radio-button.tsx` |
-| Folder | `kebab-case/` | `multi-select/` |
-| Component function | `PascalCase` full name | `RadioButton`, `PopoverContent` |
-| Props type | `<ComponentName>Props` | `RadioButtonProps` |
-| Styles object | `<componentName>Styles` | `buttonStyles`, `radioGroupStyles` |
-| Context value type | `<ComponentName>ContextValue` | `PopoverRootContextValue` |
-| Context object | `<ComponentName>Context` | `PopoverRootContext` |
-| Context hook | `use<ComponentName>Context` | `usePopoverRootContext` |
-| `displayName` | Always set on `forwardRef` components | `PopoverTrigger.displayName = 'PopoverTrigger'` |
+| Thing              | Pattern                               | Example                                         |
+| ------------------ | ------------------------------------- | ----------------------------------------------- |
+| File               | `kebab-case.tsx`                      | `radio-button.tsx`                              |
+| Folder             | `kebab-case/`                         | `multi-select/`                                 |
+| Component function | `PascalCase` full name                | `RadioButton`, `PopoverContent`                 |
+| Props type         | `<ComponentName>Props`                | `RadioButtonProps`                              |
+| Styles object      | `<componentName>Styles`               | `buttonStyles`, `radioGroupStyles`              |
+| Context value type | `<ComponentName>ContextValue`         | `PopoverRootContextValue`                       |
+| Context object     | `<ComponentName>Context`              | `PopoverRootContext`                            |
+| Context hook       | `use<ComponentName>Context`           | `usePopoverRootContext`                         |
+| `displayName`      | Always set on `forwardRef` components | `PopoverTrigger.displayName = 'PopoverTrigger'` |
 
 ---
 
 ## Component Shape
 
-Every component file starts with `'use client'` and uses **named exports only** (never `export default`).
+Every component file starts with `'use client'` and uses **named exports only**
+(never `export default`).
 
 ```ts
 'use client'
@@ -119,8 +126,9 @@ export { Foo, type FooProps, fooStyles }
 ```
 
 Key rules:
+
 - Destructure all variant props **explicitly** before spreading `...restProps`
-- Instantiate styles *inside* the function (`const styles = fooStyles(...)`)
+- Instantiate styles _inside_ the function (`const styles = fooStyles(...)`)
 - Export the styles object so other components can reuse or extend it
 
 ---
@@ -157,15 +165,17 @@ type PopoverRootProps = Pick<
 ```ts
 const componentStyles = createStyles({
   slots: {
-    container: 'block transition-all',   // one slot per semantic element
-    wrapper:   'flex items-center',
-    label:     'whitespace-nowrap antialiased',
-    icon:      'stroke-[1.5]',
+    container: 'block transition-all', // one slot per semantic element
+    wrapper: 'flex items-center',
+    label: 'whitespace-nowrap antialiased',
+    icon: 'stroke-[1.5]',
   },
   variants: {
     variant: {
-      outline: { container: 'border-2 border-subtle-inv hover:border-muted-inv' },
-      ghost:   { container: 'hover:bg-elevated active:bg-highlighted' },
+      outline: {
+        container: 'border-subtle-inv hover:border-muted-inv border-2',
+      },
+      ghost: { container: 'hover:bg-elevated active:bg-highlighted' },
     },
     size: {
       sm: { container: 'px-3 py-1', label: 'text-sm/none' },
@@ -175,14 +185,22 @@ const componentStyles = createStyles({
   defaultVariants: { variant: 'outline', size: 'md' },
   compoundSlots: [
     // Only use compoundSlots when a style applies to a specific combination of variants
-    { variant: 'outline', size: 'sm', slots: ['container'], className: 'rounded-lg' },
+    {
+      variant: 'outline',
+      size: 'sm',
+      slots: ['container'],
+      className: 'rounded-lg',
+    },
   ],
 })
 ```
 
 Rules:
-- One slot per meaningful DOM element — `container`, `wrapper`, `label`, `icon`, `indicator`, etc.
-- Variants describe **real visual states** — never add placeholder/unused variants
+
+- One slot per meaningful DOM element — `container`, `wrapper`, `label`, `icon`,
+  `indicator`, etc.
+- Variants describe **real visual states** — never add placeholder/unused
+  variants
 - `compoundSlots` for styles that only apply when two or more variants combine
 - Apply in JSX: `styles.slotName({ className })`
 - When `className` may be a function (base-ui render state callbacks):
@@ -263,12 +281,15 @@ const styles = radioButtonStyles({ variant: propsVariant ?? contextVariant })
 
 ## `forwardRef` — Use Sparingly
 
-Only use when the component is a **trigger or anchor** that external code needs to ref for positioning:
+Only use when the component is a **trigger or anchor** that external code needs
+to ref for positioning:
 
 ```ts
-const FooTrigger = forwardRef<HTMLButtonElement, FooTriggerProps>((props, ref) => {
-  // ...
-})
+const FooTrigger = forwardRef<HTMLButtonElement, FooTriggerProps>(
+  (props, ref) => {
+    // ...
+  },
+)
 FooTrigger.displayName = 'FooTrigger'
 ```
 
@@ -323,8 +344,14 @@ Rename to semantic sub-namespace members:
 
 ```ts
 export { FooRoot as Root, type FooRootProps as RootProps } from './foo-root'
-export { FooTrigger as Trigger, type FooTriggerProps as TriggerProps } from './foo-trigger'
-export { FooContent as Content, type FooContentProps as ContentProps } from './foo-content'
+export {
+  FooTrigger as Trigger,
+  type FooTriggerProps as TriggerProps,
+} from './foo-trigger'
+export {
+  FooContent as Content,
+  type FooContentProps as ContentProps,
+} from './foo-content'
 ```
 
 ### `src/components.ts`
@@ -345,19 +372,21 @@ This gives consumers `<Foo.Root>`, `<Foo.Trigger>`, `<Foo.Content>`.
 
 Use **semantic CSS tokens** defined in `src/theme.css`. Never use raw colours.
 
-| Category | Tokens |
-|---|---|
-| Text | `text-main` `text-muted` `text-subtle` |
-| Text (inverted surface) | `text-main-inv` `text-muted-inv` `text-subtle-inv` |
-| Background | `bg-main` `bg-elevated` `bg-highlighted` |
-| Background (inverted) | `bg-main-inv` `bg-elevated-inv` `bg-highlighted-inv` |
-| Border | `border-subtle-inv` `border-muted-inv` |
-| Accent | `border-accent` `text-accent` |
-| Dark mode modifier | `dark:text-main` `dark:bg-elevated` etc. |
+| Category                | Tokens                                               |
+| ----------------------- | ---------------------------------------------------- |
+| Text                    | `text-main` `text-muted` `text-subtle`               |
+| Text (inverted surface) | `text-main-inv` `text-muted-inv` `text-subtle-inv`   |
+| Background              | `bg-main` `bg-elevated` `bg-highlighted`             |
+| Background (inverted)   | `bg-main-inv` `bg-elevated-inv` `bg-highlighted-inv` |
+| Border                  | `border-subtle-inv` `border-muted-inv`               |
+| Accent                  | `border-accent` `text-accent`                        |
+| Dark mode modifier      | `dark:text-main` `dark:bg-elevated` etc.             |
 
-For popup/overlay surfaces use opacity modifiers: `bg-main-inv/96`, `dark:bg-elevated/96`.
+For popup/overlay surfaces use opacity modifiers: `bg-main-inv/96`,
+`dark:bg-elevated/96`.
 
-CSS custom properties injected by base-ui primitives: `var(--transform-origin)`, `var(--positioner-height)`, `var(--positioner-width)`.
+CSS custom properties injected by base-ui primitives: `var(--transform-origin)`,
+`var(--positioner-height)`, `var(--positioner-width)`.
 
 ---
 
@@ -400,10 +429,12 @@ export const Default: Story = (args) => (
 ```
 
 Rules:
+
 - `title`: `Components/<PascalCase>`
 - Always include `tags: ['autodocs']`
 - `argTypes` for every variant/size/boolean prop
-- Render function (`StoryFn`) for complex compositions; object form for simple variant overrides
+- Render function (`StoryFn`) for complex compositions; object form for simple
+  variant overrides
 - Story export names: `PascalCase` (`Default`, `Outline`, `Ghost`, `AsDialog`)
 
 ---
@@ -412,11 +443,14 @@ Rules:
 
 - [ ] `'use client'` at the top of every file
 - [ ] Styles declared with `createStyles` and exported
-- [ ] Props type intersects primitive props + `StylesProps<typeof styles>` + `{ className?: string }`
-- [ ] Variant props destructured explicitly; non-variant props spread via `...restProps`
+- [ ] Props type intersects primitive props + `StylesProps<typeof styles>` +
+      `{ className?: string }`
+- [ ] Variant props destructured explicitly; non-variant props spread via
+      `...restProps`
 - [ ] Folder has `index.ts` with renamed exports
 - [ ] `src/components.ts` updated with new export
 - [ ] Motion primitives created at module scope with `motion.create()`
 - [ ] `forwardRef` only on trigger/anchor components; `displayName` set
 - [ ] Only semantic theme tokens used (no raw colours)
-- [ ] Story file created at `apps/storybook/src/stories/components/<name>.stories.tsx`
+- [ ] Story file created at
+      `apps/storybook/src/stories/components/<name>.stories.tsx`

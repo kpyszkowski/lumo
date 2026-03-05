@@ -15,10 +15,11 @@
 
 2. Add theme and register sources in your stylesheet
 
-   Library doesn't bundle CSS itself. It should be handled by consumer application.
+   Library doesn't bundle CSS itself. It should be handled by consumer
+   application.
 
    ```css
-   @import "tailwindcss";
-   @import "@lumo/ui/theme";
+   @import 'tailwindcss';
+   @import '@lumo/ui/theme';
    @source "../node_modules/@lumo/ui";
    ```
