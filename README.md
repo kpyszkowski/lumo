@@ -68,41 +68,29 @@ Scrapes vehicle makes/models/generations hierarchy and 15K+ tech sheet JSONs fro
 
 ## Architecture
 
-```
-┌─────────────────────────────────┐
-│           apps/web              │
-│   Next.js 16 + React 19         │
-│                                 │
-│  ┌───────────┐  ┌────────────┐  │
-│  │  oRPC     │  │  TanStack  │  │
-│  │ contract  │  │   Query    │  │
-│  └─────┬─────┘  └────────────┘  │
-│        │                        │
-│  ┌─────▼──────────────────────┐ │
-│  │  Drizzle ORM + Neon PG     │ │
-│  └────────────────────────────┘ │
-│                                 │
-│  consumes @lumo/ui components   │
-└────────────────┬────────────────┘
-                 │ deployed via
-                 ▼
-        Cloudflare Workers
-        (@opennextjs/cloudflare)
+```mermaid
+graph TD
+  subgraph web["apps/web · Next.js 16 + React 19"]
+    orpc["oRPC contract"]
+    query["TanStack Query"]
+    db["Drizzle ORM + Neon PG"]
+    query --> orpc --> db
+  end
 
-┌─────────────────────────────────┐
-│         packages/ui             │
-│  @base-ui/react headless prims  │
-│  + Tailwind v4 semantic tokens  │
-│  + tailwind-variants slots      │
-│  + motion/react animations      │
-│  → compound component pattern   │
-└─────────────────────────────────┘
+  subgraph ui["packages/ui · @lumo/ui"]
+    primitives["@base-ui/react primitives"]
+    tokens["Tailwind v4 semantic tokens"]
+    variants["tailwind-variants slots"]
+    animation["motion/react animations"]
+  end
 
-┌─────────────────────────────────┐
-│        apps/storybook           │
-│  Storybook 10 + rsbuild         │
-│  11 stories, theme switching    │
-└─────────────────────────────────┘
+  subgraph storybook["apps/storybook"]
+    stories["11 stories · theme switching"]
+  end
+
+  ui -->|consumed by| web
+  ui -->|documented in| storybook
+  web -->|"deployed via @opennextjs/cloudflare"| cf["☁️ Cloudflare Workers"]
 ```
 
 ---
