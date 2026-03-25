@@ -15,13 +15,33 @@ import {
 type PopoverTriggerProps = Omit<ButtonProps, 'render' | 'children'> &
   (
     | {
+        /** Label rendered inside the default `Button`. */
         children: ReactNode
       }
     | {
+        /**
+         * Custom render function; receives the `PopoverRoot` context (including `open` state).
+         * Use this to render a non-Button trigger or to reflect open state in the trigger.
+         */
         render: ((context: PopoverRootContextValue) => ReactNode) | undefined
       }
   )
 
+/**
+ * Trigger element for a `Popover`. Renders as a `Button` by default.
+ * Pass `render` to use a fully custom element; the function receives the popover context.
+ *
+ * @example
+ * ```tsx
+ * // Default Button trigger
+ * <Popover.Trigger variant="outline">Open popover</Popover.Trigger>
+ *
+ * // Custom trigger that reflects open state
+ * <Popover.Trigger render={({ open }) => (
+ *   <button aria-expanded={open}>Toggle</button>
+ * )} />
+ * ```
+ */
 const PopoverTrigger = forwardRef<
   HTMLButtonElement,
   PopoverTriggerProps

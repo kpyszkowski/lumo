@@ -10,20 +10,10 @@ const meta: Meta<typeof IconButton> = {
     layout: 'centered',
   },
   argTypes: {
-    variant: {
-      options: ['outline', 'ghost'],
-      control: { type: 'radio' },
-    },
-    size: {
-      options: ['sm', 'md', 'lg'],
-      control: { type: 'radio' },
-    },
     icon: {
-      control: {
-        type: 'select',
-      },
       options: Object.keys(icons),
       mapping: icons,
+      control: { type: 'select' },
     },
   },
   args: {

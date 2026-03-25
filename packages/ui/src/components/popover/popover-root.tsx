@@ -14,6 +14,12 @@ type PopoverRootProps = Pick<
 > & {
   className?: string
   children: ReactNode
+  /** Controlled open state. */
+  open?: boolean
+  /** Uncontrolled initial open state (default `false`). */
+  defaultOpen?: boolean
+  /** Callback fired when the open state changes. */
+  onOpenChange?: (open: boolean) => void
 }
 
 type PopoverRootContextValue = {
@@ -35,6 +41,20 @@ const usePopoverRootContext = () => {
   return useMemo(() => context, [context])
 }
 
+/**
+ * Root of the `Popover` compound component. Manages open state and exposes it via context
+ * to `Popover.Trigger` and `Popover.Content`.
+ *
+ * @example
+ * ```tsx
+ * <Popover.Root>
+ *   <Popover.Trigger>Open</Popover.Trigger>
+ *   <Popover.Content>
+ *     <p>Popover body</p>
+ *   </Popover.Content>
+ * </Popover.Root>
+ * ```
+ */
 function PopoverRoot(props: PopoverRootProps) {
   const {
     open: controlledOpen,

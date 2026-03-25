@@ -19,16 +19,36 @@ const histogramStyles = createStyles({
 })
 
 export type HistogramProps = {
+  /** Array of numeric values forming the distribution curve. */
   data: number[]
+  /** Domain minimum used for range mapping (default `0`). */
   min?: number
+  /** Domain maximum used for range mapping (default `data.length - 1`). */
   max?: number
+  /**
+   * Active selection `[min, max]` within the domain.
+   * The curve segment within this range is rendered in accent colour; the rest is muted.
+   */
   range?: [number, number]
   className?: string
+  /** Height of the SVG container. */
+  size?: 'sm' | 'md' | 'lg'
 } & StylesProps<typeof histogramStyles>
 
 const TOP_PADDING = 8
 const CHART_HEIGHT = 100 - TOP_PADDING
 
+/**
+ * A smoothed area chart that visualises a data distribution, with optional range highlighting.
+ *
+ * @example
+ * ```tsx
+ * const data = [3, 6, 14, 22, 51, 72, 65, 45, 20, 7]
+ *
+ * <Histogram data={data} min={0} max={100} />
+ * <Histogram data={data} min={0} max={100} range={[20, 80]} size="lg" />
+ * ```
+ */
 export function Histogram(props: HistogramProps) {
   const {
     data,

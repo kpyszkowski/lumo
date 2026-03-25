@@ -17,11 +17,21 @@ type MultiSelectRootProps = Pick<
   'defaultOpen' | 'open' | 'onOpenChange'
 > & {
   className?: string
+  /** Controlled array of selected item values. */
   value?: string[]
+  /** Callback fired when the selection changes. */
   onValueChange?: Dispatch<SetStateAction<string[]>>
+  /** Uncontrolled initial selection (default `[]`). */
   defaultValue?: string[]
+  /** Full list of available options as `{ value, label }` pairs. */
   items: { value: string; label: string }[]
   children: ReactNode
+  /** Controlled open state of the dropdown. */
+  open?: boolean
+  /** Uncontrolled initial open state. */
+  defaultOpen?: boolean
+  /** Callback fired when the dropdown opens or closes. */
+  onOpenChange?: (open: boolean) => void
 }
 
 type MultiSelectRootContextValue = {
@@ -37,8 +47,9 @@ const MultiSelectRootContext =
   createContext<MultiSelectRootContextValue | null>(null)
 
 /**
- * Hook to access the ToggleGroup context
- * @returns The ToggleGroup context
+ * Hook to access the `MultiSelectRoot` context.
+ * @returns The `MultiSelectRoot` context value.
+ * @throws If used outside a `MultiSelectRoot`.
  */
 const useMultiSelectRootContext = () => {
   const context = useContext(MultiSelectRootContext)
@@ -50,6 +61,24 @@ const useMultiSelectRootContext = () => {
   return useMemo(() => context, [context])
 }
 
+/**
+ * Root of the `MultiSelect` compound component. Manages selection state, search input ref,
+ * and wraps `Popover.Root` for dropdown positioning.
+ *
+ * @example
+ * ```tsx
+ * const items = [
+ *   { value: 'react', label: 'React' },
+ *   { value: 'vue', label: 'Vue' },
+ *   { value: 'svelte', label: 'Svelte' },
+ * ]
+ *
+ * <MultiSelect.Root items={items}>
+ *   <MultiSelect.Trigger>Select frameworks</MultiSelect.Trigger>
+ *   <MultiSelect.Popup />
+ * </MultiSelect.Root>
+ * ```
+ */
 function MultiSelectRoot(props: MultiSelectRootProps) {
   const {
     value: controlledValue,

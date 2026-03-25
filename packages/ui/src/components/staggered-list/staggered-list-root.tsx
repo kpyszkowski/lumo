@@ -8,6 +8,23 @@ export type StaggeredListRootProps = Omit<MotionProps, 'variants'> & {
   children: ReactNode
 } & Pick<StaggeredTextProps, 'delay' | 'delayOptions' | 'hidden' | 'visible'>
 
+/**
+ * Animated `<ul>` container for a staggered list. Each `StaggeredList.Item` child
+ * enters with a sequential delay driven by `motion/react`.
+ *
+ * @example
+ * ```tsx
+ * <StaggeredList.Root
+ *   delay={0.08}
+ *   hidden={{ opacity: 0, y: 16 }}
+ *   visible={{ opacity: 1, y: 0 }}
+ * >
+ *   <StaggeredList.Item>First</StaggeredList.Item>
+ *   <StaggeredList.Item>Second</StaggeredList.Item>
+ *   <StaggeredList.Item>Third</StaggeredList.Item>
+ * </StaggeredList.Root>
+ * ```
+ */
 export function StaggeredListRoot(props: StaggeredListRootProps) {
   const {
     className,

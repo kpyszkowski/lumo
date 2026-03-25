@@ -20,16 +20,6 @@ const meta: Meta<typeof Histogram> = {
       </div>
     ),
   ],
-  argTypes: {
-    variant: {
-      options: ['default'],
-      control: { type: 'radio' },
-    },
-    size: {
-      options: ['sm', 'md', 'lg'],
-      control: { type: 'radio' },
-    },
-  },
   args: {
     variant: 'default',
     size: 'md',

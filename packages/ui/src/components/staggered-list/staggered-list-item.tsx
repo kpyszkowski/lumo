@@ -11,6 +11,18 @@ export type StaggeredListItemProps = Omit<
   children: ReactNode
 } & Pick<StaggeredTextProps, 'hidden' | 'visible'>
 
+/**
+ * An animated `<li>` inside `StaggeredList.Root`.
+ * Receives stagger timing from the parent and plays the `hidden` → `visible` transition.
+ *
+ * @example
+ * ```tsx
+ * <StaggeredList.Root delay={0.08}>
+ *   <StaggeredList.Item>First</StaggeredList.Item>
+ *   <StaggeredList.Item>Second</StaggeredList.Item>
+ * </StaggeredList.Root>
+ * ```
+ */
 export function StaggeredListItem(props: StaggeredListItemProps) {
   const { className, children, hidden = {}, visible = {}, ...restProps } = props
 

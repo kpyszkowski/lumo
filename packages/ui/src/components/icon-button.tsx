@@ -52,10 +52,25 @@ type IconButtonProps = Omit<
   'children' | 'nativeButton'
 > &
   StylesProps<typeof iconButtonStyles> & {
+    /** Tabler icon component to render. */
     icon: Icon
+    /** Accessible label read by screen readers; visually hidden. */
     label: string
+    /** Visual style of the button. */
+    variant?: 'outline' | 'ghost'
+    /** Size of the button. */
+    size?: 'sm' | 'md' | 'lg'
   }
 
+/**
+ * An icon-only button with an accessible visually-hidden label.
+ *
+ * @example
+ * ```tsx
+ * <IconButton icon={IconHeart} label="Add to favourites" />
+ * <IconButton icon={IconTrash} label="Delete" variant="ghost" size="sm" />
+ * ```
+ */
 function IconButton(props: IconButtonProps) {
   const {
     className,

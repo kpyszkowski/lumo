@@ -17,17 +17,6 @@ const meta: Meta<typeof Slider.Root> = {
     ),
   ],
   argTypes: {
-    variant: {
-      options: ['default'],
-      control: { type: 'radio' },
-    },
-    size: {
-      options: ['md'],
-      control: { type: 'radio' },
-    },
-    disabled: {
-      control: { type: 'boolean' },
-    },
     min: {
       control: { type: 'number' },
     },

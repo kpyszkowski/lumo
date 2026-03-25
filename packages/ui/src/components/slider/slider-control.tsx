@@ -29,6 +29,10 @@ type SliderControlProps = SliderPrimitive.Control.Props &
     className?: string
   }
 
+/**
+ * Hit-area wrapper containing the `Track` and `Thumb` elements.
+ * Inherits `variant` and `size` from `Slider.Root` context.
+ */
 function SliderControl(props: SliderControlProps) {
   const {
     className,

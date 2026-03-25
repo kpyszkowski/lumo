@@ -15,11 +15,28 @@ const commandRootStyles = createStyles({
 type PopoverContentProps = StylesProps<typeof commandRootStyles> &
   Omit<PopoverPrimitive.Positioner.Props, 'keepMounted'> & {
     className?: string
-    searchPlaceholder?: string
-    selectedLabel?: string
-    itemsLabel?: string
+    /** Preferred side of the trigger to position the popup. */
+    side?: 'top' | 'bottom' | 'left' | 'right'
+    /** Alignment along the cross axis relative to the trigger. */
+    align?: 'start' | 'center' | 'end'
+    /** Distance in px between the trigger and the popup (default `8`). */
+    sideOffset?: number
   }
 
+/**
+ * Animated popup panel for a `Popover`. Renders inside a portal, positioned relative to
+ * `Popover.Trigger`. Mounts/unmounts with a spring scale + opacity transition.
+ *
+ * @example
+ * ```tsx
+ * <Popover.Root>
+ *   <Popover.Trigger>Open</Popover.Trigger>
+ *   <Popover.Content side="bottom" align="start">
+ *     <p>Content goes here</p>
+ *   </Popover.Content>
+ * </Popover.Root>
+ * ```
+ */
 function PopoverContent(props: PopoverContentProps) {
   const {
     className,

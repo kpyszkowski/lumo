@@ -28,6 +28,10 @@ type SliderTrackProps = SliderPrimitive.Track.Props &
     className?: string
   }
 
+/**
+ * Visual track bar of the slider.
+ * Inherits `variant` and `size` from `Slider.Root` context.
+ */
 function SliderTrack(props: SliderTrackProps) {
   const {
     className,

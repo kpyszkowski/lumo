@@ -14,10 +14,6 @@ const meta: Meta<typeof StaggeredText> = {
     delay: {
       control: { type: 'range', min: 0, max: 1, step: 0.01 },
     },
-    mode: {
-      control: { type: 'radio' },
-      options: ['character', 'word'],
-    },
   },
   args: {
     className: 'text-4xl/[1.24] font-bold overflow-hidden',

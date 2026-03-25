@@ -406,10 +406,7 @@ const meta: Meta<typeof ComponentName> = {
   title: 'Components/ComponentName',
   component: ComponentName,
   tags: ['autodocs'],
-  argTypes: {
-    variant: { options: ['outline', 'ghost'], control: { type: 'radio' } },
-    size:    { options: ['sm', 'md', 'lg'],   control: { type: 'radio' } },
-  },
+  // no argTypes — inferred automatically from TypeScript types
   args: {
     children: 'Label',
     variant: 'outline',
@@ -432,14 +429,103 @@ export const Default: Story = (args) => (
 )
 ```
 
+For components with an `icon` prop, import the icons namespace and add only that
+`argType`:
+
+```ts
+import * as icons from '@lumo/ui/icons'
+
+// inside meta:
+argTypes: {
+  icon: {
+    options: Object.keys(icons),
+    mapping: icons,
+    control: { type: 'select' },
+  },
+},
+```
+
 Rules:
 
 - `title`: `Components/<PascalCase>`
 - Always include `tags: ['autodocs']`
-- `argTypes` for every variant/size/boolean prop
+- **Do not define `argTypes`** — they are inferred automatically from TypeScript
+  types via `react-docgen-typescript`. Only exception: the `icon` prop (above).
 - Render function (`StoryFn`) for complex compositions; object form for simple
   variant overrides
 - Story export names: `PascalCase` (`Default`, `Outline`, `Ghost`, `AsDialog`)
+
+---
+
+## JSDoc Documentation
+
+Every component and every meaningful prop **must** have JSDoc. This powers the
+Storybook Docs panel via `react-docgen-typescript`.
+
+### Component function — description + `@example`
+
+````ts
+/**
+ * One-line description of what the component does or represents.
+ * Add a second sentence only when the behaviour is non-obvious.
+ *
+ * @example
+ * ```tsx
+ * <ComponentName variant="outline" size="md">Label</ComponentName>
+ * <ComponentName variant="ghost" icon={IconTrash}>Delete</ComponentName>
+ * ```
+ */
+function ComponentName(props: ComponentNameProps) { ... }
+````
+
+Rules for `@example`:
+
+- Always use ` ```tsx ` fenced blocks
+- Show at least two realistic usages covering different variants or modes
+- For compound components, show the full composition
+
+### Props — inline `/** */` on the type
+
+Document props directly in the `type ... & { }` block:
+
+```ts
+type FooProps = PrimitivePrimitive.Root.Props &
+  StylesProps<typeof fooStyles> & {
+    /** Tabler icon component rendered inside the element. */
+    icon: Icon
+    /** Accessible label read by screen readers; visually hidden. */
+    label: string
+  }
+```
+
+### Variant props from `StylesProps` — manual re-declaration
+
+`react-docgen-typescript` cannot read descriptions through computed/mapped types
+like `StylesProps<typeof fooStyles>`. Re-declare variant props manually in the
+`& { }` block with inline JSDoc:
+
+```ts
+type FooProps = StylesProps<typeof fooStyles> & {
+  /** Visual style of the component. */
+  variant?: 'outline' | 'ghost' | 'solid'
+  /**
+   * Border radius: `'pill'` (fully rounded, default) or
+   * `'rounded'` (corner radius scales with `size`).
+   */
+  shape?: 'pill' | 'rounded'
+}
+```
+
+### What to document
+
+| Prop type                                           | Document?            | Notes                                  |
+| --------------------------------------------------- | -------------------- | -------------------------------------- |
+| Custom props (`icon`, `label`, `data`, `items`)     | **Always**           | Non-obvious type or meaning            |
+| Variant props (`variant`, `size`, `shape`)          | **Always**           | Re-declare with JSDoc in `& {}`        |
+| Controlled state (`value`, `onValueChange`, `open`) | **Always**           | Clarify controlled vs uncontrolled     |
+| `children`                                          | Only if non-standard | e.g. "must be a plain string, not JSX" |
+| `className`                                         | **Never**            | Self-explanatory                       |
+| Standard HTML attributes (`disabled`, `onClick`)    | **Never**            | Self-explanatory                       |
 
 ---
 

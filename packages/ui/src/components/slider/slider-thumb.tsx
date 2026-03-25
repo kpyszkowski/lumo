@@ -27,8 +27,27 @@ const sliderThumbStyles = createStyles({
 type SliderThumbProps = SliderPrimitive.Thumb.Props &
   StylesProps<typeof sliderThumbStyles> & {
     className?: string
+    /**
+     * Zero-based thumb index.
+     * Required when the slider has multiple thumbs (range slider).
+     */
+    index?: number
   }
 
+/**
+ * Draggable thumb handle for the slider.
+ * Inherits `variant` and `size` from `Slider.Root` context.
+ *
+ * @example
+ * ```tsx
+ * // Single thumb
+ * <Slider.Thumb aria-label="Value" />
+ *
+ * // Range thumbs
+ * <Slider.Thumb index={0} aria-label="Minimum" />
+ * <Slider.Thumb index={1} aria-label="Maximum" />
+ * ```
+ */
 function SliderThumb(props: SliderThumbProps) {
   const {
     className,

@@ -21,13 +21,6 @@ export const mapCssVariableToPaletteItem = (cssVariable) => {
 
 <Meta title="Colors" />
 
-<div
-  style={Object.fromEntries(makePalletteVariables('mud').map((cssVariable, index) => [
-      `--${index}`,
-      `var(${cssVariable})`
-    ]))}
-/>
-
 # Colors
 
 Lumo theme is built on top of Tailwind CSS.
@@ -59,19 +52,4 @@ Lumo theme defines three color pallettes.
 
 <ColorPalette>
   {makePalletteVariables('vermilion').map(mapCssVariableToPaletteItem)}
-</ColorPalette>
-
-## Content colors
-
-These colors are applicable for color utilities besides background.
-
-<ColorPalette>
-  {[
-    '--color-content-base',
-    '--color-content-muted',
-    '--color-content-subtle',
-    '--background-color-base',
-    '--background-color-elevated',
-    '--color-accent',
-  ].map(mapCssVariableToPaletteItem)}
 </ColorPalette>

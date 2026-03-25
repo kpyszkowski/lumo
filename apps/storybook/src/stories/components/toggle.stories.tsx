@@ -12,16 +12,10 @@ const meta: Meta<typeof Toggle.Button> = {
     layout: 'centered',
   },
   argTypes: {
-    variant: {
-      options: ['default', 'elevated'],
-      control: { type: 'radio' },
-    },
     icon: {
-      control: {
-        type: 'select',
-      },
       options: Object.keys(icons),
       mapping: icons,
+      control: { type: 'select' },
     },
   },
   args: {

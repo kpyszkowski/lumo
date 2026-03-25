@@ -35,8 +35,23 @@ const useToggleGroupContext = () => useContext(ToggleGroupContext)
 type ToggleGroupProps = ToggleGroupPrimitive.ToggleGroupProps &
   StylesProps<typeof toggleGroupStyles> & {
     className?: string
+    /** Surface style of the group container. */
+    variant?: 'default' | 'elevated'
   }
 
+/**
+ * Container that groups `Toggle.Button` items. Distributes `variant` via context
+ * and manages single- or multi-select state via `value` / `defaultValue`.
+ *
+ * @example
+ * ```tsx
+ * <Toggle.Group defaultValue={['suv']}>
+ *   <Toggle.Button value="suv" icon={IconCarBodySuv} />
+ *   <Toggle.Button value="estate" icon={IconCarBodyEstate} />
+ *   <Toggle.Button value="coupe" icon={IconCarBodyCoupe} />
+ * </Toggle.Group>
+ * ```
+ */
 function ToggleGroup(props: ToggleGroupProps) {
   const { className, variant, ...restProps } = props
 

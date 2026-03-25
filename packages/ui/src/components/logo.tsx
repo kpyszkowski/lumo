@@ -31,8 +31,22 @@ const logoStyles = createStyles({
 
 type LogoProps = StylesProps<typeof logoStyles> & {
   className?: string
+  /** Parts to display: `'logo'` (icon + wordmark), `'wordmark'`, or `'icon'`. */
+  variant?: 'logo' | 'wordmark' | 'icon'
+  /** Layout direction: `'horizontal'` or `'vertical'`. */
+  orientation?: 'horizontal' | 'vertical'
 }
 
+/**
+ * The Lumo brand mark. Renders the icon, wordmark, or both depending on `variant`.
+ *
+ * @example
+ * ```tsx
+ * <Logo variant="logo" orientation="horizontal" />
+ * <Logo variant="icon" />
+ * <Logo variant="wordmark" orientation="vertical" />
+ * ```
+ */
 function Logo(props: LogoProps) {
   const { className, variant, orientation, ...restProps } = props
 

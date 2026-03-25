@@ -8,6 +8,10 @@ import {
 import { type PopoverRootContextValue } from '~/components/popover/popover-root'
 
 type MultiSelectTriggerProps = Omit<Popover.TriggerProps, 'render'> & {
+  /**
+   * Custom render function; receives the `MultiSelect` context (with `value`, `items`, etc.)
+   * and the `Popover` context. Use to build a trigger that reflects the current selection.
+   */
   render?:
     | ((
         multiSelectContext: MultiSelectRootContextValue,
@@ -16,6 +20,25 @@ type MultiSelectTriggerProps = Omit<Popover.TriggerProps, 'render'> & {
     | undefined
 }
 
+/**
+ * Trigger for `MultiSelect`. Extends `Popover.Trigger` with access to the `MultiSelect` context
+ * via `render`, enabling the trigger to display selection state (count, labels, etc.).
+ *
+ * @example
+ * ```tsx
+ * // Default Button trigger
+ * <MultiSelect.Trigger>Select items</MultiSelect.Trigger>
+ *
+ * // Custom trigger showing selection count
+ * <MultiSelect.Trigger
+ *   render={({ value }, { open }) => (
+ *     <button aria-expanded={open}>
+ *       {value.length ? `${value.length} selected` : 'Select items'}
+ *     </button>
+ *   )}
+ * />
+ * ```
+ */
 function MultiSelectTrigger(props: MultiSelectTriggerProps) {
   const { ref, render, ...restProps } = props
 

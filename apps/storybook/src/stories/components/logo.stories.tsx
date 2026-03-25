@@ -10,16 +10,6 @@ const meta: Meta<typeof Logo> = {
     layout: 'centered',
     design: {},
   },
-  argTypes: {
-    variant: {
-      options: ['icon', 'wordmark', 'logo'],
-      control: { type: 'radio' },
-    },
-    orientation: {
-      options: ['horizontal', 'vertical'],
-      control: { type: 'radio' },
-    },
-  },
   args: {
     variant: 'logo',
     orientation: 'horizontal',

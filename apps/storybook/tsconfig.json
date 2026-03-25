@@ -2,7 +2,23 @@
   "extends": "@lumo/configs/typescript/base.json",
   "compilerOptions": {
     "jsx": "preserve",
+    "module": "Preserve",
+    "moduleResolution": "Bundler",
+    "baseUrl": ".",
+    "paths": {
+      "@lumo/ui/components": ["../../packages/ui/src/components.ts"],
+      "@lumo/ui/icons": ["../../packages/ui/src/icons/index.ts"],
+      "@lumo/ui/motion": ["../../packages/ui/src/motion.ts"],
+      "~/*": ["../../packages/ui/src/*"]
+    }
   },
-  "include": ["src/**/*.stories.tsx", "src/**/*.mdx", ".storybook/preview.ts", "./vite-env.d.ts",],
+  "include": [
+    "src/**/*.stories.tsx",
+    "src/**/*.mdx",
+    ".storybook/preview.ts",
+    "./vite-env.d.ts",
+    "../../packages/ui/src/**/*.ts",
+    "../../packages/ui/src/**/*.tsx"
+  ],
   "exclude": ["storybook-static", "node_modules"]
 }

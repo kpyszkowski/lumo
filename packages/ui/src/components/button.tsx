@@ -121,9 +121,32 @@ const buttonStyles = createStyles({
 
 type ButtonProps = Omit<ButtonPrimitive.Props, 'nativeButton'> &
   StylesProps<typeof buttonStyles> & {
+    /** Tabler icon component rendered alongside the label. */
     icon?: Icon
+    /** Visual style of the button. */
+    variant?: 'outline' | 'ghost' | 'solid'
+    /** Size of the button. */
+    size?: 'sm' | 'md' | 'lg'
+    /** Border radius: `'pill'` (fully rounded, default) or `'rounded'` (scales with `size`). */
+    shape?: 'pill' | 'rounded'
+    /** Swap to inverted colour scheme for placement on dark/inverted surfaces. */
+    inverted?: boolean
+    /** Side the icon appears on relative to the label. */
+    iconPosition?: 'left' | 'right'
+    /** Horizontal alignment of the label and icon inside the button. */
+    contentAlignment?: 'center' | 'start' | 'end'
   }
 
+/**
+ * A versatile button with multiple visual styles, sizes, and optional icon support.
+ *
+ * @example
+ * ```tsx
+ * <Button variant="outline" size="md">Save</Button>
+ * <Button variant="ghost" icon={IconTrash} iconPosition="right">Delete</Button>
+ * <Button variant="solid" inverted>Confirm</Button>
+ * ```
+ */
 function Button(props: ButtonProps) {
   const {
     className,

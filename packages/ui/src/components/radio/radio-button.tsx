@@ -28,8 +28,23 @@ const MotionRadioPrimitiveRoot = motion.create(RadioPrimitive.Root)
 type RadioButtonProps = Omit<RadioPrimitive.Root.Props, 'render'> &
   StylesProps<typeof radioButtonStyles> & {
     className?: string
+    /** Visual style (inherited from `Radio.Group` context if not set). */
+    variant?: 'underline'
   }
 
+/**
+ * Individual radio option inside a `Radio.Group`.
+ * When selected, an animated underline indicator slides in using a shared layout animation.
+ *
+ * @example
+ * ```tsx
+ * <Radio.Group defaultValue="newest">
+ *   <Radio.Button value="promoted">Promoted</Radio.Button>
+ *   <Radio.Button value="newest">Newest</Radio.Button>
+ *   <Radio.Button value="popular" disabled>Most popular</Radio.Button>
+ * </Radio.Group>
+ * ```
+ */
 function RadioButton(props: RadioButtonProps) {
   const { className, children, variant: propsVariant, ...restProps } = props
 

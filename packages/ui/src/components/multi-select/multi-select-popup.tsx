@@ -29,11 +29,30 @@ const commandRootStyles = createStyles({
 type MultiSelectPopupProps = StylesProps<typeof commandRootStyles> &
   Omit<Popover.ContentProps, 'keepMounted'> & {
     className?: string
+    /** Placeholder text for the search input (default `'Search...'`). */
     searchPlaceholder?: string
+    /** Group heading label for selected items (default `'Selected'`). */
     selectedLabel?: string
+    /** Group heading label for all available items (default `'Items'`). */
     itemsLabel?: string
   }
 
+/**
+ * Searchable popup panel for `MultiSelect`. Renders a filterable command list with checkboxes.
+ * Selected items appear in a dedicated group above the full list when no search is active.
+ *
+ * @example
+ * ```tsx
+ * <MultiSelect.Root items={items}>
+ *   <MultiSelect.Trigger>Select</MultiSelect.Trigger>
+ *   <MultiSelect.Popup
+ *     searchPlaceholder="Search frameworks..."
+ *     selectedLabel="Chosen"
+ *     itemsLabel="All frameworks"
+ *   />
+ * </MultiSelect.Root>
+ * ```
+ */
 function MultiSelectPopup(props: MultiSelectPopupProps) {
   const {
     className,

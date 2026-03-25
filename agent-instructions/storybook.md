@@ -13,7 +13,15 @@ import type { Meta, StoryFn, StoryObj } from '@storybook/react'
 import { ComponentName } from '@lumo/ui/components'
 ```
 
+When the component has an `icon` prop, import all icons as a namespace:
+
+```ts
+import * as icons from '@lumo/ui/icons'
+```
+
 ## Meta Shape
+
+`argTypes` are **inferred automatically** from TypeScript types via `react-docgen-typescript` — do not define them explicitly. The only exception is the `icon` prop, which needs a custom control to map icon names to their components:
 
 ```ts
 const meta: Meta<typeof ComponentName> = {
@@ -21,11 +29,7 @@ const meta: Meta<typeof ComponentName> = {
   component: ComponentName,
   tags: ['autodocs'],                  // always present
   parameters: { layout: 'centered' }, // for most components
-  argTypes: {
-    variant: { options: ['outline', 'ghost', 'solid'], control: { type: 'radio' } },
-    size:    { options: ['sm', 'md', 'lg'],           control: { type: 'radio' } },
-    // boolean props use 'boolean' control (default), no need to specify
-  },
+  // no argTypes — inferred from TypeScript types automatically
   args: {
     children: 'Label',
     variant: 'outline',
@@ -33,6 +37,18 @@ const meta: Meta<typeof ComponentName> = {
   },
 }
 export default meta
+```
+
+For components with an `icon` prop, add only that `argType`:
+
+```ts
+argTypes: {
+  icon: {
+    options: Object.keys(icons),
+    mapping: icons,
+    control: { type: 'select' },
+  },
+},
 ```
 
 ## Story Types

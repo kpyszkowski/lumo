@@ -9,12 +9,6 @@ const meta: Meta<typeof Radio.Button> = {
   parameters: {
     layout: 'centered',
   },
-  argTypes: {
-    variant: {
-      options: ['underline'],
-      control: { type: 'radio' },
-    },
-  },
   args: {
     variant: 'underline',
   },

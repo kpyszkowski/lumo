@@ -26,6 +26,10 @@ type SliderIndicatorProps = SliderPrimitive.Indicator.Props &
     className?: string
   }
 
+/**
+ * Accent-coloured fill between the origin and the thumb (or between two thumbs for a range slider).
+ * Inherits `variant` and `size` from `Slider.Root` context.
+ */
 function SliderIndicator(props: SliderIndicatorProps) {
   const {
     className,

@@ -32,9 +32,28 @@ const MotionTogglePrimitiveToggle = motion.create(TogglePrimitive.Toggle)
 type ToggleButtonProps = Omit<TogglePrimitive.ToggleProps, 'render'> &
   StylesProps<typeof toggleButtonStyles> & {
     className?: string
+    /** Tabler icon component to render inside the button. */
     icon: Icon
+    /** Visual style (inherited from `Toggle.Group` context if not set). */
+    variant?: 'default' | 'elevated'
   }
 
+/**
+ * An icon toggle button. When pressed, a background indicator animates in using a shared
+ * layout animation that slides between buttons inside the same `Toggle.Group`.
+ *
+ * @example
+ * ```tsx
+ * // Inside a group (shared layout animation across buttons)
+ * <Toggle.Group defaultValue={['heart']}>
+ *   <Toggle.Button value="heart" icon={IconHeart} />
+ *   <Toggle.Button value="star" icon={IconStar} />
+ * </Toggle.Group>
+ *
+ * // Standalone
+ * <Toggle.Button value="fav" icon={IconHeart} defaultPressed />
+ * ```
+ */
 function ToggleButton(props: ToggleButtonProps) {
   const { className, icon: Icon, variant: propsVariant, ...restProps } = props
 
