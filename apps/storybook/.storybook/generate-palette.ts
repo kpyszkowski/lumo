@@ -12,7 +12,7 @@ const lines: string[] = []
 
 for (const [, name, l, c, h] of css.matchAll(re)) {
   lines.push(
-    `  "${name}": "${formatHex({ mode: 'oklch', l: +l, c: +c, h: +h })!}"`,
+    `  '${name}': '${formatHex({ mode: 'oklch', l: +l, c: +c, h: +h })!}',`,
   )
 }
 
@@ -21,7 +21,7 @@ writeFileSync(
   [
     '// Auto-generated from packages/ui/src/theme.css — do not edit',
     'export const palette = {',
-    lines.join(',\n'),
+    lines.join('\n'),
     '} as const',
     '',
   ].join('\n'),
