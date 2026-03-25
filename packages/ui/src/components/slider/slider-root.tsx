@@ -30,9 +30,9 @@ const useSliderRootContext = () => useContext(SliderRootContext)
 type SliderRootProps = SliderPrimitive.Root.Props &
   StylesProps<typeof sliderRootStyles> & {
     className?: string
-    /** Visual style. */
+    /** Visual style. @default 'default' */
     variant?: 'default'
-    /** Size of the track and thumb. */
+    /** Size of the track and thumb. @default 'md' */
     size?: 'md'
   }
 

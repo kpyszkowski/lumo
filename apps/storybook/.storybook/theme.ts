@@ -11,10 +11,10 @@ export const lightTheme = create({
   colorPrimary: p['vermilion-500'],
   colorSecondary: p['vermilion-500'],
 
-  // Surfaces — flat single-layer
-  appBg: p['sand-50'],
-  appHoverBg: p['mud-100'],
-  appBorderColor: p['sand-50'], // invisible
+  // Surfaces
+  appBg: 'white',
+  appHoverBg: p['mud-50'],
+  appBorderColor: 'white', // flat
 
   // Text
   textColor: p['mud-950'],
@@ -27,15 +27,15 @@ export const lightTheme = create({
   barHoverColor: p['mud-950'],
 
   // Buttons
-  buttonBg: p['mud-100'],
-  buttonBorder: p['mud-100'], // flat
+  buttonBg: p['mud-50'],
+  buttonBorder: p['mud-50'], // flat
 
-  // Boolean toggle — selected bg must be light so dark textColor is readable
+  // Boolean toggle
   booleanBg: p['mud-200'],
   booleanSelectedBg: p['sand-50'],
 
   // Inputs
-  inputBg: p['mud-100'],
-  inputBorder: p['mud-100'], // flat
+  inputBg: p['mud-50'],
+  inputBorder: p['mud-50'], // flat
   inputTextColor: p['mud-950'],
 })

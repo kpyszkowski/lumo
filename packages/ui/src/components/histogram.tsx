@@ -31,7 +31,7 @@ export type HistogramProps = {
    */
   range?: [number, number]
   className?: string
-  /** Height of the SVG container. */
+  /** Height of the SVG container. @default 'md' */
   size?: 'sm' | 'md' | 'lg'
 } & StylesProps<typeof histogramStyles>
 

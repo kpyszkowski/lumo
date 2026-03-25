@@ -8,7 +8,7 @@ import {
 } from 'storybook-react-rsbuild'
 import { mergeRsbuildConfig } from '@rsbuild/core'
 import { pluginReact } from '@rsbuild/plugin-react'
-import './generate-palette'
+import './generate-palette.ts'
 
 type Config = Omit<StorybookConfig, 'framework'> & {
   framework: {

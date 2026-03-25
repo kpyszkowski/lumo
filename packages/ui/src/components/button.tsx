@@ -6,7 +6,7 @@ import { type Icon } from '~/icons'
 const buttonStyles = createStyles({
   slots: {
     container: 'block cursor-pointer transition-all',
-    wrapper: 'flex h-6 items-center justify-center outline-none transition-all',
+    wrapper: 'flex h-6 items-center justify-center transition-all outline-none',
     label: 'whitespace-nowrap antialiased',
     icon: 'stroke-[1.5]',
   },
@@ -21,7 +21,7 @@ const buttonStyles = createStyles({
     variant: {
       outline: {
         container:
-          'border-subtle-inv hover:border-muted-inv focus-visible:border-muted-inv active:border-accent active:scale-96 border-2',
+          'border-subtle-inv hover:border-muted-inv focus-visible:border-muted-inv active:border-accent border-2 active:scale-96',
         wrapper: 'text-main dark:text-main-inv -m-0.5',
       },
       ghost: {
@@ -123,15 +123,15 @@ type ButtonProps = Omit<ButtonPrimitive.Props, 'nativeButton'> &
   StylesProps<typeof buttonStyles> & {
     /** Tabler icon component rendered alongside the label. */
     icon?: Icon
-    /** Visual style of the button. */
+    /** Visual style of the button. @default 'outline' */
     variant?: 'outline' | 'ghost' | 'solid'
-    /** Size of the button. */
+    /** Size of the button. @default 'md' */
     size?: 'sm' | 'md' | 'lg'
-    /** Border radius: `'pill'` (fully rounded, default) or `'rounded'` (scales with `size`). */
+    /** Border radius: `'pill'` (fully rounded) or `'rounded'` (scales with `size`). @default 'pill' */
     shape?: 'pill' | 'rounded'
-    /** Swap to inverted colour scheme for placement on dark/inverted surfaces. */
+    /** Swap to inverted colour scheme for placement on dark/inverted surfaces. @default false */
     inverted?: boolean
-    /** Side the icon appears on relative to the label. */
+    /** Side the icon appears on relative to the label. @default 'left' */
     iconPosition?: 'left' | 'right'
     /** Horizontal alignment of the label and icon inside the button. */
     contentAlignment?: 'center' | 'start' | 'end'

@@ -1,4 +1,4 @@
-import type { Meta, StoryFn, StoryObj } from '@storybook/react'
+import type { Meta, StoryFn, StoryObj } from 'storybook-react-rsbuild'
 
 import { Toggle } from '@lumo/ui/components'
 

@@ -1,4 +1,4 @@
-import type { Meta, StoryFn } from '@storybook/react'
+import type { Meta, StoryFn } from 'storybook-react-rsbuild'
 import { useState } from 'react'
 import { Slider } from '@lumo/ui/components'
 

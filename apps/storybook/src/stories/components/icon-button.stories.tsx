@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from 'storybook-react-rsbuild'
 import { IconButton } from '@lumo/ui/components'
 import * as icons from '@lumo/ui/icons'
 

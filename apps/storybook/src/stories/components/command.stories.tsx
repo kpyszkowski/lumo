@@ -1,4 +1,4 @@
-import type { Meta, StoryFn } from '@storybook/react'
+import type { Meta, StoryFn } from 'storybook-react-rsbuild'
 
 import { Button, buttonStyles, Command, ScrollArea } from '@lumo/ui/components'
 import { type Icon, IconHeart } from '@lumo/ui/icons'

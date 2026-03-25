@@ -1,5 +1,6 @@
 import { withThemeByDataAttribute } from '@storybook/addon-themes'
-import type { Preview } from '@storybook/react'
+import type { Preview } from 'storybook-react-rsbuild'
+import { themes } from 'storybook/theming'
 
 import './styles.css'
 import './satoshi-variable.ttf'
@@ -14,6 +15,9 @@ const preview: Preview = {
     },
     design: {
       type: 'figma',
+    },
+    docs: {
+      theme: themes.light,
     },
   },
 

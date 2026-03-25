@@ -56,9 +56,9 @@ type IconButtonProps = Omit<
     icon: Icon
     /** Accessible label read by screen readers; visually hidden. */
     label: string
-    /** Visual style of the button. */
+    /** Visual style of the button. @default 'outline' */
     variant?: 'outline' | 'ghost'
-    /** Size of the button. */
+    /** Size of the button. @default 'md' */
     size?: 'sm' | 'md' | 'lg'
   }
 

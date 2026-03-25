@@ -34,7 +34,7 @@ type ToggleButtonProps = Omit<TogglePrimitive.ToggleProps, 'render'> &
     className?: string
     /** Tabler icon component to render inside the button. */
     icon: Icon
-    /** Visual style (inherited from `Toggle.Group` context if not set). */
+    /** Visual style (inherited from `Toggle.Group` context if not set). @default 'default' */
     variant?: 'default' | 'elevated'
   }
 

@@ -28,7 +28,7 @@ const MotionRadioPrimitiveRoot = motion.create(RadioPrimitive.Root)
 type RadioButtonProps = Omit<RadioPrimitive.Root.Props, 'render'> &
   StylesProps<typeof radioButtonStyles> & {
     className?: string
-    /** Visual style (inherited from `Radio.Group` context if not set). */
+    /** Visual style (inherited from `Radio.Group` context if not set). @default 'underline' */
     variant?: 'underline'
   }
 

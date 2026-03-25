@@ -35,7 +35,7 @@ const useToggleGroupContext = () => useContext(ToggleGroupContext)
 type ToggleGroupProps = ToggleGroupPrimitive.ToggleGroupProps &
   StylesProps<typeof toggleGroupStyles> & {
     className?: string
-    /** Surface style of the group container. */
+    /** Surface style of the group container. @default 'default' */
     variant?: 'default' | 'elevated'
   }
 

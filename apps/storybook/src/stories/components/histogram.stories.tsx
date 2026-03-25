@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import type { Meta, StoryFn } from '@storybook/react'
+import type { Meta, StoryFn } from 'storybook-react-rsbuild'
 import { Histogram, Slider } from '@lumo/ui/components'
 
 const SAMPLE_DATA = [

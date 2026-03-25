@@ -39,9 +39,9 @@ const useRadioGroupContext = () => useContext(RadioGroupContext)
 type RadioGroupProps = RadioGroupPrimitive.RadioGroupProps &
   StylesProps<typeof radioGroupStyles> & {
     className?: string
-    /** Layout direction of the group. */
+    /** Layout direction of the group. @default 'horizontal' */
     orientation?: 'horizontal' | 'vertical'
-    /** Visual style shared across all child `Radio.Button` items. */
+    /** Visual style shared across all child `Radio.Button` items. @default 'underline' */
     variant?: 'underline'
   }
 

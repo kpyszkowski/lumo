@@ -19,9 +19,9 @@ type StaggeredTextProps = {
   className?: string
   /** Plain string content to animate. JSX nodes are not supported. */
   children: string
-  /** HTML element to render the container as (default `'span'`). */
+  /** HTML element to render the container as. @default 'span' */
   renderAs?: keyof JSX.IntrinsicElements
-  /** Stagger delay between each animated chunk in seconds (default `0.12`). */
+  /** Stagger delay between each animated chunk in seconds. @default 0.12 */
   delay?: number
   /** Options forwarded to `motion/react` `stagger()`, e.g. `{ from: 'last' }` for reverse order. */
   delayOptions?: StaggerOptions
@@ -35,7 +35,7 @@ type StaggeredTextProps = {
   hidden?: Variant
   /** Container `visible` motion variant — applied after mount. */
   visible?: Variant
-  /** Whether to split by `'character'` (default) or by `'word'`. */
+  /** Whether to split by `'character'` or by `'word'`. @default 'character' */
   mode?: 'character' | 'word'
 }
 
