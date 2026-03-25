@@ -1,17 +1,32 @@
+import type { ComponentProps } from 'react'
 import type { Meta, StoryFn } from 'storybook-react-rsbuild'
 
 import { Button, MultiSelect } from '@lumo/ui/components'
+import { type ButtonProps } from '@lumo/ui/components'
 import { IconChevronDown } from '@lumo/ui/icons'
 import { motion } from '@lumo/ui/motion'
 
-const meta: Meta<typeof MultiSelect.Root> = {
+const meta: Meta<
+  ComponentProps<typeof MultiSelect.Root> & { variant: ButtonProps['variant'] }
+> = {
   title: 'Components/MultiSelect',
   component: MultiSelect.Root,
   tags: ['autodocs'],
+  argTypes: {
+    variant: {
+      options: ['outline', 'ghost', 'solid'],
+      control: { type: 'select' },
+    },
+  },
+  args: {
+    variant: 'solid',
+  },
 }
 
 export default meta
-type Story = StoryFn<typeof MultiSelect.Root>
+type Story = StoryFn<
+  ComponentProps<typeof MultiSelect.Root> & { variant: ButtonProps['variant'] }
+>
 
 const brands = [
   { label: 'Audi', value: 'audi' },
@@ -39,43 +54,47 @@ const brands = [
 
 const MotionIconChevronDown = motion.create(IconChevronDown)
 
-export const Default: Story = (args) => (
-  <MultiSelect.Root
-    {...args}
-    items={brands}
-  >
-    <MultiSelect.Trigger
-      render={({ value, items }, { open }) => {
-        const selectedItem =
-          value.length === 1
-            ? items.find((item) => item.value === value[0])
-            : null
+export const Default: Story = (args) => {
+  const { variant, ...rootArgs } = args
 
-        return (
-          <Button variant="solid">
-            <div className="flex items-center gap-3">
-              Marka pojazdu
-              {value.length > 0 && (
-                <span className="bg-elevated-inv text-main-inv dark:text-main rounded-xl px-2 py-0.5 text-sm">
-                  {selectedItem ? selectedItem.label : value.length}
-                </span>
-              )}
-              <MotionIconChevronDown
-                className="-mr-3 size-4"
-                animate={{
-                  rotate: open ? 180 : 0,
-                }}
-              />
-            </div>
-          </Button>
-        )
-      }}
-    />
+  return (
+    <MultiSelect.Root
+      {...rootArgs}
+      items={brands}
+    >
+      <MultiSelect.Trigger
+        render={({ value, items }, { open }) => {
+          const selectedItem =
+            value.length === 1
+              ? items.find((item) => item.value === value[0])
+              : null
 
-    <MultiSelect.Popup
-      searchPlaceholder="Szukaj marek..."
-      selectedLabel="Wybrane"
-      itemsLabel="Alfabetycznie"
-    />
-  </MultiSelect.Root>
-)
+          return (
+            <Button variant={variant}>
+              <div className="flex items-center gap-3">
+                Marka pojazdu
+                {value.length > 0 && (
+                  <span className="bg-elevated-inv text-main-inv dark:text-main rounded-xl px-2 py-0.5 text-sm">
+                    {selectedItem ? selectedItem.label : value.length}
+                  </span>
+                )}
+                <MotionIconChevronDown
+                  className="-mr-3 size-4"
+                  animate={{
+                    rotate: open ? 180 : 0,
+                  }}
+                />
+              </div>
+            </Button>
+          )
+        }}
+      />
+
+      <MultiSelect.Popup
+        searchPlaceholder="Szukaj marek..."
+        selectedLabel="Wybrane"
+        itemsLabel="Alfabetycznie"
+      />
+    </MultiSelect.Root>
+  )
+}

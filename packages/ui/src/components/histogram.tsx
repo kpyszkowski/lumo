@@ -4,10 +4,17 @@ import { createStyles, type StylesProps } from '~/utils'
 const histogramStyles = createStyles({
   slots: {
     container: 'w-full overflow-visible',
+    activeLayer: '',
   },
   variants: {
     variant: {
-      default: {},
+      default: {
+        container: '[--histogram-inactive:var(--histogram-inactive)]',
+      },
+      inverted: {
+        container: '[--histogram-inactive:var(--color-muted-inv)]',
+        activeLayer: 'opacity-70',
+      },
     },
     size: {
       sm: { container: 'h-12' },
@@ -119,12 +126,12 @@ export function Histogram(props: HistogramProps) {
         >
           <stop
             offset="0%"
-            stopColor="var(--color-muted)"
+            stopColor="var(--histogram-inactive)"
             stopOpacity={0.2}
           />
           <stop
             offset="100%"
-            stopColor="var(--color-muted)"
+            stopColor="var(--histogram-inactive)"
             stopOpacity={0}
           />
         </linearGradient>
@@ -164,7 +171,7 @@ export function Histogram(props: HistogramProps) {
       <path
         d={linePathD}
         fill="none"
-        stroke="var(--color-muted)"
+        stroke="var(--histogram-inactive)"
         strokeWidth={1.5}
         strokeOpacity={0.4}
         strokeLinecap="round"
@@ -172,20 +179,22 @@ export function Histogram(props: HistogramProps) {
       />
 
       {/* Active layer — clipped to range, accent */}
-      <path
-        d={fillPathD}
-        fill={`url(#${activeGradId})`}
-        clipPath={`url(#${clipId})`}
-      />
-      <path
-        d={linePathD}
-        fill="none"
-        stroke="var(--color-accent)"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-        vectorEffect="non-scaling-stroke"
-        clipPath={`url(#${clipId})`}
-      />
+      <g className={styles.activeLayer()}>
+        <path
+          d={fillPathD}
+          fill={`url(#${activeGradId})`}
+          clipPath={`url(#${clipId})`}
+        />
+        <path
+          d={linePathD}
+          fill="none"
+          stroke="var(--color-accent)"
+          strokeWidth={1.5}
+          strokeLinecap="round"
+          vectorEffect="non-scaling-stroke"
+          clipPath={`url(#${clipId})`}
+        />
+      </g>
     </svg>
   )
 }

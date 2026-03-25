@@ -1,4 +1,5 @@
 export * from '~/components/histogram'
+export * from '~/components/input'
 export * from '~/components/button'
 export * from '~/components/icon-button'
 export * from '~/components/logo'

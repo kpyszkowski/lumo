@@ -1,14 +1,47 @@
 'use client'
-import { Button, buttonStyles, Command, ScrollArea } from '@lumo/ui/components'
+import {
+  Button,
+  buttonStyles,
+  Command,
+  Histogram,
+  Input,
+  ScrollArea,
+  Slider,
+} from '@lumo/ui/components'
 import {
   type Icon,
   IconMakes,
   IconModels,
   IconGenerations,
   IconSearch,
+  IconCarBodySuv,
+  IconGasStation,
+  IconManualGearbox,
+  IconGauge,
+  IconCalendarDot,
 } from '@lumo/ui/icons'
 import { createStyles, type StylesProps } from '@lumo/ui/utils'
-import { useRef, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
+
+type ListFilterPage = {
+  type: 'list'
+  icon: Icon
+  label: string
+  data: { label: string; data: string[] }[]
+}
+
+type RangeFilterPage = {
+  type: 'range'
+  icon: Icon
+  label: string
+  min: number
+  max: number
+  step: number
+  unit: string
+  histogramData: number[]
+}
+
+type FilterPage = ListFilterPage | RangeFilterPage
 
 type CommandItemProps = {
   className?: string
@@ -54,11 +87,18 @@ const adFilterCommandStyles = createStyles({
     commandList: 'flex w-full gap-6 px-4',
     commandScrollAreaViewport: 'pb-6',
     commandScrollAreaScrollbar: 'pb-6',
+    rangeContent: 'flex min-w-0 flex-1 flex-col gap-4 px-11 pt-2 pb-6',
+    rangeInputRow: 'flex gap-3',
+    rangeInputLabel: 'flex flex-1 flex-col gap-1',
+    rangeInputLabelText: 'text-subtle text-xs font-medium',
+    rangeInput:
+      'bg-elevated border-subtle-inv text-main placeholder:text-muted focus:border-accent focus:ring-accent/20 w-full rounded-lg border px-3 py-2 text-sm outline-none focus:ring-2',
   },
 })
 
-const MOCK = [
+const MOCK: FilterPage[] = [
   {
+    type: 'list',
     icon: IconMakes,
     label: 'Marka pojazdu',
     data: [
@@ -94,11 +134,12 @@ const MOCK = [
     ],
   },
   {
+    type: 'list',
     icon: IconModels,
     label: 'Model pojazdu',
     data: [
       {
-        label: 'Alafbetycznie',
+        label: 'Alfabetycznie',
         data: [
           'Seria 3',
           'Seria 4',
@@ -118,11 +159,12 @@ const MOCK = [
     ],
   },
   {
+    type: 'list',
     icon: IconGenerations,
     label: 'Generacja',
     data: [
       {
-        label: 'Alafbetycznie',
+        label: 'Alfabetycznie',
         data: [
           'E12 (1972 - 1981)',
           'E28 (1981 - 1988)',
@@ -136,6 +178,84 @@ const MOCK = [
       },
     ],
   },
+  {
+    type: 'list',
+    icon: IconCarBodySuv,
+    label: 'Typ nadwozia',
+    data: [
+      {
+        label: 'Alfabetycznie',
+        data: [
+          'Coupe',
+          'Hatchback',
+          'Kabriolet',
+          'Kombi',
+          'Pickup',
+          'Sedan',
+          'SUV',
+          'Van',
+        ],
+      },
+    ],
+  },
+  {
+    type: 'range',
+    icon: IconGauge,
+    label: 'Cena',
+    min: 0,
+    max: 500000,
+    step: 1000,
+    unit: 'zł',
+    histogramData: [
+      2, 5, 9, 16, 28, 42, 58, 70, 65, 55, 44, 35, 25, 17, 11, 7, 4, 2, 1, 1,
+    ],
+  },
+  {
+    type: 'range',
+    icon: IconCalendarDot,
+    label: 'Rok produkcji',
+    min: 1990,
+    max: 2026,
+    step: 1,
+    unit: '',
+    histogramData: [
+      1, 1, 2, 2, 3, 4, 5, 6, 7, 9, 11, 13, 16, 18, 21, 24, 28, 32, 36, 40,
+    ],
+  },
+  {
+    type: 'list',
+    icon: IconGasStation,
+    label: 'Rodzaj paliwa',
+    data: [
+      {
+        label: 'Alfabetycznie',
+        data: ['Benzyna', 'Diesel', 'LPG', 'Elektryczny', 'Hybryda'],
+      },
+    ],
+  },
+  {
+    type: 'list',
+    icon: IconManualGearbox,
+    label: 'Skrzynia biegów',
+    data: [
+      {
+        label: 'Alfabetycznie',
+        data: ['Manualna', 'Automatyczna'],
+      },
+    ],
+  },
+  {
+    type: 'range',
+    icon: IconGauge,
+    label: 'Przebieg',
+    min: 0,
+    max: 300000,
+    step: 1000,
+    unit: 'km',
+    histogramData: [
+      40, 36, 30, 24, 19, 15, 12, 9, 7, 5, 4, 3, 3, 2, 2, 2, 1, 1, 1, 1,
+    ],
+  },
 ]
 
 type AdFilterCommandProps = StylesProps<typeof adFilterCommandStyles> & {
@@ -147,6 +267,21 @@ export default function AdFilterCommand(props: AdFilterCommandProps) {
 
   const [open, setOpen] = useState(false)
   const [activePage, setActivePage] = useState(0)
+
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, 500000])
+  const [yearRange, setYearRange] = useState<[number, number]>([1990, 2026])
+  const [mileageRange, setMileageRange] = useState<[number, number]>([
+    0, 300000,
+  ])
+
+  const rangeStateByLabel = useMemo(
+    () => ({
+      Cena: { value: priceRange, onChange: setPriceRange },
+      'Rok produkcji': { value: yearRange, onChange: setYearRange },
+      Przebieg: { value: mileageRange, onChange: setMileageRange },
+    }),
+    [priceRange, yearRange, mileageRange],
+  )
 
   const scrollViewportRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -176,9 +311,9 @@ export default function AdFilterCommand(props: AdFilterCommandProps) {
         onOpenChange={setOpen}
         loop
         onKeyDown={(event) => {
-          // It forwards focus to input when it's blurred allowing user to type
-          // anytime
-          inputRef.current?.focus()
+          if ((event.target as HTMLElement).tagName !== 'INPUT') {
+            inputRef.current?.focus()
+          }
 
           if (event.key === 'Tab') {
             event.preventDefault()
@@ -213,43 +348,127 @@ export default function AdFilterCommand(props: AdFilterCommandProps) {
             ))}
           </div>
 
-          <ScrollArea.Root>
-            <ScrollArea.Viewport
-              className={styles.commandScrollAreaViewport()}
-              ref={scrollViewportRef}
-            >
-              <ScrollArea.Content>
-                <Command.List
-                  className={styles.commandList()}
-                  key={MOCK[activePage!]?.label}
-                >
-                  {MOCK[activePage]?.data.map((group) => (
-                    <Command.Group
-                      heading={group.label}
-                      key={group.label}
-                    >
-                      {group.data.map((item) => (
-                        <CommandItem
-                          className={styles.commandItem()}
-                          key={item}
-                          value={`${item}`}
-                        >
-                          {item}
-                        </CommandItem>
-                      ))}
-                    </Command.Group>
-                  ))}
-                </Command.List>
-              </ScrollArea.Content>
+          {(() => {
+            const page = MOCK[activePage]
+            if (!page) return null
 
-              <ScrollArea.Scrollbar
-                orientation="vertical"
-                className={styles.commandScrollAreaScrollbar()}
-              >
-                <ScrollArea.Thumb />
-              </ScrollArea.Scrollbar>
-            </ScrollArea.Viewport>
-          </ScrollArea.Root>
+            if (page.type === 'range') {
+              const rangeState =
+                rangeStateByLabel[page.label as keyof typeof rangeStateByLabel]
+              if (!rangeState) return null
+              const { value, onChange } = rangeState
+
+              return (
+                <div className={styles.rangeContent()}>
+                  <Histogram
+                    data={page.histogramData}
+                    min={page.min}
+                    max={page.max}
+                    range={value}
+                    size="md"
+                    variant="inverted"
+                  />
+                  <Slider.Root
+                    min={page.min}
+                    max={page.max}
+                    step={page.step}
+                    value={value}
+                    onValueChange={(v) => onChange(v as [number, number])}
+                  >
+                    <Slider.Control>
+                      <Slider.Track>
+                        <Slider.Indicator className="opacity-75" />
+                        <Slider.Thumb
+                          index={0}
+                          aria-label="Wartość minimalna"
+                        />
+                        <Slider.Thumb
+                          index={1}
+                          aria-label="Wartość maksymalna"
+                        />
+                      </Slider.Track>
+                    </Slider.Control>
+                  </Slider.Root>
+                  <div className={styles.rangeInputRow()}>
+                    <label className={styles.rangeInputLabel()}>
+                      <span className={styles.rangeInputLabelText()}>
+                        Od{page.unit ? ` (${page.unit})` : ''}
+                      </span>
+                      <Input
+                        type="number"
+                        variant="inverted"
+                        size="sm"
+                        min={page.min}
+                        max={value[1]}
+                        step={page.step}
+                        value={value[0]}
+                        onChange={(e) =>
+                          onChange([Number(e.target.value), value[1]])
+                        }
+                      />
+                    </label>
+                    <label className={styles.rangeInputLabel()}>
+                      <span className={styles.rangeInputLabelText()}>
+                        Do{page.unit ? ` (${page.unit})` : ''}
+                      </span>
+                      <Input
+                        type="number"
+                        variant="inverted"
+                        size="sm"
+                        min={value[0]}
+                        max={page.max}
+                        step={page.step}
+                        value={value[1]}
+                        onChange={(e) =>
+                          onChange([value[0], Number(e.target.value)])
+                        }
+                      />
+                    </label>
+                  </div>
+                </div>
+              )
+            }
+
+            return (
+              <ScrollArea.Root>
+                <ScrollArea.Viewport
+                  className={styles.commandScrollAreaViewport()}
+                  ref={scrollViewportRef}
+                >
+                  <ScrollArea.Content>
+                    <Command.List
+                      className={styles.commandList()}
+                      key={page.label}
+                    >
+                      {page.data.map((group) => (
+                        <Command.Group
+                          heading={group.label}
+                          key={group.label}
+                        >
+                          {group.data.map((item) => (
+                            <CommandItem
+                              className={styles.commandItem()}
+                              key={item}
+                              value={item}
+                            >
+                              {item}
+                            </CommandItem>
+                          ))}
+                        </Command.Group>
+                      ))}
+                    </Command.List>
+                  </ScrollArea.Content>
+
+                  <ScrollArea.Scrollbar
+                    orientation="vertical"
+                    className={styles.commandScrollAreaScrollbar()}
+                  >
+                    <ScrollArea.Thumb />
+                  </ScrollArea.Scrollbar>
+                </ScrollArea.Viewport>
+              </ScrollArea.Root>
+            )
+          })()}
         </div>
       </Command.Dialog>
     </>
