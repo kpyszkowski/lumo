@@ -1,44 +1,52 @@
+'use client'
 import { createStyles, type StylesProps } from '~/utils'
 import { Button as ButtonPrimitive } from '@base-ui/react/button'
 import { type Icon } from '~/icons'
 
 const buttonStyles = createStyles({
   slots: {
-    container: 'inline-block cursor-pointer transition-all',
-    wrapper: 'flex h-6 items-center justify-center outline-none',
+    container: 'block cursor-pointer transition-all',
+    wrapper: 'flex h-6 items-center justify-center transition-all outline-none',
     label: 'whitespace-nowrap antialiased',
-    icon: 'text-current',
+    icon: 'stroke-[1.5]',
   },
   variants: {
+    shape: {
+      pill: {},
+      rounded: {},
+    },
+    inverted: {
+      true: {},
+    },
     variant: {
-      solid: {
-        container:
-          'bg-accent-primary hover:bg-accent-secondary focus-visible:bg-accent-primary active:bg-accent-primary',
-        wrapper: 'text-primary-inv dark:text-primary',
-      },
       outline: {
         container:
-          'border-accent-primary hover:border-accent-secondary focus-visible:border-accent-primary active:border-accent-primary border-2',
-        wrapper: 'text-primary -m-0.5',
+          'border-subtle-inv hover:border-muted-inv focus-visible:border-muted-inv active:border-accent border-2 active:scale-96',
+        wrapper: 'text-main dark:text-main-inv -m-0.5',
       },
       ghost: {
+        container: 'hover:bg-elevated active:bg-highlighted',
+        wrapper: 'text-main',
+      },
+      solid: {
         container:
-          'hover:bg-accent-primary-muted active:bg-accent-secondary-muted',
+          'bg-elevated hover:bg-highlighted focus-visible:bg-highlighted',
+        wrapper: 'text-muted',
       },
     },
     size: {
       sm: {
-        container: 'rounded-lg px-3 py-1',
+        container: 'px-3 py-1',
         label: 'px-2 text-sm/none font-medium',
         icon: 'size-4',
       },
       md: {
-        container: 'rounded-xl px-4 py-2.5',
+        container: 'px-4 py-2.5',
         label: 'px-3 text-base/none font-medium',
         icon: 'size-5',
       },
       lg: {
-        container: 'rounded-2xl px-5 py-4',
+        container: 'px-5 py-4',
         label: 'px-4 text-lg/none font-medium',
         icon: 'size-6',
       },
@@ -53,20 +61,92 @@ const buttonStyles = createStyles({
         icon: 'ml-0',
       },
     },
+    contentAlignment: {
+      center: {
+        wrapper: 'justify-center',
+      },
+      start: {
+        wrapper: 'justify-end',
+      },
+      end: {
+        wrapper: 'justify-start',
+      },
+    },
   },
   defaultVariants: {
-    variant: 'solid',
+    variant: 'outline',
+    shape: 'pill',
+    inverted: false,
     size: 'md',
     iconPosition: 'left',
   },
+  compoundSlots: [
+    {
+      shape: 'pill',
+      slots: ['container'],
+      className: 'rounded-full',
+    },
+    {
+      shape: 'rounded',
+      size: 'sm',
+      slots: ['container'],
+      className: 'rounded-lg',
+    },
+    {
+      shape: 'rounded',
+      size: 'md',
+      slots: ['container'],
+      className: 'rounded-xl',
+    },
+    {
+      shape: 'rounded',
+      size: 'lg',
+      slots: ['container'],
+      className: 'rounded-2xl',
+    },
+    {
+      inverted: true,
+      variant: 'ghost',
+      slots: ['container'],
+      className: 'hover:bg-elevated-inv active:bg-highlighted-inv',
+    },
+    {
+      inverted: true,
+      variant: 'ghost',
+      slots: ['wrapper'],
+      className: 'text-main-inv',
+    },
+  ],
 })
 
-type ButtonProps = Omit<ButtonPrimitive.Props, 'children' | 'nativeButton'> &
+type ButtonProps = Omit<ButtonPrimitive.Props, 'nativeButton'> &
   StylesProps<typeof buttonStyles> & {
-    children: string
+    /** Tabler icon component rendered alongside the label. */
     icon?: Icon
+    /** Visual style of the button. @default 'outline' */
+    variant?: 'outline' | 'ghost' | 'solid'
+    /** Size of the button. @default 'md' */
+    size?: 'sm' | 'md' | 'lg'
+    /** Border radius: `'pill'` (fully rounded) or `'rounded'` (scales with `size`). @default 'pill' */
+    shape?: 'pill' | 'rounded'
+    /** Swap to inverted colour scheme for placement on dark/inverted surfaces. @default false */
+    inverted?: boolean
+    /** Side the icon appears on relative to the label. @default 'left' */
+    iconPosition?: 'left' | 'right'
+    /** Horizontal alignment of the label and icon inside the button. */
+    contentAlignment?: 'center' | 'start' | 'end'
   }
 
+/**
+ * A versatile button with multiple visual styles, sizes, and optional icon support.
+ *
+ * @example
+ * ```tsx
+ * <Button variant="outline" size="md">Save</Button>
+ * <Button variant="ghost" icon={IconTrash} iconPosition="right">Delete</Button>
+ * <Button variant="solid" inverted>Confirm</Button>
+ * ```
+ */
 function Button(props: ButtonProps) {
   const {
     className,
@@ -74,8 +154,11 @@ function Button(props: ButtonProps) {
     icon: Icon,
     render,
     variant,
+    shape,
+    inverted,
     iconPosition,
     size,
+    contentAlignment,
     ...restProps
   } = props
 
@@ -83,6 +166,9 @@ function Button(props: ButtonProps) {
     variant,
     iconPosition,
     size,
+    shape,
+    inverted,
+    contentAlignment,
   })
 
   return (

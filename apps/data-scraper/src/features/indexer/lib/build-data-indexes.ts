@@ -34,7 +34,7 @@ export function parseIndex(index: string): {
 }
 
 export function buildDataIndexes(data: OutputTree[]): IndexedOutput {
-  return data.reduce((acc, { make, models }) => {
+  return data.reduce<Record<string, object>>((acc, { make, models }) => {
     // Add the make to the index
     const makeIndex = getIndex(make)
     const accWithMake = {
@@ -43,7 +43,7 @@ export function buildDataIndexes(data: OutputTree[]): IndexedOutput {
     }
 
     // Add models and their generations to the index
-    return models.reduce((modelAcc, model) => {
+    return models.reduce<Record<string, object>>((modelAcc, model) => {
       const makeModelIndex = getIndex(make, model)
       const modelAccWithModel = {
         ...modelAcc,
@@ -51,17 +51,22 @@ export function buildDataIndexes(data: OutputTree[]): IndexedOutput {
       }
 
       // Add generations to the index
-      return model.generations.reduce((genAcc, generation) => {
-        const makeModelGenIndex = getIndex(make, model, generation)
-        return {
-          ...genAcc,
-          [makeModelGenIndex]: {
-            name: generation.name,
-            ...(generation.type !== undefined ? { type: generation.type } : {}),
-            production: generation.production,
-          },
-        }
-      }, modelAccWithModel)
+      return model.generations.reduce<Record<string, object>>(
+        (genAcc, generation) => {
+          const makeModelGenIndex = getIndex(make, model, generation)
+          return {
+            ...genAcc,
+            [makeModelGenIndex]: {
+              name: generation.name,
+              ...(generation.type !== undefined
+                ? { type: generation.type }
+                : {}),
+              production: generation.production,
+            },
+          }
+        },
+        modelAccWithModel,
+      )
     }, accWithMake)
-  }, {} as IndexedOutput)
+  }, {}) as IndexedOutput
 }

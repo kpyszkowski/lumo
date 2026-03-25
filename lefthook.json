@@ -1,15 +1,14 @@
 {
+  "output": ["summary", "failure", "execution_out"],
   "pre-commit": {
-    "parallel": true,
     "commands": {
-      "lint": {
-        "run": "pnpm lint"
+      "lint-fix": {
+        "priority": 1,
+        "run": "pnpm format && git diff --cached --name-only --diff-filter=d | xargs git add"
       },
       "check-types": {
+        "priority": 2,
         "run": "pnpm check-types"
-      },
-      "test": {
-        "run": "pnpm test"
       }
     }
   }

@@ -1,55 +1,83 @@
+import { Button, Radio, Toggle } from '@lumo/ui/components'
+import {
+  IconAdjustmentsHorizontal,
+  IconCarBodyCoupe,
+  IconCarBodyEstate,
+  IconCarBodyLimousine,
+  IconCarBodySuv,
+} from '@lumo/ui/icons'
 import { createStyles } from '@lumo/ui/utils'
-import Image from 'next/image'
-import HelloButton from '~/components/hello-button'
-import Calculator from '~/features/calculator/components/calculator'
+import AdTile from '~/features/ads/components/ad-tile'
+import RecommendedSearchQueries from '~/features/recommendations/components/recommended-search-queries'
 
 const pageStyles = createStyles({
   slots: {
-    container: 'flex min-h-screen flex-col items-center justify-center',
-    main: 'my-auto flex max-w-xl flex-col items-center justify-between gap-4 p-24',
-    logo: 'h-10 w-auto',
-    logoDark: 'hidden dark:block',
-    logoLight: 'block dark:hidden',
-    paragraph: 'text-center text-base',
-    button: 'w-full flex-1',
-    code: 'bg-secondary rounded-md px-2 py-0.5 font-[monospace] text-sm',
+    container: 'flex flex-col px-6',
+    searchQueriesContainer: 'my-12',
   },
 })
 
-export default async function Home() {
+export default async function Homepage() {
   const styles = pageStyles()
 
   return (
     <div className={styles.container()}>
-      <main className={styles.main()}>
-        <Image
-          alt="Turborepo logo"
-          className={styles.logo({ className: styles.logoDark() })}
-          height={38}
-          priority
-          src="turborepo-light.svg"
-          width={180}
-        />
+      <RecommendedSearchQueries className={styles.searchQueriesContainer()} />
 
-        <Image
-          alt="Turborepo logo"
-          className={styles.logo({ className: styles.logoLight() })}
-          height={38}
-          priority
-          src="turborepo-dark.svg"
-          width={180}
-        />
+      <div className="flex items-center gap-12 py-3">
+        <Toggle.Group
+          variant="elevated"
+          defaultValue={['body-type:limousine']}
+        >
+          <Toggle.Button
+            value="body-type:limousine"
+            icon={IconCarBodyLimousine}
+          />
+          <Toggle.Button
+            value="body-type:suv"
+            icon={IconCarBodySuv}
+          />
+          <Toggle.Button
+            value="body-type:estate"
+            icon={IconCarBodyEstate}
+          />
+          <Toggle.Button
+            value="body-type:coupe"
+            icon={IconCarBodyCoupe}
+          />
+        </Toggle.Group>
 
-        <p className={styles.paragraph()}>
-          Get started by editing{' '}
-          <code className={styles.code()}>apps/dapp/app/page.tsx</code>
-          Save and see your changes instantly!
-        </p>
+        <Radio.Group
+          aria-labelledby="radiogroup-label"
+          defaultValue="advert:promoted"
+        >
+          <div
+            id="radiogroup-label"
+            className="sr-only"
+          >
+            Rodzaj ogłoszenia
+          </div>
 
-        <HelloButton className={styles.button()} />
+          <Radio.Button value="advert:promoted">Promowane</Radio.Button>
+          <Radio.Button value="advert:newest">Najnowsze</Radio.Button>
+          <Radio.Button value="advert:popular">Najpopularniejsze</Radio.Button>
+        </Radio.Group>
 
-        <Calculator />
-      </main>
+        <Button
+          className="ml-auto"
+          variant="ghost"
+          icon={IconAdjustmentsHorizontal}
+        >
+          Filtrowanie
+        </Button>
+      </div>
+
+      <div className="grid grid-cols-3 gap-x-6 gap-y-8 py-3">
+        <AdTile />
+        <AdTile />
+        <AdTile />
+        <AdTile />
+      </div>
     </div>
   )
 }

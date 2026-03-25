@@ -1,3 +1,4 @@
+'use client'
 import { buttonStyles } from '~/components/button'
 import { Button as ButtonPrimitive } from '@base-ui/react/button'
 import type { Icon } from '~/icons'
@@ -12,14 +13,10 @@ const iconButtonStyles = createStyles({
   slots: {
     container: baseContainer,
     label: 'sr-only',
-    icon: 'text-current',
+    icon: 'pointer-events-none stroke-[1.5] text-current',
   },
   variants: {
     variant: {
-      solid: {
-        container: baseVariantStyles.solid.container,
-        icon: baseVariantStyles.solid.wrapper,
-      },
       outline: {
         container: baseVariantStyles.outline.container,
         icon: baseVariantStyles.outline.wrapper,
@@ -31,21 +28,21 @@ const iconButtonStyles = createStyles({
     },
     size: {
       sm: {
-        container: 'rounded-lg p-2',
+        container: 'rounded-2xl p-2',
         icon: 'size-4',
       },
       md: {
-        container: 'rounded-xl p-2.5',
+        container: 'rounded-3xl p-2.5',
         icon: 'size-6',
       },
       lg: {
-        container: 'rounded-2xl p-3',
+        container: 'rounded-4xl p-3',
         icon: 'size-8',
       },
     },
   },
   defaultVariants: {
-    variant: 'solid',
+    variant: 'outline',
     size: 'md',
   },
 })
@@ -55,10 +52,25 @@ type IconButtonProps = Omit<
   'children' | 'nativeButton'
 > &
   StylesProps<typeof iconButtonStyles> & {
+    /** Tabler icon component to render. */
     icon: Icon
+    /** Accessible label read by screen readers; visually hidden. */
     label: string
+    /** Visual style of the button. @default 'outline' */
+    variant?: 'outline' | 'ghost'
+    /** Size of the button. @default 'md' */
+    size?: 'sm' | 'md' | 'lg'
   }
 
+/**
+ * An icon-only button with an accessible visually-hidden label.
+ *
+ * @example
+ * ```tsx
+ * <IconButton icon={IconHeart} label="Add to favourites" />
+ * <IconButton icon={IconTrash} label="Delete" variant="ghost" size="sm" />
+ * ```
+ */
 function IconButton(props: IconButtonProps) {
   const {
     className,

@@ -1,6 +1,7 @@
-import type { Meta, StoryObj } from '@storybook/react-vite'
+import type { Meta, StoryObj } from 'storybook-react-rsbuild'
 
 import { Button } from '@lumo/ui/components'
+
 import * as icons from '@lumo/ui/icons'
 
 const meta: Meta<typeof Button> = {
@@ -9,47 +10,29 @@ const meta: Meta<typeof Button> = {
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
-    design: {
-      url: 'https://www.figma.com/design/Q6gHpqqCadBiEmuHzJBSAK/Untitled?node-id=39-130&t=xaxh0HRWc3j83nrO-4',
-    },
   },
   argTypes: {
-    variant: {
-      options: ['solid', 'outline', 'ghost'],
-      control: { type: 'radio' },
-    },
-    size: {
-      options: ['sm', 'md', 'lg'],
-      control: { type: 'radio' },
-    },
-    iconPosition: {
-      options: ['left', 'right'],
-      control: { type: 'radio' },
-    },
     icon: {
+      options: Object.keys(icons),
+      mapping: icons,
       control: {
         type: 'select',
       },
-      options: Object.keys(icons),
-      mapping: icons,
     },
   },
   args: {
     children: 'Button',
-    variant: 'solid',
+    variant: 'outline',
     size: 'md',
     iconPosition: 'left',
+    shape: 'pill',
+    inverted: false,
+    contentAlignment: 'center',
   },
 }
 
 export default meta
 type Story = StoryObj<typeof Button>
-
-export const Solid: Story = {
-  args: {
-    variant: 'solid',
-  },
-}
 
 export const Outline: Story = {
   args: {
@@ -60,5 +43,11 @@ export const Outline: Story = {
 export const Ghost: Story = {
   args: {
     variant: 'ghost',
+  },
+}
+
+export const Solid: Story = {
+  args: {
+    variant: 'solid',
   },
 }

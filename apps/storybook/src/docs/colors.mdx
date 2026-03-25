@@ -1,5 +1,24 @@
 import { Meta, ColorPalette, ColorItem } from "@storybook/addon-docs/blocks";
 
+export const makePalletteVariables = (baseName) => (
+  [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950].map(
+    (shade) => `--color-${baseName}-${shade}`
+  )
+)
+
+export const mapCssVariableToPaletteItem = (cssVariable) => {
+  let token = cssVariable.replace(/^--(?:color|background-color)-/, "")
+  
+  const title = 
+    token.split('-').map(part => 
+      part.charAt(0).toUpperCase() + part.slice(1)
+    ).join(' ')
+    
+  const colors = [`var(${cssVariable})`]
+  
+  return <ColorItem title={title} colors={colors} />
+}
+
 <Meta title="Colors" />
 
 # Colors
@@ -13,64 +32,24 @@ available.
 In addition to that, colors were tokenized to provide them meaning and 
 semantics.
 
-## Content colors
+## Color pallettes
 
-These colors are applicable for color utilities besides background.
+Lumo theme defines three color pallettes.
 
-export const mapCssVariableToPaletteItem = (cssVariable) => {
-  let token = cssVariable.replace(/^--(?:color|background-color)-/, "")
-  const isInverted = token.endsWith('-inv')
-  if (isInverted) token = token.replace('-inv', '')
-
-  const title = 
-    token.at(0)?.toUpperCase() + 
-    token.slice(1) + 
-    (isInverted ? ' (inverted)' : '')
-  const colors = [`var(${cssVariable})`]
-  
-  return <ColorItem title={title} colors={colors} />
-}
+### Mud
 
 <ColorPalette>
-  {[
-    "--color-primary",
-    "--color-secondary",
-    "--color-tertiary",
-    "--color-primary-inv",
-    "--color-secondary-inv",
-    "--color-tertiary-inv",
-  ].map(mapCssVariableToPaletteItem)}
+  {makePalletteVariables('mud').map(mapCssVariableToPaletteItem)}
 </ColorPalette>
 
-## Background colors
-
-These colors are applicable only for background color utilities.
-
-Such differentiation allows to have more control over color usage and creates
-natural contrasting color pairs.
+### Sand
 
 <ColorPalette>
-  {[
-    "--background-color-primary",
-    "--background-color-secondary",
-    "--background-color-tertiary",
-    "--background-color-primary-inv",
-    "--background-color-secondary-inv",
-    "--background-color-tertiary-inv",
-  ].map(mapCssVariableToPaletteItem)}
+  {makePalletteVariables('sand').map(mapCssVariableToPaletteItem)}
 </ColorPalette>
 
-## Accent colors
-
-These colors are used to highlight certain elements.
+### Vermilion
 
 <ColorPalette>
-  {[
-    "--color-accent-content",
-    "--color-accent-primary",
-    "--color-accent-secondary",
-    "--color-accent-tertiary",
-    "--color-accent-primary-muted",
-    "--color-accent-secondary-muted",
-  ].map(mapCssVariableToPaletteItem)}
+  {makePalletteVariables('vermilion').map(mapCssVariableToPaletteItem)}
 </ColorPalette>

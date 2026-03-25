@@ -6,12 +6,14 @@ import { defineConfig } from 'eslint/config'
 export default defineConfig(
   baseConfig,
   reactConfig,
+  // @ts-expect-error Types mismatch, but the config is correct
   storybook.configs['flat/recommended'],
   {
     ignores: ['storybook-static'],
     rules: {
       'react-props/must-destructure-first': 'off',
       'react-props/no-destructure-in-params': 'off',
+      'storybook/no-renderer-packages': 'off',
     },
   },
 )

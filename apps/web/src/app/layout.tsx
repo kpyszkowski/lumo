@@ -1,12 +1,14 @@
 import type { Metadata } from 'next'
-import { Manrope } from 'next/font/google'
+import localFont from 'next/font/local'
 import '~/app/globals.css'
 import '~/rpc/server'
 import { Providers } from '~/app/providers'
+import { Header } from '~/components/header'
 
-const manropeSans = Manrope({
+const satoshiVariable = localFont({
+  src: '../fonts/satoshi-variable.ttf',
+  fallback: ['system-ui'],
   variable: '--font-sans',
-  subsets: ['latin'],
 })
 
 export const metadata: Metadata = {
@@ -25,10 +27,16 @@ export default function RootLayout(
     <html
       suppressHydrationWarning
       lang="en"
-      className={manropeSans.variable}
+      className={satoshiVariable.variable}
     >
       <body>
-        <Providers>{children}</Providers>
+        <Providers>
+          <main>
+            <Header />
+
+            <div>{children}</div>
+          </main>
+        </Providers>
       </body>
     </html>
   )

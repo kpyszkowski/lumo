@@ -4,6 +4,7 @@
   "private": true,
   "sideEffects": false,
   "exports": {
+    "./theme": "./dist/theme.css",
     "./components": {
       "import": {
         "types": "./dist/components.d.ts",
@@ -12,8 +13,8 @@
     },
     "./icons": {
       "import": {
-        "types": "./dist/icons.d.ts",
-        "default": "./dist/icons.mjs"
+        "types": "./dist/icons/index.d.ts",
+        "default": "./dist/icons/index.mjs"
       }
     },
     "./utils": {
@@ -22,7 +23,12 @@
         "default": "./dist/utils.mjs"
       }
     },
-    "./theme": "./dist/theme.css"
+    "./motion": {
+      "import": {
+        "types": "./dist/motion.d.ts",
+        "default": "./dist/motion.mjs"
+      }
+    }
   },
   "scripts": {
     "build": "tsdown",
@@ -42,7 +48,7 @@
     "@types/react-dom": "19.2.3",
     "@vitejs/plugin-react": "^4.7.0",
     "@vitest/coverage-istanbul": "4.0.8",
-    "eslint": "^9.31.0",
+    "eslint": "^9.39.2",
     "postcss": "^8.5.6",
     "prettier": "^3.6.2",
     "tsdown": "^0.20.1",
@@ -57,7 +63,8 @@
   },
   "dependencies": {
     "@base-ui/react": "^1.1.0",
-    "lucide-react": "^0.540.0",
+    "@tabler/icons-react": "^3.36.1",
+    "cmdk-base": "^1.0.0",
     "motion": "^12.23.22",
     "tailwind-merge": "^3.3.1",
     "tailwind-variants": "^3.1.1"

@@ -1,139 +1,201 @@
-# Lumo 
+# Lumo
 
-## What's inside?
+Car marketplace — component library, web application, and edge deployment in one monorepo.
 
-This Turborepo includes the following packages/apps:
+---
 
-### Apps and Packages
-
-- `web`: [Next.js](https://nextjs.org/) app
-- `storybook`: Storybook app
-- `@lumo/ui`: a stub React component library
-- `@lumo/configs`: config files used throughout the monorepo
-
-### Utilities
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- ESLint for code linting 
-- Prettier for code formatting
-- [TailwindCSS](https://tailwindcss.com/) for styling
-- [Tailwind Variants](https://www.tailwind-variants.org/) for support with component variants
-- [Lefthook](https://lefthook.dev/) for pre-commit configuration
-
-### Build
-
-To build all apps and packages, run the following command:
+## Monorepo Structure
 
 ```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build
-yarn dlx turbo build
-pnpm exec turbo build
+lumo/
+├── apps/
+│   ├── web/           # Next.js 16 marketplace app → Cloudflare Workers
+│   ├── storybook/     # Component development environment
+│   └── data-scraper/  # Puppeteer CLI — scrapes vehicle catalog & tech sheets
+├── packages/
+│   ├── ui/            # @lumo/ui — React component library
+│   └── configs/       # @lumo/configs — shared ESLint + TypeScript configs
 ```
 
-You can build a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+Built with [Turborepo](https://turborepo.com) + [pnpm workspaces](https://pnpm.io/workspaces).
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build --filter=docs
+---
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build --filter=docs
-yarn exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
-```
+## Stack
 
-### Develop
+### Web App (`apps/web`)
 
-To develop all apps and packages, run the following command:
+| Layer | Technology |
+|---|---|
+| Framework | Next.js 16, React 19 |
+| RPC | oRPC (contract-first, type-safe) |
+| Data fetching | TanStack React Query via `@orpc/tanstack-query` |
+| Database | Drizzle ORM + Neon serverless Postgres |
+| Auth | JWT via `jose` |
+| Deployment | Cloudflare Workers via `@opennextjs/cloudflare` |
+| Local DB | Docker + Postgres |
 
-```
-cd my-turborepo
+### Component Library (`packages/ui`)
 
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev
+| Layer | Technology |
+|---|---|
+| Headless primitives | `@base-ui/react` |
+| Styling | Tailwind CSS v4 + semantic token system |
+| Variants | `tailwind-variants` (`createStyles` abstraction) |
+| Animation | `motion/react` (`AnimatePresence`, `motion.create`) |
+| Icons | `@tabler/icons-react` |
+| Build | tsdown (ESM-only, tree-shakeable) |
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev
-yarn exec turbo dev
-pnpm exec turbo dev
-```
+### Data Scraper (`apps/data-scraper`)
 
-You can develop a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+| Layer | Technology |
+|---|---|
+| Browser automation | Puppeteer + `puppeteer-extra-plugin-stealth` |
+| CLI | Commander.js |
+| Runtime | Node.js, TypeScript, tsdown |
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev --filter=web
+Scrapes vehicle makes/models/generations hierarchy and 15K+ tech sheet JSONs from Auto Motor und Sport. Streaming generator pipeline, `build-indexes` ETL command, interactive prompts via Inquirer.
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev --filter=web
-yarn exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
-```
+### Tooling
 
-### Pre-commit hook setup
+- **Turborepo** — task orchestration with dependency-aware build graph
+- **Lefthook** — pre-commit: auto-format + type-check before every commit
+- **ESLint** — custom `@lumo/configs` plugin enforcing props destructuring pattern
+- **Vitest** — unit tests across packages
+- **Storybook 10** — component stories with theme switching and Figma integration
 
-This repository uses [Lefthook](https://lefthook.dev/) for pre-commit hook configuration.
+---
 
-To set up Lefthook locally, run following command:
+## Architecture
 
-```
-pnpm add -D lefthook
-```
- 
-Run the hook manually to confirm everything works:
+```mermaid
+graph TD
+  subgraph web["apps/web · Next.js 16 + React 19"]
+    orpc["oRPC contract"]
+    query["TanStack Query"]
+    db["Drizzle ORM + Neon PG"]
+    query --> orpc --> db
+  end
 
-```
-pnpm exec lefthook run pre-commit
-```
+  subgraph ui["packages/ui · @lumo/ui"]
+    primitives["@base-ui/react primitives"]
+    tokens["Tailwind v4 semantic tokens"]
+    variants["tailwind-variants slots"]
+    animation["motion/react animations"]
+  end
 
-### Remote Caching
+  subgraph storybook["apps/storybook"]
+    stories["11 stories · theme switching"]
+  end
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo login
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo login
-yarn exec turbo login
-pnpm exec turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo link
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo link
-yarn exec turbo link
-pnpm exec turbo link
+  ui -->|consumed by| web
+  ui -->|documented in| storybook
+  web -->|"deployed via @opennextjs/cloudflare"| cf["☁️ Cloudflare Workers"]
 ```
 
-## Useful Links
+---
 
-Learn more about the power of Turborepo:
+## Component Library
 
-- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.com/docs/reference/configuration)
-- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)
+13 components — all built on the same pattern: `@base-ui/react` primitive → `createStyles` slots/variants → compound component with context.
+
+| Component | Type | Notes |
+|---|---|---|
+| `Button` | Simple | Variant + size system, icon support |
+| `IconButton` | Simple | Accessible icon-only button |
+| `Logo` | Simple | Brand mark |
+| `StaggeredText` | Simple | Animated text reveal |
+| `Histogram` | Simple | Data visualisation bar chart |
+| `Toggle` | Compound | `Toggle.Group` + `Toggle.Button`, shared layout animation |
+| `Radio` | Compound | `Radio.Group` + `Radio.Button`, variant propagation via context |
+| `Command` | Compound | `Command.Root/Input/List/Item` + `Command.Dialog` with backdrop blur |
+| `Popover` | Compound | `Popover.Root/Trigger/Content` with spring animation |
+| `ScrollArea` | Compound | `ScrollArea.Root/Viewport/Scrollbar/Thumb` |
+| `MultiSelect` | Compound | `MultiSelect.Root/Trigger/Popup` built on Popover |
+| `Slider` | Compound | `Slider.Root/Control/Track/Thumb/Indicator` with range support |
+| `StaggeredList` | Compound | `StaggeredList.Root/Item` staggered entrance animation |
+
+Stories available in Storybook for all components.
+
+### Design system conventions
+
+- **Semantic tokens only** — no raw colours anywhere. Tokens cover text, background, border, and accent, with `*-inv` variants for inverted surfaces.
+- **`createStyles` slots** — every component's DOM elements map to named slots, keeping class management explicit and co-located.
+- **Compound component pattern** — complex components expose sub-components via namespaced exports (`Radio.Group`, `Radio.Button`) and share state through React context.
+- **Props destructuring rule** — a custom ESLint rule (`react-props/no-destructure-in-params`, `react-props/must-destructure-first`) enforces a consistent props access pattern across the entire library.
+
+---
+
+## Getting Started
+
+**Prerequisites:** Node.js 22+, pnpm 10+, Docker (for local DB)
+
+```bash
+# Install dependencies
+pnpm install
+
+# Set up pre-commit hooks
+pnpm exec lefthook install
+```
+
+### Environment
+
+```bash
+cp apps/web/.env.example apps/web/.env.local
+# Set SESSION_TOKEN_SECRET and DATABASE_URL
+```
+
+### Development
+
+```bash
+# All workspaces in parallel
+pnpm dev
+
+# Individual workspaces
+pnpm --filter @lumo/web dev        # starts Docker DB + Next.js on :3000
+pnpm --filter storybook dev        # Storybook on :6006
+pnpm --filter @lumo/ui dev         # tsdown watch mode
+```
+
+### Database
+
+```bash
+pnpm --filter @lumo/web db:generate   # generate Drizzle migrations
+pnpm --filter @lumo/web db:migrate    # run migrations against Neon
+pnpm --filter @lumo/web db:studio     # open Drizzle Studio
+```
+
+---
+
+## Development Workflow
+
+```bash
+pnpm check-types   # TypeScript across all packages
+pnpm lint          # ESLint across all packages
+pnpm test          # Vitest
+pnpm build         # lint + check-types + build (Turbo graph)
+```
+
+Turbo task order: `lint` → `check-types` → `build` → `deploy`. Downstream packages wait for upstream builds automatically.
+
+```bash
+# Cloudflare
+pnpm --filter @lumo/web preview   # local Workers preview
+pnpm --filter @lumo/web deploy    # deploy to Cloudflare Workers
+```
+
+---
+
+## Status
+
+Web app UI is complete with mock data. Backend layer in active development.
+
+| Area | Status |
+|---|---|
+| Component library (`@lumo/ui`) | ✅ 13 components, 11 Storybook stories |
+| Web app UI | ✅ listing page, header, search command, filters |
+| oRPC contract + router scaffolding | ✅ contract, server, client wired |
+| Cloudflare deployment config | ✅ `wrangler.jsonc`, `@opennextjs/cloudflare` |
+| Drizzle schema + migrations | 🚧 in progress |
+| oRPC procedure implementations | 🚧 in progress |
+| Data scraper CLI | 🌿 separate branch |

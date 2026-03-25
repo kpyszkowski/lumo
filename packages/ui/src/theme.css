@@ -7,14 +7,11 @@
 
 /*
   Note:
-  - `--background-color-<smth>` variable aims only for background colors.
   - `--color-<smth>` variable aims for any other so text, borders, rings etc.
-  - `--<smth>-inv` variables are inverse colors of the corresponding
-    `--color-<smth>` variable.
+  - `--background-color-<smth>` variable aims only for background colors.
 
   Such differentiation allows to define content-background color variations
-  that are easy to maintain. With inverted colors it allows to compose 
-  contrasting color schemes.
+  that are easy to maintain.
 
   In majority of cases the use of `dark:` modifier won't be even needed.
 */
@@ -23,48 +20,79 @@
   --font-sans: "system-ui";
   --font-mono: "monospace";
 
-  --color-primary: var(--color-neutral-900);
-  --color-primary-inv: var(--color-neutral-50);
-  --background-color-primary: var(--color-neutral-50);
-  --background-color-primary-inv: var(--color-neutral-900);
+  --color-mud-50: oklch(0.957 0.002 18);
+  --color-mud-100: oklch(0.914 0.005 17.56);
+  --color-mud-200: oklch(0.82 0.012 17.53);
+  --color-mud-300: oklch(0.736 0.02 25.73);
+  --color-mud-400: oklch(0.65 0.032 23.23);
+  --color-mud-500: oklch(0.559 0.028 24.17);
+  --color-mud-600: oklch(0.478 0.024 25.51);
+  --color-mud-700: oklch(0.39 0.02 22.87);
+  --color-mud-800: oklch(0.304 0.015 24.76);
+  --color-mud-900: oklch(0.226 0.011 27.59);
+  --color-mud-950: oklch(0.179 0.009 31.24);
 
-  --color-secondary: var(--color-neutral-700);
-  --color-secondary-inv: var(--color-neutral-200);
-  --background-color-secondary: var(--color-neutral-200);
-  --background-color-secondary-inv: var(--color-neutral-800);
+  --color-sand-50: oklch(0.957 0.002 18);
+  --color-sand-100: oklch(0.915 0.004 39.79);
+  --color-sand-200: oklch(0.837 0.007 29.02);
+  --color-sand-300: oklch(0.751 0.014 17.56);
+  --color-sand-400: oklch(0.666 0.022 21.57);
+  --color-sand-500: oklch(0.583 0.024 21.48);
+  --color-sand-600: oklch(0.494 0.021 22.17);
+  --color-sand-700: oklch(0.406 0.016 17.89);
+  --color-sand-800: oklch(0.319 0.013 17.9);
+  --color-sand-900: oklch(0.225 0.01 17.92);
+  --color-sand-950: oklch(0.178 0.007 17.85);
 
-  --color-tertiary: var(--color-neutral-500);
-  --color-tertiary-inv: var(--color-neutral-400);
-  --background-color-tertiary: var(--color-neutral-100);
-  --background-color-tertiary-inv: var(--color-neutral-700);
+  --color-vermilion-50: oklch(0.96 0.02 21.44);
+  --color-vermilion-100: oklch(0.919 0.041 19.81);
+  --color-vermilion-200: oklch(0.838 0.089 20.83);
+  --color-vermilion-300: oklch(0.759 0.144 22.55);
+  --color-vermilion-400: oklch(0.68 0.208 26.59);
+  --color-vermilion-500: oklch(0.593 0.232 30.77);
+  --color-vermilion-600: oklch(0.506 0.199 30.74);
+  --color-vermilion-700: oklch(0.416 0.163 30.83);
+  --color-vermilion-800: oklch(0.325 0.127 30.85);
+  --color-vermilion-900: oklch(0.235 0.091 31.09);
+  --color-vermilion-950: oklch(0.186 0.074 30.45);
 
-  --color-accent-content: var(--color-blue-900);
-  --color-accent-primary: var(--color-blue-500);
-  --color-accent-secondary: var(--color-blue-600);
-  --color-accent-tertiary: var(--color-blue-400);
-  --color-accent-primary-muted: var(--color-blue-100);
-  --color-accent-secondary-muted: var(--color-blue-200);
+  --color-main: var(--color-mud-950);
+  --color-muted: var(--color-mud-600);
+  --color-subtle: var(--color-mud-400);
+
+  --color-main-inv: var(--color-mud-50);
+  --color-muted-inv: var(--color-mud-100);
+  --color-subtle-inv: var(--color-mud-200);
+
+  --background-color-main: var(--color-sand-50);
+  --background-color-elevated: var(--color-sand-100);
+  --background-color-highlighted: var(--color-sand-200);
+
+  --background-color-main-inv: var(--color-sand-800);
+  --background-color-elevated-inv: var(--color-sand-700);
+  --background-color-highlighted-inv: var(--color-sand-600);
+
+  --color-accent: var(--color-vermilion-500);
 }
 
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 @variant dark {
-  --color-primary: var(--color-neutral-50);
-  --color-primary-inv: var(--color-neutral-900);
-  --background-color-primary: var(--color-neutral-900);
-  --background-color-primary-inv: var(--color-neutral-50);
+  --color-main: var(--color-mud-50);
+  --color-muted: var(--color-mud-200);
+  --color-subtle: var(--color-mud-300);
 
-  --color-secondary: var(--color-neutral-200);
-  --color-secondary-inv: var(--color-neutral-700);
-  --background-color-secondary: var(--color-neutral-800);
-  --background-color-secondary-inv: var(--color-neutral-200);
+  --color-main-inv: var(--color-mud-50);
+  --color-muted-inv: var(--color-mud-200);
+  --color-subtle-inv: var(--color-mud-300);
 
-  --color-tertiary: var(--color-neutral-400);
-  --color-tertiary-inv: var(--color-neutral-500);
-  --background-color-tertiary: var(--color-neutral-700);
-  --background-color-tertiary-inv: var(--color-neutral-100);
+  --background-color-main: var(--color-sand-900);
+  --background-color-elevated: var(--color-sand-800);
+  --background-color-highlighted: var(--color-sand-700);
 
-  --color-accent-content: var(--color-blue-50);
-  --color-accent-primary-muted: var(--color-blue-900);
-  --color-accent-secondary-muted: var(--color-blue-950);
+  --background-color-main-inv: var(--color-sand-800);
+  --background-color-elevated-inv: var(--color-sand-700);
+  --background-color-highlighted-inv: var(--color-sand-600);
+
+  --color-accent: var(--color-vermilion-400);
 }

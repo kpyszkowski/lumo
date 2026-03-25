@@ -1,11 +1,9 @@
 import { withThemeByDataAttribute } from '@storybook/addon-themes'
-import type { Preview } from '@storybook/react-vite'
+import type { Preview } from 'storybook-react-rsbuild'
+import { themes } from 'storybook/theming'
 
 import './styles.css'
-
-// TODO: Add Figma token rotation in CI for preview deployment
-const isFigmaAccessTokenProvided = !!import.meta.env
-  .STORYBOOK_FIGMA_ACCESS_TOKEN
+import './satoshi-variable.ttf'
 
 const preview: Preview = {
   parameters: {
@@ -16,7 +14,10 @@ const preview: Preview = {
       },
     },
     design: {
-      type: isFigmaAccessTokenProvided ? 'figspec' : 'figma',
+      type: 'figma',
+    },
+    docs: {
+      theme: themes.light,
     },
   },
 

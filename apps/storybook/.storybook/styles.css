@@ -2,17 +2,37 @@
 
 @import "@lumo/ui/theme";
 
-/* 
-To watch for sources in components source code
-Ref: https://tailwindcss.com/docs/detecting-classes-in-source-files#explicitly-registering-sources
-*/
+/* Scan UI component source for used utility classes */
 @source "../node_modules/@lumo/ui";
 
-body,
-.docs-story {
-  @apply bg-primary text-primary;
+/* Ensure palette CSS vars are bundled for the Colors docs page */
+@source inline("bg-{mud,sand,vermilion}-{50,100,200,300,400,500,600,700,800,900,950}");
+
+body, .docs-story {
+  @apply bg-main text-main;
+}
+
+
+/* Remove shadows from Storybook chrome elements in the preview iframe */
+.docs-story,
+.sb-story,
+.sbdocs-preview,
+.docblock-source,
+.docblock-argstable-body {
+  @apply shadow-none! filter-none!;
+}
+
+/* Override browser default accent-color for Controls panel inputs */
+input[type='radio'],
+input[type='checkbox'] {
+  @apply accent-accent!;
+}
+
+/* Override default link color in MDX docs */
+.sbdocs-a {
+  @apply text-accent!;
 }
 
 @theme {
-  --font-sans: "Manrope", sans-serif;
+  --font-sans: "Satoshi Variable", sans-serif;
 }
