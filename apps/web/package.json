@@ -46,6 +46,7 @@
   "devDependencies": {
     "@electric-sql/pglite": "^0.3.14",
     "@lumo/configs": "workspace:^",
+    "@lumo/scraper": "workspace:^",
     "@next/eslint-plugin-next": "^16.1.6",
     "@types/node": "^22.15.3",
     "@types/react": "19.2.6",

@@ -28,3 +28,4 @@ Lumo is a monorepo with a Next.js web app and a shared React UI component librar
 | [typescript.md](./typescript.md) | Type patterns, props composition, context hooks, strict rules |
 | [storybook.md](./storybook.md) | Story authoring, `Meta`/`StoryFn`/`StoryObj`, `argTypes`, naming |
 | [nextjs.md](./nextjs.md) | App Router, server/client components, Tailwind setup, RPC, DB, deployment |
+| [scraper.md](./scraper.md) | Scraping pipeline, tech sheet fields, filter-builder, output format, i18n approach |

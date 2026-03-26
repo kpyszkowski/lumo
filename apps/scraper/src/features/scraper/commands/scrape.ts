@@ -1,24 +1,18 @@
-import { input } from '@inquirer/prompts'
 import { Command } from 'commander'
 import initializeSpinner from 'yocto-spinner'
 
 import { scrapeStream } from '~/features/scraper/lib/scrape-stream'
 import { createOutputAggregator } from '~/lib/create-output-aggregator'
 import { createJsonArrayWriter } from '~/lib/create-json-array-writer'
+import { PATHS } from '~/lib/paths'
 
 const spinner = initializeSpinner({ color: 'cyan' })
 
 export const scrape = new Command('scrape')
   .description('Scrape vehicle makes, models and generations')
-  .option('-o, --output <file>', 'Output JSON file')
-  .action(async (options: { output?: string }) => {
-    const output =
-      options.output ??
-      (await input({
-        message: 'Where would you like to save the output?',
-        default: options.output,
-        required: !options.output,
-      }))
+  .option('-o, --output <file>', 'Output JSON file', PATHS.catalogOutput)
+  .action(async (options: { output: string }) => {
+    const output = options.output
 
     const writer = createJsonArrayWriter(output)
     const aggregator = createOutputAggregator()

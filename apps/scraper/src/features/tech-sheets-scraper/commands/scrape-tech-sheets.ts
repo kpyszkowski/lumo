@@ -1,32 +1,22 @@
-import { input as inputPrompt } from '@inquirer/prompts'
 import { Command } from 'commander'
 import initializeSpinner from 'yocto-spinner'
 import { readFile } from 'fs/promises'
 import { scrapeTechsheetsStream } from '~/features/tech-sheets-scraper/lib/scrape-tech-sheets-stream'
 import { saveToFile } from '~/lib/save-to-file'
+import { PATHS } from '~/lib/paths'
 
 const spinner = initializeSpinner({ color: 'cyan' })
 
 export const scrateTechSheets = new Command('scrape-tech-sheets')
   .description('Scrape vehicle tech sheets')
-  .option('-i, --input <file>', 'Input JSON file')
-  .option('-o, --output <file>', 'Output catalog for scraped tech sheets')
-  .action(async (options: { input?: string; output?: string }) => {
-    const input =
-      options.input ??
-      (await inputPrompt({
-        message: 'Where is the input file located?',
-        default: options.input,
-        required: true,
-      }))
-
-    const output =
-      options.output ??
-      (await inputPrompt({
-        message: 'Where would you like to save the output?',
-        default: options.output,
-        required: !options.output,
-      }))
+  .option('-i, --input <file>', 'Input JSON file', PATHS.catalogOutput)
+  .option(
+    '-o, --output <file>',
+    'Output catalog for scraped tech sheets',
+    PATHS.techSheetsDir,
+  )
+  .action(async (options: { input: string; output: string }) => {
+    const { input, output } = options
 
     process.on('SIGINT', () => {
       spinner.info('Interrupted, closing output file…')

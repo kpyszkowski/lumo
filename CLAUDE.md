@@ -15,6 +15,7 @@ See [agent-instructions/](agent-instructions/index.md) for full codebase context
 | TypeScript conventions | [agent-instructions/typescript.md](agent-instructions/typescript.md) |
 | Storybook stories | [agent-instructions/storybook.md](agent-instructions/storybook.md) |
 | Next.js app (apps/web) | [agent-instructions/nextjs.md](agent-instructions/nextjs.md) |
+| Scraper & filter pipeline (`apps/scraper`) | [agent-instructions/scraper.md](agent-instructions/scraper.md) |
 
 ## Before Writing Any Code
 

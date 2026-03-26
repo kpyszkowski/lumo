@@ -27,7 +27,7 @@ importers:
         specifier: 4.0.8
         version: 4.0.8(@types/debug@4.1.12)(@types/node@22.19.0)(@vitest/browser-playwright@4.0.8)(jiti@2.6.1)(jsdom@27.2.0)(lightningcss@1.30.2)(terser@5.46.0)(tsx@4.20.6)(yaml@2.8.1)
 
-  apps/data-scraper:
+  apps/scraper:
     dependencies:
       '@inquirer/prompts':
         specifier: ^8.2.0
@@ -233,6 +233,9 @@ importers:
       '@lumo/configs':
         specifier: workspace:^
         version: link:../../packages/configs
+      '@lumo/scraper':
+        specifier: workspace:^
+        version: link:../scraper
       '@next/eslint-plugin-next':
         specifier: ^16.1.6
         version: 16.1.6
@@ -12362,7 +12365,7 @@ snapshots:
       sirv: 3.0.2
       tinyrainbow: 3.0.3
       vitest: 4.0.8(@types/debug@4.1.12)(@types/node@22.19.0)(@vitest/browser-playwright@4.0.8)(jiti@2.6.1)(jsdom@27.2.0)(lightningcss@1.30.2)(terser@5.46.0)(tsx@4.20.6)(yaml@2.8.1)
-      ws: 8.18.3
+      ws: 8.20.0
     transitivePeerDependencies:
       - bufferutil
       - msw
@@ -14656,7 +14659,7 @@ snapshots:
       whatwg-encoding: 3.1.1
       whatwg-mimetype: 4.0.0
       whatwg-url: 15.1.0
-      ws: 8.18.3
+      ws: 8.20.0
       xml-name-validator: 5.0.0
     transitivePeerDependencies:
       - bufferutil

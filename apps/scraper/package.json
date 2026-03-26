@@ -1,8 +1,22 @@
 {
-  "name": "@lumo/data-scraper",
+  "name": "@lumo/scraper",
   "version": "0.1.0",
   "description": "A CLI tool for scraping catalog data from Auto Motor und Sport website.",
   "bin": "dist/cli.mjs",
+  "exports": {
+    "./filter-data": {
+      "types": "./src/generated/filter-data.ts",
+      "default": "./dist/generated/filter-data.mjs"
+    },
+    "./filter-types": {
+      "types": "./src/features/filter-builder/lib/types.ts",
+      "default": "./dist/features/filter-builder/lib/types.mjs"
+    },
+    "./locales/*": {
+      "types": "./src/generated/locales/*.ts",
+      "default": "./dist/generated/locales/*.mjs"
+    }
+  },
   "scripts": {
     "postinstall": "pnpm dlx puppeteer browsers install chrome",
     "start": "node dist/cli.mjs",

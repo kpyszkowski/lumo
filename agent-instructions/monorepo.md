@@ -7,7 +7,7 @@ lumo/
 ├── apps/
 │   ├── web/           # Next.js 16 app (Cloudflare Workers deployment)
 │   ├── storybook/     # Storybook v10 (rsbuild runtime)
-│   └── data-scraper/  # Data scraper (standalone)
+│   └── scraper/  # Data scraper (standalone)
 ├── packages/
 │   ├── ui/            # @lumo/ui — shared component library
 │   └── configs/       # Shared ESLint + TypeScript configs (@lumo/configs)

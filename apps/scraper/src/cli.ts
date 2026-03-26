@@ -3,8 +3,9 @@ import { getAppMetadata } from '~/lib/get-app-metadata'
 
 import { slugify } from '~/utils/slugify'
 import { scrape } from '~/features/scraper/commands/scrape'
-import { buildIndexes } from '~/features/indexer/commands/build-indexes'
 import { scrateTechSheets } from '~/features/tech-sheets-scraper/commands/scrape-tech-sheets'
+import { buildFilterDataCommand } from '~/features/filter-builder/commands/build-filter-data'
+import { generate } from '~/features/pipeline/commands/generate'
 
 const program = new Command()
 const appMetadata = getAppMetadata()
@@ -15,7 +16,8 @@ program
   .version(appMetadata.version)
 
 program.addCommand(scrape)
-program.addCommand(buildIndexes)
 program.addCommand(scrateTechSheets)
+program.addCommand(buildFilterDataCommand)
+program.addCommand(generate)
 
 program.parse()
