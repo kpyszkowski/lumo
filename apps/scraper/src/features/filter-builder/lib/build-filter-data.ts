@@ -1,6 +1,6 @@
 import { readdir, readFile } from 'fs/promises'
 import { join } from 'path'
-import type { OutputTree } from '~/types'
+import { slugify } from '~/utils/slugify'
 import { deriveFuelType } from '~/features/filter-builder/lib/derive-fuel-type'
 import {
   BODY_TYPE_TRANSLATIONS,
@@ -15,10 +15,22 @@ import type {
   FuelTypeId,
   TransmissionId,
 } from '~/features/filter-builder/lib/types'
+import type { OutputTree } from '~/types'
 
 type BuildFilterDataOptions = {
-  catalogPath: string
   techSheetsDir: string
+  catalogPath: string
+}
+
+type CatalogEntry = {
+  makeName: string
+  makeSourceId: string
+  modelName: string
+  modelSourceId: string
+  genName: string
+  genType: string | null
+  genSourceId: string
+  production: { start: number; end: number | null }
 }
 
 type Stats = {
@@ -28,10 +40,67 @@ type Stats = {
   errors: number
 }
 
+function parseJatoYear(value: string | undefined): number | null {
+  if (!value) return null
+  // Format: "MM/YYYY"
+  const match = value.match(/\d{2}\/(\d{4})/)
+  if (!match?.[1]) return null
+  return parseInt(match[1], 10)
+}
+
+function buildCatalogMap(catalog: OutputTree[]): Map<string, CatalogEntry> {
+  const map = new Map<string, CatalogEntry>()
+  for (const { make, models } of catalog) {
+    for (const model of models) {
+      for (const gen of model.generations) {
+        const key = `${make.sourceId}:${model.sourceId}:${gen.sourceId}`
+        map.set(key, {
+          makeName: make.name,
+          makeSourceId: make.sourceId,
+          modelName: model.name,
+          modelSourceId: model.sourceId,
+          genName: gen.name,
+          genType: gen.type ?? null,
+          genSourceId: gen.sourceId,
+          production: gen.production,
+        })
+      }
+    }
+  }
+  return map
+}
+
+/**
+ * Derives a human-readable generation display name.
+ *
+ * Priority:
+ * 1. catalogGen.name when it differs from modelName — VW already stores "Passat B8", "Golf VII"
+ * 2. catalogGen.type — BMW "G60, G61", Mercedes "W221, V221"
+ * 3. TypBezeichnungGeneration from tech sheet — fallback for non-catalog type
+ * 4. "Gen. N" from GenerationNummerJATO
+ */
+function deriveGenDisplayName(
+  catalogEntry: CatalogEntry,
+  typBezeichnungGeneration: string | undefined,
+  generationNummerJATO: string | undefined,
+): string {
+  if (catalogEntry.genName !== catalogEntry.modelName) {
+    return catalogEntry.genName
+  }
+  if (catalogEntry.genType) {
+    return catalogEntry.genType
+  }
+  const typClean = typBezeichnungGeneration?.trim()
+  if (typClean) return typClean
+  const genNum = generationNummerJATO?.trim()
+  if (genNum) return `Gen. ${genNum}`
+  return catalogEntry.genName
+}
+
 export async function buildFilterData(
   options: BuildFilterDataOptions,
 ): Promise<BuildFilterDataResult> {
-  const { catalogPath, techSheetsDir } = options
+  const { techSheetsDir, catalogPath } = options
   const stats: Stats = {
     techSheetsProcessed: 0,
     techSheetsSkipped: 0,
@@ -39,51 +108,56 @@ export async function buildFilterData(
     errors: 0,
   }
 
-  // Load and index catalog
-  const catalogRaw = await readFile(catalogPath, 'utf8')
-  const catalog: OutputTree[] = JSON.parse(catalogRaw)
-
-  type CatalogMakeEntry = { name: string; modelIds: string[] }
-  type CatalogModelEntry = { name: string; generationIds: string[] }
-  type CatalogGenerationEntry = {
-    name: string
-    production: { start: number; end: number | null }
+  // ── Load catalog ──────────────────────────────────────────────────────────
+  let catalog: OutputTree[]
+  try {
+    const raw = await readFile(catalogPath, 'utf8')
+    catalog = JSON.parse(raw)
+  } catch {
+    throw new Error(`Failed to load catalog from ${catalogPath}`)
   }
-
-  const catalogMakes = new Map<string, CatalogMakeEntry>()
-  const catalogModels = new Map<string, CatalogModelEntry>()
-  const catalogGenerations = new Map<string, CatalogGenerationEntry>()
-  const generationSourceIdToKey = new Map<string, string>()
-
-  for (const { make, models } of catalog) {
-    const makeModelIds: string[] = []
-    for (const model of models) {
-      makeModelIds.push(model.id)
-      const makeModelKey = `${make.id}:${model.id}`
-      const generationIds: string[] = []
-
-      for (const generation of model.generations) {
-        generationIds.push(generation.id)
-        const generationKey = `${makeModelKey}:${generation.id}`
-        catalogGenerations.set(generationKey, {
-          name: generation.type ?? generation.name,
-          production: generation.production,
-        })
-        const sourceIdKey = `${makeModelKey}:${generation.sourceId}`
-        generationSourceIdToKey.set(sourceIdKey, generationKey)
-      }
-      catalogModels.set(makeModelKey, { name: model.name, generationIds })
-    }
-    catalogMakes.set(make.id, { name: make.name, modelIds: makeModelIds })
-  }
-
-  const engineTrimsByGeneration = new Map<string, Map<string, EngineTrim>>()
-  const bodyTypesMap = new Map<string, { id: string; label: string }>()
-  const transmissionsSet = new Set<TransmissionId>()
+  const catalogMap = buildCatalogMap(catalog)
 
   const files = (await readdir(techSheetsDir)).filter((f) =>
     f.endsWith('.json'),
   )
+
+  // ── Pass 1: collect full make names from JATO-populated sheets ────────────
+  // HerstellerNameJATO gives "Mercedes-Benz", "Volkswagen" etc. when present.
+  // We propagate these to all tech sheets of the same make via catalog sourceId.
+  const makeJatoNames = new Map<string, string>() // catalog make sourceId → full brand name
+
+  for (const file of files) {
+    try {
+      const raw = await readFile(join(techSheetsDir, file), 'utf8')
+      const sheet = JSON.parse(raw)
+      const jatoName = (
+        sheet.data?.['HerstellerNameJATO'] as string | undefined
+      )?.trim()
+      if (jatoName) {
+        const makeSourceId = sheet.metadata?.sourceIds?.make as
+          | string
+          | undefined
+        if (makeSourceId && !makeJatoNames.has(makeSourceId)) {
+          makeJatoNames.set(makeSourceId, jatoName)
+        }
+      }
+    } catch {
+      // Silently skip parse errors here; Pass 2 will handle error reporting
+    }
+  }
+
+  // ── Pass 2: full processing ───────────────────────────────────────────────
+  const makeNames = new Map<string, string>()
+  const modelNames = new Map<string, string>()
+  const generationNames = new Map<string, string>()
+  const makeModelIds = new Map<string, Set<string>>()
+  const modelGenerationIds = new Map<string, Set<string>>()
+  const generationStartYears = new Map<string, Set<number>>()
+  const generationEndYears = new Map<string, Set<number>>()
+  const engineTrimsByGeneration = new Map<string, Map<string, EngineTrim>>()
+  const bodyTypesMap = new Map<string, { id: string; label: string }>()
+  const transmissionsSet = new Set<TransmissionId>()
 
   for (const file of files) {
     const filePath = join(techSheetsDir, file)
@@ -103,48 +177,112 @@ export async function buildFilterData(
       continue
     }
 
-    const { data, metadata } = sheet
-    const {
-      make: makeId,
-      model: modelId,
-      generation: generationSourceId,
-    } = metadata.sourceIds
-    const sourceIdKey = `${makeId}:${modelId}:${generationSourceId}`
-    const generationKey = generationSourceIdToKey.get(sourceIdKey)
+    const data = sheet.data
+    const sourceIds = sheet.metadata?.sourceIds
 
-    if (!generationKey) {
-      console.warn(`[WARN] No catalog entry for ${sourceIdKey}: ${file}`)
-      stats.warnings++
+    if (!sourceIds?.make || !sourceIds?.model || !sourceIds?.generation) {
+      console.warn(`[WARN] Missing sourceIds in ${file}`)
       stats.techSheetsSkipped++
       continue
     }
 
+    // ── Catalog lookup ──────────────────────────────────────────────────────
+    const catalogKey = `${sourceIds.make}:${sourceIds.model}:${sourceIds.generation}`
+    const catalogEntry = catalogMap.get(catalogKey)
+    if (!catalogEntry) {
+      console.warn(`[WARN] No catalog entry for ${catalogKey} (${file})`)
+      stats.techSheetsSkipped++
+      continue
+    }
+
+    // ── Age filter: skip pre-Euro-era cars ──────────────────────────────────
+    // Schadstoffklasse (emissions standard) is absent for pre-standardisation
+    // vehicles. Its presence is the data-driven signal that a car is modern
+    // enough to include.
+    const schadstoff = (data['Schadstoffklasse'] as string | undefined)?.trim()
+    if (!schadstoff) {
+      stats.techSheetsSkipped++
+      continue
+    }
+
+    // ── Identifiers ─────────────────────────────────────────────────────────
+    // Make name from JATO propagation gives full names ("Mercedes-Benz",
+    // "Volkswagen"). Model and generation names come from the catalog — it is
+    // the single authoritative source for structural names, preventing variants
+    // like "5er" vs "5er Reihe" from producing duplicate model entries.
+    const makeName =
+      (data['HerstellerNameJATO'] as string | undefined)?.trim() ||
+      makeJatoNames.get(sourceIds.make) ||
+      catalogEntry.makeName
+
+    const modelName = catalogEntry.modelName
+
+    const genDisplayName = deriveGenDisplayName(
+      catalogEntry,
+      data['TypBezeichnungGeneration'] as string | undefined,
+      data['GenerationNummerJATO'] as string | undefined,
+    )
+
+    // IDs use canonical sourceId slugs from the catalog — consistent across all
+    // tech sheets regardless of what individual data fields contain.
+    const makeId = slugify(makeName)
+    const modelId = slugify(catalogEntry.modelSourceId)
+    const genId = slugify(catalogEntry.genSourceId)
+    const makeModelKey = `${makeId}:${modelId}`
+    const generationKey = `${makeModelKey}:${genId}`
+
+    // First-seen names
+    if (!makeNames.has(makeId)) makeNames.set(makeId, makeName)
+    if (!modelNames.has(makeModelKey)) modelNames.set(makeModelKey, modelName)
+    if (!generationNames.has(generationKey))
+      generationNames.set(generationKey, genDisplayName)
+
+    // Hierarchy IDs
+    if (!makeModelIds.has(makeId)) makeModelIds.set(makeId, new Set())
+    makeModelIds.get(makeId)!.add(modelId)
+
+    if (!modelGenerationIds.has(makeModelKey))
+      modelGenerationIds.set(makeModelKey, new Set())
+    modelGenerationIds.get(makeModelKey)!.add(genId)
+
+    // ── Production years ────────────────────────────────────────────────────
+    // Use JATO date strings when available; fall back to catalog production data.
+    const baujahrRaw = data['BaujahrJATO'] as string | undefined
+    const bauendeRaw = data['BauendeJATO'] as string | undefined
+    const startYear = parseJatoYear(baujahrRaw) ?? catalogEntry.production.start
+    const endYear = parseJatoYear(bauendeRaw) ?? catalogEntry.production.end
+
+    if (!generationStartYears.has(generationKey))
+      generationStartYears.set(generationKey, new Set())
+    if (!generationEndYears.has(generationKey))
+      generationEndYears.set(generationKey, new Set())
+
+    if (startYear) generationStartYears.get(generationKey)!.add(startYear)
+    // null endYear means still in production — store 0 as sentinel
+    generationEndYears.get(generationKey)!.add(endYear ?? 0)
+
+    // ── Engine trims ────────────────────────────────────────────────────────
     const trimName = data['Modell_Name'] as string | undefined
+    if (!trimName) {
+      stats.techSheetsSkipped++
+      continue
+    }
+
     const capacity = (data['Hubraum'] as number | undefined) ?? 0
     const power = (data['Ps'] as number | undefined) ?? 0
     const driveTypeId = (data['Antriebstyp_ID'] as number | undefined) ?? 1
     const electricRangeKm =
       (data['ReichweiteReinElektrisch'] as number | undefined) ?? 0
-    const bodyTypeRaw = data['Karobauart'] as string | undefined
-    const getriebeRaw = (data['Getriebe'] as string | undefined)?.toLowerCase()
-
-    if (!trimName) {
-      console.warn(`[WARN] Missing Modell_Name in ${file}`)
-      stats.warnings++
-      stats.techSheetsSkipped++
-      continue
-    }
-
     const fuelType: FuelTypeId = deriveFuelType(driveTypeId, electricRangeKm)
 
-    if (!engineTrimsByGeneration.has(generationKey)) {
+    if (!engineTrimsByGeneration.has(generationKey))
       engineTrimsByGeneration.set(generationKey, new Map())
-    }
     const trimMap = engineTrimsByGeneration.get(generationKey)!
-    if (!trimMap.has(trimName)) {
+    if (!trimMap.has(trimName))
       trimMap.set(trimName, { name: trimName, capacity, power, fuelType })
-    }
 
+    // ── Body types ──────────────────────────────────────────────────────────
+    const bodyTypeRaw = data['Karobauart'] as string | undefined
     if (bodyTypeRaw) {
       const translated = BODY_TYPE_TRANSLATIONS[bodyTypeRaw]
       if (translated) {
@@ -155,6 +293,8 @@ export async function buildFilterData(
       }
     }
 
+    // ── Transmissions ────────────────────────────────────────────────────────
+    const getriebeRaw = (data['Getriebe'] as string | undefined)?.toLowerCase()
     if (
       getriebeRaw?.includes('automatisch') ||
       getriebeRaw?.includes('automat')
@@ -175,31 +315,44 @@ export async function buildFilterData(
     transmissionsSet.add('automatic')
   }
 
-  // Build indexes
+  // ── Build indexes ─────────────────────────────────────────────────────────
   const makesIndex: FilterDataGenerated['indexes']['makes'] = {}
   const modelsIndex: FilterDataGenerated['indexes']['models'] = {}
   const generationsIndex: FilterDataGenerated['indexes']['generations'] = {}
 
-  for (const [makeId, make] of catalogMakes) {
-    makesIndex[makeId] = { name: make.name, modelIds: make.modelIds }
-  }
-  for (const [makeModelKey, model] of catalogModels) {
-    modelsIndex[makeModelKey] = {
-      name: model.name,
-      generationIds: model.generationIds,
+  for (const [makeId, name] of makeNames) {
+    makesIndex[makeId] = {
+      name,
+      modelIds: Array.from(makeModelIds.get(makeId) ?? []),
     }
   }
-  for (const [generationKey, generation] of catalogGenerations) {
+
+  for (const [makeModelKey, name] of modelNames) {
+    modelsIndex[makeModelKey] = {
+      name,
+      generationIds: Array.from(modelGenerationIds.get(makeModelKey) ?? []),
+    }
+  }
+
+  for (const [generationKey, name] of generationNames) {
+    const startYears = generationStartYears.get(generationKey) ?? new Set()
+    const endYears = generationEndYears.get(generationKey) ?? new Set()
+    const start = startYears.size > 0 ? Math.min(...startYears) : 0
+    // If any trim has no end (stored as 0), generation is still in production
+    const hasOpenEnd = endYears.has(0)
+    const maxEnd = Math.max(...Array.from(endYears).filter((y) => y > 0))
+    const end = hasOpenEnd ? null : maxEnd > 0 ? maxEnd : null
+
     const trimMap = engineTrimsByGeneration.get(generationKey)
     generationsIndex[generationKey] = {
-      name: generation.name,
-      production: generation.production,
+      name,
+      production: { start, end },
       engineTrims: trimMap ? Array.from(trimMap.values()) : [],
     }
   }
 
-  const makes = Array.from(catalogMakes.entries())
-    .map(([id, { name }]) => ({ id, name }))
+  const makes = Array.from(makeNames.entries())
+    .map(([id, name]) => ({ id, name }))
     .sort((a, b) => a.name.localeCompare(b.name))
 
   const bodyTypeIds = Array.from(bodyTypesMap.keys()).sort()
@@ -215,7 +368,7 @@ export async function buildFilterData(
     `\n  Body types: ${bodyTypeIds.length}`,
   )
 
-  const data: FilterDataGenerated = {
+  const filterData: FilterDataGenerated = {
     makes,
     bodyTypes: bodyTypeIds,
     fuelTypes: fuelTypeIds,
@@ -239,5 +392,8 @@ export async function buildFilterData(
     ),
   }
 
-  return { data, locale: { id: LOCALE, translations: localeTranslations } }
+  return {
+    data: filterData,
+    locale: { id: LOCALE, translations: localeTranslations },
+  }
 }

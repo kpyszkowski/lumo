@@ -7,8 +7,8 @@ export const filterLocale = {
   "bodyTypes": {
     "sedan": "Sedan",
     "kombi": "Kombi",
-    "kabriolet": "Kabriolet",
     "coupe": "Coupe",
+    "kabriolet": "Kabriolet",
     "suv": "SUV",
     "van": "Van",
     "pickup": "Pickup"

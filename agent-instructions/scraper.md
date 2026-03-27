@@ -148,24 +148,32 @@ Tech sheet `metadata.sourceIds.*` stores the **sourceId** (URL slug), not the ca
 | `generation.sourceId` | `"1-generation"` |
 | `techSheet.metadata.sourceIds.generation` | `"1-generation"` ← uses sourceId |
 
-The filter-builder resolves this via a `sourceId → catalogKey` map built during catalog indexing. Always use that map — never match directly by `id`.
+The filter-builder indexes the catalog by `make.sourceId:model.sourceId:gen.sourceId` and looks up entries via `metadata.sourceIds` directly. Never match by `id` — always use `sourceId`.
 
 ### Key `data` fields
 
-| German field | Meaning | Example |
+Fields actually used by the filter-builder (out of ~461 total):
+
+| German field | Used for | Notes |
 |---|---|---|
-| `Marke_Name` | Make name | `"BMW"` |
-| `Baureihe_Name` | Series/model name (German) | `"5er"` |
-| `Modell_Name` | Engine trim variant | `"520d"` |
-| `Hubraum` | Displacement (cm³) | `1995` |
-| `Ps` | Power (HP) | `197` |
-| `Kw` | Power (kW) | `145` |
-| `Karobauart` | Body type (German) | `"Limousine"` |
-| `Antriebstyp_ID` | Drive type: 1=petrol/hybrid, 2=diesel, 3=electric | `2` |
-| `ReichweiteReinElektrisch` | Electric-only range km; >0 means hybrid when ID=1 | `0` |
-| `Getriebe` | Transmission: `"manuell"` / `"automatisch"` | `"automatisch"` |
-| `Baujahr_Jahr` | Production year start | `2023` |
-| `Schadstoffklasse` | Emissions standard | `"Euro 6e"` |
+| `HerstellerNameJATO` | Make display name | Full name (`"Mercedes-Benz"`, `"Volkswagen"`); only populated for a subset of cars — propagated across all sheets of that make via Pass 1 |
+| `Modell_Name` | Engine trim name | Primary trim dedup key |
+| `Hubraum` | Displacement (cm³) | `0` for pure electric |
+| `Ps` | Power (HP) | |
+| `Antriebstyp_ID` | Fuel type derivation | 1=petrol/hybrid · 2=diesel · 3=electric |
+| `ReichweiteReinElektrisch` | Hybrid detection | >0 when `Antriebstyp_ID=1` means plug-in hybrid |
+| `Karobauart` | Body type | German string mapped in `translations.ts` |
+| `Getriebe` | Transmission | `"manuell"` / `"automatisch"` substring match |
+| `BaujahrJATO` | Production start year | `"MM/YYYY"` format; only in JATO-populated sheets — catalog fallback used otherwise |
+| `BauendeJATO` | Production end year | Same format; `null` → still in production |
+| `Schadstoffklasse` | Age filter | Empty = pre-Euro era → sheet is skipped |
+| `TypBezeichnungGeneration` | Generation name (priority 3) | Fallback when catalog has no usable name/type |
+| `GenerationNummerJATO` | Generation name (priority 4) | Last resort → `"Gen. N"` |
+
+Fields **not** used for structural names/IDs (kept for reference only):
+- `Marke_Name` — short alias (`"VW"`, `"Mercedes"`); display name comes from JATO propagation instead
+- `Baureihe_Name` / `BaureiheNameJATO` — varies between sheets for the same model; catalog name used instead
+- `TypBezeichnungJATO` — only populated for some VW sheets; catalog `gen.type` is more complete
 
 ---
 
@@ -175,12 +183,59 @@ Combines catalog + tech sheets into a typed TypeScript module.
 
 ### `build-filter-data.ts` — core logic
 
-Returns `FilterDataGenerated`. Steps:
-1. Load `out/data.json` → build `sourceId → catalogKey` resolution map for generations
-2. Iterate all `out/tech-sheets/*.json` — extract trim name, capacity, power, fuel type, body type, transmission
-3. Deduplicate engine trims by `Modell_Name` within each generation (first occurrence wins)
-4. Apply translations; sort makes alphabetically
-5. Return structured object
+Accepts `{ techSheetsDir, catalogPath }`. Returns `FilterDataGenerated`.
+
+#### Step 1 — Load catalog
+
+Reads `catalogPath` (`out/data.json`) and indexes every generation into a `Map<string, CatalogEntry>` keyed by `make_sourceId:model_sourceId:gen_sourceId`. The catalog is the **single authoritative source** for structural names and IDs (make, model, generation). Tech sheet text fields (`BaureiheNameJATO`, `Baureihe_Name`, etc.) are intentionally not used for names or IDs because they vary between sheets and create duplicates (e.g. `"5er"` vs `"5er Reihe"` for the same model).
+
+#### Step 2 — Pass 1: propagate full make names
+
+Scans all tech sheets cheaply for `HerstellerNameJATO`. This JATO field gives the **full brand name** (`"Mercedes-Benz"`, `"Volkswagen"`) when populated, typically for newer cars. The result is a `Map<catalogMakeSourceId, fullBrandName>` that covers all makes where at least one sheet has a JATO name. This propagates the full name to *all* sheets of that make, including older ones where the field is empty.
+
+#### Step 3 — Pass 2: full processing
+
+For each tech sheet:
+
+1. Parse **both** `sheet.metadata` and `sheet.data` (metadata carries the catalog link)
+2. Look up catalog entry via `metadata.sourceIds` (`make:model:generation` key)
+3. **Skip** if no catalog entry — logs `[WARN]`
+4. **Age filter** — skip if `Schadstoffklasse` is empty/missing. Pre-Euro-era vehicles have no emissions standard; its absence is a data-driven signal that the car predates standardised measurements. No year constant is hardcoded.
+5. **Make name** — `HerstellerNameJATO` (current sheet) → propagated JATO name (Pass 1 map) → catalog make name
+6. **Model name** — `catalogEntry.modelName` (always from catalog — prevents variation-driven duplicates)
+7. **Generation display name** — see *Generation naming* below
+8. **IDs** — `makeId = slugify(makeName)`, `modelId = slugify(catalogEntry.modelSourceId)`, `genId = slugify(catalogEntry.genSourceId)`. Model and gen IDs are derived from the catalog's canonical sourceId slugs, not from text fields.
+9. **Production years** — `BaujahrJATO`/`BauendeJATO` (JATO `"MM/YYYY"` format) → fallback to `catalogEntry.production`
+10. Extract engine trim: `Modell_Name`, `Hubraum`, `Ps`, `Antriebstyp_ID`, `ReichweiteReinElektrisch`
+11. Extract body type (`Karobauart`) and transmission (`Getriebe`)
+
+After the loop: deduplicate engine trims by `Modell_Name` within each generation (first occurrence wins), sort makes alphabetically, apply translations.
+
+### Generation naming
+
+The catalog's `generation.name` and `generation.type` fields are the primary sources. Priority:
+
+| Priority | Source | Example |
+|---|---|---|
+| 1 | `catalogGen.name` **when it differs from the model name** | VW: `"Passat B8"`, `"Golf VII"` |
+| 2 | `catalogGen.type` | BMW: `"G60, G61"` · Mercedes: `"W221, V221"` |
+| 3 | `TypBezeichnungGeneration` from tech sheet | any remaining gaps |
+| 4 | `"Gen. N"` from `GenerationNummerJATO` | single-generation niche models |
+
+**Why this works per brand:**
+- **VW** — the catalog stores the marketing designation in `gen.name` (`"Passat B8"`, `"Golf VII"`). Its `gen.type` holds internal codes (`"Typ 3G"`, `"AU"`) which are *not* shown.
+- **BMW / Mercedes** — `gen.name` repeats the model name (`"5er"`, `"S-Klasse"`), so priority 1 is skipped and `gen.type` is used (`"G60, G61"`, `"W221, V221"`).
+- **Single-generation models** — no type designation; falls back to `"Gen. 1"`.
+
+### Make ID stability
+
+Make IDs are derived from the resolved display name, **not** from the catalog make sourceId. This preserves the existing IDs consumers depend on:
+
+| Catalog `make.sourceId` | Resolved display name | Make ID in output |
+|---|---|---|
+| `"mercedes"` | `"Mercedes-Benz"` | `"mercedes-benz"` |
+| `"vw"` | `"Volkswagen"` | `"volkswagen"` |
+| `"bmw"` | `"BMW"` | `"bmw"` |
 
 ### `serialize-to-ts.ts`
 
@@ -216,10 +271,11 @@ Unknown values log `[WARN]` and are skipped.
 
 | Issue | Detail |
 |---|---|
-| 6 Mercedes AMG GT 4-door variants skipped | `sourceIds.generation = "x290"` has no match in catalog |
+| Some tech sheets have no catalog entry | Logged as `[WARN] No catalog entry for …` and skipped |
 | `mercedes-220-s.json` skipped | Typo in scraped data: `potnon` instead of `ponton` |
-| `honda-e.json` — body type `"4"` | Corrupt field in source; treated as unknown body type |
-| 4 vintage Mercedes race cars | `Karobauart = "Rennwagen"` — not a real filter category, skipped |
+| `honda-e.json` — body type `"4"` | Corrupt field in source; treated as unknown → `[WARN]` |
+| Race/concept cars | `Karobauart = "Rennwagen"` etc. — unknown body type, skipped with `[WARN]` |
+| Pre-Euro-era vintage cars | `Schadstoffklasse` empty → automatically excluded by age filter |
 
 ---
 
@@ -263,7 +319,12 @@ type EngineTrim = {
 }
 ```
 
-Index keys use catalog `id` (not sourceId), colon-separated: `"bmw"`, `"bmw:5er"`, `"bmw:5er:g60-g61"`.
+Index keys are colon-separated: `"bmw"`, `"bmw:5er"`, `"bmw:5er:g60-g61"`.
+- Make key: `slugify(resolvedMakeName)` — e.g. `"mercedes-benz"`, `"volkswagen"`
+- Model key: `makeKey + ":" + slugify(catalog.model.sourceId)`
+- Generation key: `modelKey + ":" + slugify(catalog.gen.sourceId)`
+
+Model and generation segments use the catalog `sourceId` slug (not `id`), matching the `metadata.sourceIds` in tech sheets.
 
 ---
 

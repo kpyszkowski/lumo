@@ -21,13 +21,24 @@ import {
   IconCalendarDot,
 } from '@lumo/ui/icons'
 import { createStyles, type StylesProps } from '@lumo/ui/utils'
-import { useMemo, useRef, useState } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
+import {
+  bodyTypes,
+  formatGenerationLabel,
+  fuelTypes,
+  indexes,
+  makes,
+  transmissions,
+} from '~/features/ads/lib/filter-data'
+
+type ListFilterPageItem = { id: string; label: string }
 
 type ListFilterPage = {
   type: 'list'
   icon: Icon
   label: string
-  data: { label: string; data: string[] }[]
+  data: { label: string; data: ListFilterPageItem[] }[]
+  onSelect?: (item: ListFilterPageItem) => void
 }
 
 type RangeFilterPage = {
@@ -48,10 +59,11 @@ type CommandItemProps = {
   children: string
   value?: string
   icon?: Icon
+  onSelect?: () => void
 }
 
 function CommandItem(props: CommandItemProps) {
-  const { className, children, value, icon: Icon } = props
+  const { className, children, value, icon: Icon, onSelect } = props
 
   const styles = buttonStyles({
     variant: 'ghost',
@@ -64,6 +76,7 @@ function CommandItem(props: CommandItemProps) {
     //@ts-expect-error `children` prop are `string` type but `ReactNode` is fine
     <Command.Item
       value={value}
+      onSelect={onSelect}
       className={styles.container({
         className,
       })}
@@ -96,168 +109,6 @@ const adFilterCommandStyles = createStyles({
   },
 })
 
-const MOCK: FilterPage[] = [
-  {
-    type: 'list',
-    icon: IconMakes,
-    label: 'Marka pojazdu',
-    data: [
-      {
-        label: 'Popularne',
-        data: ['Volkswagen', 'Toyota', 'Mercedes', 'BMW'],
-      },
-      {
-        label: 'Pozostałe',
-        data: [
-          'Alfa Romeo',
-          'Audi',
-          'Chevrolet',
-          'Citroen',
-          'Dacia',
-          'Fiat',
-          'Ford',
-          'Honda',
-          'Hyundai',
-          'Kia',
-          'Mazda',
-          'Nissan',
-          'Opel',
-          'Peugeot',
-          'Renault',
-          'Seat',
-          'Skoda',
-          'Subaru',
-          'Suzuki',
-          'Volvo',
-        ],
-      },
-    ],
-  },
-  {
-    type: 'list',
-    icon: IconModels,
-    label: 'Model pojazdu',
-    data: [
-      {
-        label: 'Alfabetycznie',
-        data: [
-          'Seria 3',
-          'Seria 4',
-          'Seria 5',
-          'M2',
-          'M3',
-          'M4',
-          'M5',
-          'X1',
-          'X3',
-          'X5',
-          'i3',
-          'i4',
-          'iX',
-        ],
-      },
-    ],
-  },
-  {
-    type: 'list',
-    icon: IconGenerations,
-    label: 'Generacja',
-    data: [
-      {
-        label: 'Alfabetycznie',
-        data: [
-          'E12 (1972 - 1981)',
-          'E28 (1981 - 1988)',
-          'E34 (1988 - 1996)',
-          'E39 (1995 - 2003)',
-          'E60/E61 (2003 - 2010)',
-          'F10/F11/F07 (2010 - 2017)',
-          'G30/G31 (2017 - 2023)',
-          'G60/G61 (2023 - obecnie)',
-        ],
-      },
-    ],
-  },
-  {
-    type: 'list',
-    icon: IconCarBodySuv,
-    label: 'Typ nadwozia',
-    data: [
-      {
-        label: 'Alfabetycznie',
-        data: [
-          'Coupe',
-          'Hatchback',
-          'Kabriolet',
-          'Kombi',
-          'Pickup',
-          'Sedan',
-          'SUV',
-          'Van',
-        ],
-      },
-    ],
-  },
-  {
-    type: 'range',
-    icon: IconGauge,
-    label: 'Cena',
-    min: 0,
-    max: 500000,
-    step: 1000,
-    unit: 'zł',
-    histogramData: [
-      2, 5, 9, 16, 28, 42, 58, 70, 65, 55, 44, 35, 25, 17, 11, 7, 4, 2, 1, 1,
-    ],
-  },
-  {
-    type: 'range',
-    icon: IconCalendarDot,
-    label: 'Rok produkcji',
-    min: 1990,
-    max: 2026,
-    step: 1,
-    unit: '',
-    histogramData: [
-      1, 1, 2, 2, 3, 4, 5, 6, 7, 9, 11, 13, 16, 18, 21, 24, 28, 32, 36, 40,
-    ],
-  },
-  {
-    type: 'list',
-    icon: IconGasStation,
-    label: 'Rodzaj paliwa',
-    data: [
-      {
-        label: 'Alfabetycznie',
-        data: ['Benzyna', 'Diesel', 'LPG', 'Elektryczny', 'Hybryda'],
-      },
-    ],
-  },
-  {
-    type: 'list',
-    icon: IconManualGearbox,
-    label: 'Skrzynia biegów',
-    data: [
-      {
-        label: 'Alfabetycznie',
-        data: ['Manualna', 'Automatyczna'],
-      },
-    ],
-  },
-  {
-    type: 'range',
-    icon: IconGauge,
-    label: 'Przebieg',
-    min: 0,
-    max: 300000,
-    step: 1000,
-    unit: 'km',
-    histogramData: [
-      40, 36, 30, 24, 19, 15, 12, 9, 7, 5, 4, 3, 3, 2, 2, 2, 1, 1, 1, 1,
-    ],
-  },
-]
-
 type AdFilterCommandProps = StylesProps<typeof adFilterCommandStyles> & {
   className?: string
 }
@@ -267,6 +118,8 @@ export default function AdFilterCommand(props: AdFilterCommandProps) {
 
   const [open, setOpen] = useState(false)
   const [activePage, setActivePage] = useState(0)
+  const [selectedMakeId, setSelectedMakeId] = useState<string | null>(null)
+  const [selectedModelId, setSelectedModelId] = useState<string | null>(null)
 
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 500000])
   const [yearRange, setYearRange] = useState<[number, number]>([1990, 2026])
@@ -288,12 +141,160 @@ export default function AdFilterCommand(props: AdFilterCommandProps) {
 
   const styles = adFilterCommandStyles()
 
-  const handlePageChange = (setValue: ((value: number) => number) | number) => {
-    setActivePage(setValue)
-    if (scrollViewportRef.current) {
-      scrollViewportRef.current.scrollTo({ top: 0 })
-    }
-  }
+  const handlePageChange = useCallback(
+    (setValue: ((value: number) => number) | number) => {
+      setActivePage(setValue)
+      if (scrollViewportRef.current) {
+        scrollViewportRef.current.scrollTo({ top: 0 })
+      }
+    },
+    [],
+  )
+
+  const pages = useMemo((): FilterPage[] => {
+    const modelIds = selectedMakeId
+      ? (indexes.makes[selectedMakeId]?.modelIds ?? [])
+      : []
+    const generationIds =
+      selectedMakeId && selectedModelId
+        ? (indexes.models[`${selectedMakeId}:${selectedModelId}`]
+            ?.generationIds ?? [])
+        : []
+
+    return [
+      {
+        type: 'list',
+        icon: IconMakes,
+        label: 'Marka pojazdu',
+        data: [
+          {
+            label: 'Alfabetycznie',
+            data: makes.map((m) => ({ id: m.id, label: m.name })),
+          },
+        ],
+        onSelect: (item) => {
+          setSelectedMakeId(item.id)
+          setSelectedModelId(null)
+          handlePageChange(1)
+        },
+      },
+      {
+        type: 'list',
+        icon: IconModels,
+        label: 'Model pojazdu',
+        data: modelIds.length
+          ? [
+              {
+                label: 'Alfabetycznie',
+                data: modelIds.map((modelId) => ({
+                  id: modelId,
+                  label:
+                    indexes.models[`${selectedMakeId}:${modelId}`]?.name ??
+                    modelId,
+                })),
+              },
+            ]
+          : [],
+        onSelect: (item) => {
+          setSelectedModelId(item.id)
+          handlePageChange(2)
+        },
+      },
+      {
+        type: 'list',
+        icon: IconGenerations,
+        label: 'Generacja',
+        data: generationIds.length
+          ? [
+              {
+                label: 'Alfabetycznie',
+                data: generationIds.map((genId) => {
+                  const gen =
+                    indexes.generations[
+                      `${selectedMakeId}:${selectedModelId}:${genId}`
+                    ]
+                  return {
+                    id: genId,
+                    label: gen ? formatGenerationLabel(gen) : genId,
+                  }
+                }),
+              },
+            ]
+          : [],
+      },
+      {
+        type: 'list',
+        icon: IconCarBodySuv,
+        label: 'Typ nadwozia',
+        data: [
+          {
+            label: 'Alfabetycznie',
+            data: bodyTypes,
+          },
+        ],
+      },
+      {
+        type: 'range',
+        icon: IconGauge,
+        label: 'Cena',
+        min: 0,
+        max: 500000,
+        step: 1000,
+        unit: 'zł',
+        histogramData: [
+          2, 5, 9, 16, 28, 42, 58, 70, 65, 55, 44, 35, 25, 17, 11, 7, 4, 2, 1,
+          1,
+        ],
+      },
+      {
+        type: 'range',
+        icon: IconCalendarDot,
+        label: 'Rok produkcji',
+        min: 1990,
+        max: 2026,
+        step: 1,
+        unit: '',
+        histogramData: [
+          1, 1, 2, 2, 3, 4, 5, 6, 7, 9, 11, 13, 16, 18, 21, 24, 28, 32, 36, 40,
+        ],
+      },
+      {
+        type: 'list',
+
+        icon: IconGasStation,
+        label: 'Rodzaj paliwa',
+        data: [
+          {
+            label: 'Alfabetycznie',
+            data: fuelTypes,
+          },
+        ],
+      },
+      {
+        type: 'list',
+        icon: IconManualGearbox,
+        label: 'Skrzynia biegów',
+        data: [
+          {
+            label: 'Alfabetycznie',
+            data: transmissions,
+          },
+        ],
+      },
+      {
+        type: 'range',
+        icon: IconGauge,
+        label: 'Przebieg',
+        min: 0,
+        max: 300000,
+        step: 1000,
+        unit: 'km',
+        histogramData: [
+          40, 36, 30, 24, 19, 15, 12, 9, 7, 5, 4, 3, 3, 2, 2, 2, 1, 1, 1, 1,
+        ],
+      },
+    ]
+  }, [selectedMakeId, selectedModelId, handlePageChange])
 
   return (
     <>
@@ -319,7 +320,7 @@ export default function AdFilterCommand(props: AdFilterCommandProps) {
             event.preventDefault()
             handlePageChange((previousIndex) => {
               const nextIndex = previousIndex + (event.shiftKey ? -1 : 1)
-              return (nextIndex + MOCK.length) % MOCK.length
+              return (nextIndex + pages.length) % pages.length
             })
           }
         }}
@@ -331,7 +332,7 @@ export default function AdFilterCommand(props: AdFilterCommandProps) {
         />
         <div className={styles.commandWrapper()}>
           <div className={styles.commandPageButtons()}>
-            {MOCK.map((tab, index) => (
+            {pages.map((tab, index) => (
               <Button
                 className={styles.commandPageButton()}
                 data-page-active={activePage === index}
@@ -349,7 +350,7 @@ export default function AdFilterCommand(props: AdFilterCommandProps) {
           </div>
 
           {(() => {
-            const page = MOCK[activePage]
+            const page = pages[activePage]
             if (!page) return null
 
             if (page.type === 'range') {
@@ -448,10 +449,11 @@ export default function AdFilterCommand(props: AdFilterCommandProps) {
                           {group.data.map((item) => (
                             <CommandItem
                               className={styles.commandItem()}
-                              key={item}
-                              value={item}
+                              key={item.id}
+                              value={item.id}
+                              onSelect={() => page.onSelect?.(item)}
                             >
-                              {item}
+                              {item.label}
                             </CommandItem>
                           ))}
                         </Command.Group>

@@ -16,7 +16,7 @@ export const buildFilterDataCommand = new Command('build-filter-data')
   )
   .option(
     '-c, --catalog <file>',
-    'Path to the catalog JSON file',
+    'Path to scraped catalog JSON',
     PATHS.catalogOutput,
   )
   .option(
