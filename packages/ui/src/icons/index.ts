@@ -7,6 +7,7 @@ export {
   IconAdjustmentsHorizontal,
   IconGasStation,
   IconManualGearbox,
+  IconCoin,
   IconGauge,
   IconRoad,
   IconCalendarDot,
@@ -16,6 +17,7 @@ export {
   IconMinus,
   IconCheck,
   IconChevronDown,
+  IconX,
 } from '@tabler/icons-react'
 export { IconCarBodyLimousine } from './car-body-limousine'
 export { IconCarBodyEstate } from './car-body-estate'

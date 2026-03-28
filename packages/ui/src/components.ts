@@ -1,3 +1,4 @@
+export * from '~/components/chip'
 export * from '~/components/histogram'
 export * from '~/components/input'
 export * from '~/components/button'

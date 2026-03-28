@@ -4,10 +4,9 @@ import {
   IconHeart,
   IconMessageCircle,
   IconPlus,
-  IconSearch,
 } from '@lumo/ui/icons'
 import { createStyles, type StylesProps } from '@lumo/ui/utils'
-import AdSearchCommand from '~/features/ads/components/ad-filter-command'
+import { AdFilterCommand } from '~/features/ads/components/ad-filter-command'
 
 const headerStyles = createStyles({
   slots: {
@@ -37,7 +36,7 @@ function Header(props: HeaderProps) {
       <Logo />
 
       <div className={styles.searchBarWrapper()}>
-        <AdSearchCommand />
+        <AdFilterCommand />
       </div>
 
       <div className={styles.userPanelWrapper()}>

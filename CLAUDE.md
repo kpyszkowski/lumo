@@ -22,3 +22,24 @@ See [agent-instructions/](agent-instructions/index.md) for full codebase context
 1. Fetch live docs via the `context7` MCP server for `@base-ui/react`, `tailwind-variants`, or `motion/react`.
 2. Use semantic theme tokens only — never raw colours. See [styling.md](agent-instructions/styling.md).
 3. Named exports only — `export default` is never used.
+
+## After Every Change
+
+Run these two commands from the repo root and fix all errors before considering the task done:
+
+```bash
+pnpm check-types   # tsc --noEmit across all packages
+pnpm lint          # ESLint --max-warnings 0 across all packages
+```
+
+If lint reports auto-fixable issues, fix them by running ESLint with `--fix` in the affected package:
+
+```bash
+# for apps/web changes
+pnpm --filter @lumo/web exec eslint . --fix
+
+# for packages/ui changes
+pnpm --filter @lumo/ui exec eslint . --fix
+```
+
+Never leave type errors or lint warnings unresolved.
