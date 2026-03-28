@@ -8,13 +8,12 @@ import { useMultiSelectRootContext } from '~/components/multi-select/multi-selec
 
 const commandRootStyles = createStyles({
   slots: {
-    container: 'flex flex-col',
     inputWrapper:
       'border-muted dark:border-muted/25 flex items-center gap-3 border-b px-4 py-3',
     inputIcon: 'size-4',
     inputField: 'outline-none',
     group:
-      '[&_[cmdk-group-heading]]:text-subtle mt-3 flex flex-col px-2 [&_[cmdk-group-heading]]:mb-2 [&_[cmdk-group-heading]]:px-1 [&_[cmdk-group-heading]]:text-sm',
+      '**:[[cmdk-group-heading]]:text-subtle **:[[cmdk-group-heading]]:mb-2 **:[[cmdk-group-heading]]:px-1 **:[[cmdk-group-heading]]:text-sm mt-3 flex flex-col px-2',
     item: [
       'group flex cursor-pointer items-center gap-3 rounded-md px-3 py-2',
       'hover:bg-elevated-inv dark:hover:bg-elevated focus:bg-elevated-inv dark:focus:bg-elevated data-[selected=true]:bg-highlighted-inv dark:data-[selected=true]:bg-highlighted',
@@ -90,9 +89,11 @@ function MultiSelectPopup(props: MultiSelectPopupProps) {
   )
 
   return (
-    <Popover.Content {...restProps}>
+    <Popover.Content
+      className={className}
+      {...restProps}
+    >
       <CommandPrimitive
-        className={styles.container({ className })}
         onKeyDown={() => {
           // It forwards focus to input when it's blurred allowing user to type
           // anytime

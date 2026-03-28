@@ -5,14 +5,14 @@ import { AnimatePresence, motion } from '~/motion'
 import { Popover as PopoverPrimitive } from '@base-ui/react/popover'
 
 const MotionRootPopup = motion.create(PopoverPrimitive.Popup)
-const commandRootStyles = createStyles({
+const popoverContentStyles = createStyles({
   slots: {
     container:
-      'bg-main-inv/96 text-main-inv dark:bg-elevated/96 dark:text-main overflow-hidden rounded-xl backdrop-blur-sm dark:backdrop-contrast-75',
+      'bg-main-inv/96 text-main-inv dark:bg-elevated/96 dark:text-main flex flex-col overflow-hidden rounded-xl backdrop-blur-sm dark:backdrop-contrast-75',
   },
 })
 
-type PopoverContentProps = StylesProps<typeof commandRootStyles> &
+type PopoverContentProps = StylesProps<typeof popoverContentStyles> &
   Omit<PopoverPrimitive.Positioner.Props, 'keepMounted'> & {
     className?: string
     /** Preferred side of the trigger to position the popup. */
@@ -49,7 +49,7 @@ function PopoverContent(props: PopoverContentProps) {
 
   const { open } = usePopoverRootContext()
 
-  const styles = commandRootStyles()
+  const styles = popoverContentStyles()
 
   const sizeProperty = ['top', 'bottom'].includes(side) ? 'height' : 'width'
 
@@ -103,4 +103,4 @@ function PopoverContent(props: PopoverContentProps) {
   )
 }
 
-export { PopoverContent, type PopoverContentProps }
+export { PopoverContent, type PopoverContentProps, popoverContentStyles }
