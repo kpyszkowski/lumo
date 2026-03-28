@@ -6,7 +6,7 @@ import { createStyles, type StylesProps } from '~/utils'
 const inputStyles = createStyles({
   slots: {
     container:
-      'w-full border antialiased transition-all outline-none disabled:cursor-not-allowed disabled:opacity-50',
+      'w-full border antialiased outline-none transition-all disabled:cursor-not-allowed disabled:opacity-50',
   },
   variants: {
     variant: {
@@ -16,7 +16,7 @@ const inputStyles = createStyles({
       },
       inverted: {
         container:
-          'bg-elevated-inv text-main-inv placeholder:text-muted-inv data-focused:border-accent data-focused:ring-accent/20 border-transparent data-focused:ring-2',
+          'bg-elevated-inv text-main-inv placeholder:text-muted-inv data-focused:border-accent data-focused:ring-accent/20 data-focused:ring-2 border-transparent',
       },
     },
     size: {
