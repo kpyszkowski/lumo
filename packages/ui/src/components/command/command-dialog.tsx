@@ -11,14 +11,15 @@ import { createStyles } from '~/utils'
 
 const commandDialogStyles = createStyles({
   slots: {
-    popup: 'pointer-events-none fixed bottom-20 left-1/2 top-20 flex w-fit',
+    popup:
+      'pointer-events-none fixed bottom-10 left-1/2 top-10 flex w-fit lg:bottom-20 lg:top-20',
     container: 'w-2xl pointer-events-auto z-50',
     backdrop: 'fixed inset-0',
   },
   variants: {
     variant: {
       inverted: {
-        backdrop: 'bg-main/1',
+        backdrop: 'bg-main/12 dark:bg-main/36',
       },
     },
   },

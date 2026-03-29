@@ -1,5 +1,5 @@
 'use client'
-import { Button, Chip, Command } from '@lumo/ui/components'
+import { Button, Chip, Command, IconButton } from '@lumo/ui/components'
 import { IconSearch } from '@lumo/ui/icons'
 import { createStyles, type StylesProps } from '@lumo/ui/utils'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
@@ -12,6 +12,8 @@ import { useFilterPages } from '~/features/ads/hooks/use-filter-pages'
 
 export const adFilterCommandStyles = createStyles({
   slots: {
+    commandDialog: 'lg:-ml-14',
+    submitButton: 'absolute top-0 right-0 -mr-14',
     triggerButton:
       'text-muted active:[&>div]:text-muted bg-elevated hover:bg-highlighted focus-visible:bg-highlighted mx-auto w-full max-w-lg [&>div]:justify-end',
     commandWrapper: 'flex overflow-hidden',
@@ -132,6 +134,7 @@ function AdFilterCommand(props: AdFilterCommandProps) {
       </Button>
 
       <Command.Dialog
+        className={styles.commandDialog()}
         open={open}
         onOpenChange={setOpen}
         loop
@@ -157,6 +160,12 @@ function AdFilterCommand(props: AdFilterCommandProps) {
         }}
         {...restProps}
       >
+        <IconButton
+          variant="accent"
+          className={styles.submitButton()}
+          icon={IconSearch}
+          label="Wyszukaj"
+        />
         <Command.Input
           placeholder={currentPage?.placeholder ?? 'Wyszukaj...'}
           value={searchValue}

@@ -1,4 +1,3 @@
-'use client'
 import { Command } from '@lumo/ui/components'
 import { buttonStyles } from '@lumo/ui/components'
 import type { Icon } from '@lumo/ui/icons'

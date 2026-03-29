@@ -1,5 +1,3 @@
-'use client'
-
 export type FilterSelection = {
   makeId: string | null
   modelId: string | null

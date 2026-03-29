@@ -23,7 +23,15 @@ const iconButtonStyles = createStyles({
       },
       ghost: {
         container: baseVariantStyles.ghost.container,
-        icon: baseVariantStyles.ghost.container,
+        icon: baseVariantStyles.ghost.wrapper,
+      },
+      solid: {
+        container: baseVariantStyles.solid.container,
+        icon: baseVariantStyles.solid.wrapper,
+      },
+      accent: {
+        container: baseVariantStyles.accent.container,
+        icon: baseVariantStyles.accent.wrapper,
       },
     },
     size: {
@@ -57,7 +65,7 @@ type IconButtonProps = Omit<
     /** Accessible label read by screen readers; visually hidden. */
     label: string
     /** Visual style of the button. @default 'outline' */
-    variant?: 'outline' | 'ghost'
+    variant?: 'outline' | 'ghost' | 'solid' | 'accent'
     /** Size of the button. @default 'md' */
     size?: 'sm' | 'md' | 'lg'
   }

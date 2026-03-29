@@ -1,4 +1,3 @@
-'use client'
 import { Histogram, Input, Slider } from '@lumo/ui/components'
 import type { Icon } from '@lumo/ui/icons'
 

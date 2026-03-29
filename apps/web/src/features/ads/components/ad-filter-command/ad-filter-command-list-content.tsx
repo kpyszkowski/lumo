@@ -1,4 +1,3 @@
-'use client'
 import { Command, ScrollArea } from '@lumo/ui/components'
 import type { Icon } from '@lumo/ui/icons'
 import { CommandItem } from '~/features/ads/components/ad-filter-command/ad-filter-command-item'

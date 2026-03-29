@@ -34,6 +34,11 @@ const buttonStyles = createStyles({
           'bg-elevated hover:bg-highlighted focus-visible:bg-highlighted',
         wrapper: 'text-muted',
       },
+      accent: {
+        container:
+          'bg-accent hover:bg-accent/90 focus-visible:bg-accent/90 active:scale-96',
+        wrapper: 'text-main-inv',
+      },
     },
     size: {
       sm: {
@@ -125,7 +130,7 @@ type ButtonProps = Omit<ButtonPrimitive.Props, 'nativeButton'> &
     /** Tabler icon component rendered alongside the label. */
     icon?: Icon
     /** Visual style of the button. @default 'outline' */
-    variant?: 'outline' | 'ghost' | 'solid'
+    variant?: 'outline' | 'ghost' | 'solid' | 'accent'
     /** Size of the button. @default 'md' */
     size?: 'sm' | 'md' | 'lg'
     /** Border radius: `'pill'` (fully rounded) or `'rounded'` (scales with `size`). @default 'pill' */
