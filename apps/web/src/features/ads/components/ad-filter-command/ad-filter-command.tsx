@@ -3,6 +3,7 @@ import { Button, Chip, Command, IconButton } from '@lumo/ui/components'
 import { IconSearch } from '@lumo/ui/icons'
 import { createStyles, type StylesProps } from '@lumo/ui/utils'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useTranslations } from 'next-intl'
 import { useAdDistribution } from '~/features/ads/hooks/use-ad-distribution'
 import { useActiveFilters } from '~/features/ads/hooks/use-active-filters'
 import { useAdFilterForm } from '~/features/ads/hooks/use-ad-filter-form'
@@ -44,6 +45,10 @@ function AdFilterCommand(props: AdFilterCommandProps) {
   const [activePage, setActivePage] = useState(0)
   const [searchValue, setSearchValue] = useState('')
 
+  const t = useTranslations('AdFilterCommand')
+  const tPages = useTranslations('FilterPages')
+  const tFilterData = useTranslations('FilterData')
+
   const { form, values, setMake, setModel, filterSelection } = useAdFilterForm()
   const { setValue } = form
 
@@ -62,12 +67,39 @@ function AdFilterCommand(props: AdFilterCommandProps) {
     [],
   )
 
+  const filterPageLabels = useMemo(
+    () => ({
+      makesLabel: tPages('makesLabel'),
+      makesPlaceholder: tPages('makesPlaceholder'),
+      modelsLabel: tPages('modelsLabel'),
+      modelsPlaceholder: tPages('modelsPlaceholder'),
+      generationsLabel: tPages('generationsLabel'),
+      generationsPlaceholder: tPages('generationsPlaceholder'),
+      bodyTypesLabel: tPages('bodyTypesLabel'),
+      bodyTypesPlaceholder: tPages('bodyTypesPlaceholder'),
+      priceLabel: tPages('priceLabel'),
+      pricePlaceholder: tPages('pricePlaceholder'),
+      yearLabel: tPages('yearLabel'),
+      yearPlaceholder: tPages('yearPlaceholder'),
+      fuelTypesLabel: tPages('fuelTypesLabel'),
+      fuelTypesPlaceholder: tPages('fuelTypesPlaceholder'),
+      transmissionsLabel: tPages('transmissionsLabel'),
+      transmissionsPlaceholder: tPages('transmissionsPlaceholder'),
+      mileageLabel: tPages('mileageLabel'),
+      mileagePlaceholder: tPages('mileagePlaceholder'),
+      groupAlphabetical: tPages('groupAlphabetical'),
+      generationPresent: tFilterData('generationPresent'),
+    }),
+    [tPages, tFilterData],
+  )
+
   const pages = useFilterPages({
     values,
     setValue,
     setMake,
     setModel,
     onPageChange: handlePageChange,
+    labels: filterPageLabels,
     adCountByPrice: useAdDistribution('price', filterSelection),
     adCountByProductionYear: useAdDistribution(
       'productionYear',
@@ -83,17 +115,17 @@ function AdFilterCommand(props: AdFilterCommandProps) {
     setModel,
   })
 
-  const rangeStateByLabel = useMemo(
+  const rangeStateById = useMemo(
     () => ({
-      Cena: {
+      price: {
         value: values.priceRange,
         onChange: (v: [number, number]) => setValue('priceRange', v),
       },
-      'Rok produkcji': {
+      year: {
         value: values.yearRange,
         onChange: (v: [number, number]) => setValue('yearRange', v),
       },
-      Przebieg: {
+      mileage: {
         value: values.mileageRange,
         onChange: (v: [number, number]) => setValue('mileageRange', v),
       },
@@ -119,7 +151,7 @@ function AdFilterCommand(props: AdFilterCommandProps) {
   const currentPage = pages[activePage]
   const currentRangeState =
     currentPage?.type === 'range'
-      ? rangeStateByLabel[currentPage.label as keyof typeof rangeStateByLabel]
+      ? rangeStateById[currentPage.id as keyof typeof rangeStateById]
       : null
 
   return (
@@ -130,7 +162,7 @@ function AdFilterCommand(props: AdFilterCommandProps) {
         icon={IconSearch}
         className={styles.triggerButton({ className })}
       >
-        Marka, model, rok produkcji...
+        {t('triggerPlaceholder')}
       </Button>
 
       <Command.Dialog
@@ -164,10 +196,12 @@ function AdFilterCommand(props: AdFilterCommandProps) {
           variant="accent"
           className={styles.submitButton()}
           icon={IconSearch}
-          label="Wyszukaj"
+          label={t('searchSubmit')}
         />
         <Command.Input
-          placeholder={currentPage?.placeholder ?? 'Wyszukaj...'}
+          placeholder={
+            currentPage?.placeholder ?? t('searchFallbackPlaceholder')
+          }
           value={searchValue}
           onValueChange={setSearchValue}
           ref={inputRef}

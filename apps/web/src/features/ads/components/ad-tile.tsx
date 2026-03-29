@@ -1,3 +1,4 @@
+'use client'
 import { IconButton } from '@lumo/ui/components'
 import {
   IconCalendarDot,
@@ -11,7 +12,8 @@ import {
   IconRoad,
 } from '@lumo/ui/icons'
 import { createStyles } from '@lumo/ui/utils'
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
+import { useTranslations, useFormatter } from 'next-intl'
 
 const adTileStyles = createStyles({
   slots: {
@@ -68,22 +70,30 @@ const detailKeyToIcon = {
   transmission: IconManualGearbox,
 }
 
-const fuelTypeKeyToLabel = {
-  plugin: 'Hybryda plug-in',
-  petrol: 'Benzyna',
-  diesel: 'Diesel',
-  electric: 'Elektryczny',
-}
-
-const transmissionKeyToLabel = {
-  automatic: 'Automatyczna',
-  manual: 'Manualna',
-}
-
 function AdTile(props: AdTileProps) {
   const { className } = props
 
   const styles = adTileStyles()
+  const t = useTranslations('AdTile')
+  const format = useFormatter()
+
+  const fuelTypeKeyToLabel = useMemo(
+    () => ({
+      plugin: t('fuelTypePluginHybrid'),
+      petrol: t('fuelTypePetrol'),
+      diesel: t('fuelTypeDiesel'),
+      electric: t('fuelTypeElectric'),
+    }),
+    [t],
+  )
+
+  const transmissionKeyToLabel = useMemo(
+    () => ({
+      automatic: t('transmissionAutomatic'),
+      manual: t('transmissionManual'),
+    }),
+    [t],
+  )
 
   const details = useMemo(
     () => [
@@ -93,15 +103,17 @@ function AdTile(props: AdTileProps) {
       },
       {
         icon: detailKeyToIcon.mileage,
-        value: `${MOCK.details.mileage} km`,
+        value: t('mileageValue', { value: MOCK.details.mileage }),
       },
       {
         icon: detailKeyToIcon.engineCapacity,
-        value: `${(MOCK.details.engineCapacity / 1000).toFixed(1)} L`,
+        value: t('engineCapacityValue', {
+          value: (MOCK.details.engineCapacity / 1000).toFixed(1),
+        }),
       },
       {
         icon: detailKeyToIcon.power,
-        value: `${MOCK.details.power} KM`,
+        value: t('powerValue', { value: MOCK.details.power }),
       },
       {
         icon: detailKeyToIcon.fuelType,
@@ -118,12 +130,12 @@ function AdTile(props: AdTileProps) {
           ],
       },
     ],
-    [],
+    [t, fuelTypeKeyToLabel, transmissionKeyToLabel],
   )
 
   const makeModelLabel = `${MOCK.make} ${MOCK.model}`
   const locationLabel = `${MOCK.city}, ${MOCK.voivodeship}`
-  const priceLabel = MOCK.price.toLocaleString('pl-PL', {
+  const priceLabel = format.number(MOCK.price, {
     style: 'currency',
     currency: 'PLN',
     currencyDisplay: 'code',
@@ -139,14 +151,14 @@ function AdTile(props: AdTileProps) {
         <ul className={styles.galleryButtons()}>
           <li>
             <IconButton
-              label="Dodaj do obserwowanych"
+              label={t('watchButton')}
               icon={IconHeart}
             />
           </li>
 
           <li>
             <IconButton
-              label="Dyskusja"
+              label={t('discussButton')}
               icon={IconMessageCircle}
             />
           </li>
@@ -175,7 +187,7 @@ function AdTile(props: AdTileProps) {
         {details.map((detail) => (
           <div
             className={styles.detailItem()}
-            key={detail.value}
+            key={String(detail.value)}
           >
             <dt>
               <detail.icon className={styles.detailIcon()} />

@@ -20,11 +20,11 @@ function translateModelName(name: string): string {
   return name
 }
 
-export function formatGenerationLabel(gen: {
-  name: string
-  production: { start: number; end: number | null }
-}): string {
-  const end = gen.production.end ?? 'obecnie'
+export function formatGenerationLabel(
+  gen: { name: string; production: { start: number; end: number | null } },
+  presentLabel: string,
+): string {
+  const end = gen.production.end ?? presentLabel
   return `${gen.name} (${gen.production.start}–${end})`
 }
 

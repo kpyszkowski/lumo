@@ -31,12 +31,36 @@ import type { RangeFilterPage } from '~/features/ads/components/ad-filter-comman
 
 export type FilterPage = ListFilterPage | RangeFilterPage
 
+export type FilterPageLabels = {
+  generationPresent: string
+  makesLabel: string
+  makesPlaceholder: string
+  modelsLabel: string
+  modelsPlaceholder: string
+  generationsLabel: string
+  generationsPlaceholder: string
+  bodyTypesLabel: string
+  bodyTypesPlaceholder: string
+  priceLabel: string
+  pricePlaceholder: string
+  yearLabel: string
+  yearPlaceholder: string
+  fuelTypesLabel: string
+  fuelTypesPlaceholder: string
+  transmissionsLabel: string
+  transmissionsPlaceholder: string
+  mileageLabel: string
+  mileagePlaceholder: string
+  groupAlphabetical: string
+}
+
 type UseFilterPagesParams = {
   values: AdFilterValues
   setValue: UseFormSetValue<AdFilterValues>
   setMake: (id: string | null) => void
   setModel: (id: string | null) => void
   onPageChange: (index: number | ((prev: number) => number)) => void
+  labels: FilterPageLabels
   adCountByPrice: number[]
   adCountByProductionYear: number[]
   adCountByMileage: number[]
@@ -49,6 +73,7 @@ export function useFilterPages(params: UseFilterPagesParams): FilterPage[] {
     setMake,
     setModel,
     onPageChange,
+    labels,
     adCountByPrice,
     adCountByProductionYear,
     adCountByMileage,
@@ -87,12 +112,12 @@ export function useFilterPages(params: UseFilterPagesParams): FilterPage[] {
       {
         type: 'list',
         icon: IconMakes,
-        label: 'Marka pojazdu',
-        placeholder: 'Wyszukaj markę...',
+        label: labels.makesLabel,
+        placeholder: labels.makesPlaceholder,
         active: !!makeId,
         data: [
           {
-            label: 'Alfabetycznie',
+            label: labels.groupAlphabetical,
             data: makes.map((m) => ({ id: m.id, label: m.name })),
           },
         ],
@@ -101,14 +126,14 @@ export function useFilterPages(params: UseFilterPagesParams): FilterPage[] {
       {
         type: 'list',
         icon: IconModels,
-        label: 'Model pojazdu',
-        placeholder: 'Wyszukaj model...',
+        label: labels.modelsLabel,
+        placeholder: labels.modelsPlaceholder,
         disabled: !makeId,
         active: !!modelId,
         data: modelIds.length
           ? [
               {
-                label: 'Alfabetycznie',
+                label: labels.groupAlphabetical,
                 data: modelIds.map((id) => ({
                   id,
                   label: indexes.models[`${makeId}:${id}`]?.name ?? id,
@@ -121,20 +146,22 @@ export function useFilterPages(params: UseFilterPagesParams): FilterPage[] {
       {
         type: 'list',
         icon: IconGenerations,
-        label: 'Generacja',
-        placeholder: 'Wyszukaj generację...',
+        label: labels.generationsLabel,
+        placeholder: labels.generationsPlaceholder,
         disabled: !makeId || !modelId,
         active: !!generationId,
         data: generationIds.length
           ? [
               {
-                label: 'Alfabetycznie',
+                label: labels.groupAlphabetical,
                 data: generationIds.map((genId) => {
                   const gen =
                     indexes.generations[`${makeId}:${modelId}:${genId}`]
                   return {
                     id: genId,
-                    label: gen ? formatGenerationLabel(gen) : genId,
+                    label: gen
+                      ? formatGenerationLabel(gen, labels.generationPresent)
+                      : genId,
                   }
                 }),
               },
@@ -145,17 +172,18 @@ export function useFilterPages(params: UseFilterPagesParams): FilterPage[] {
       {
         type: 'list',
         icon: IconCarBodySuv,
-        label: 'Typ nadwozia',
-        placeholder: 'Wyszukaj typ nadwozia...',
+        label: labels.bodyTypesLabel,
+        placeholder: labels.bodyTypesPlaceholder,
         active: !!bodyTypeId,
-        data: [{ label: 'Alfabetycznie', data: bodyTypes }],
+        data: [{ label: labels.groupAlphabetical, data: bodyTypes }],
         onSelect: (item) => setValue('bodyTypeId', item.id),
       },
       {
         type: 'range',
+        id: 'price',
         icon: IconCoin,
-        label: 'Cena',
-        placeholder: 'Podaj cenę...',
+        label: labels.priceLabel,
+        placeholder: labels.pricePlaceholder,
         active: isPriceRangeActive,
         min: 0,
         max: 500000,
@@ -165,9 +193,10 @@ export function useFilterPages(params: UseFilterPagesParams): FilterPage[] {
       },
       {
         type: 'range',
+        id: 'year',
         icon: IconCalendarDot,
-        label: 'Rok produkcji',
-        placeholder: 'Podaj rok produkcji...',
+        label: labels.yearLabel,
+        placeholder: labels.yearPlaceholder,
         active: isYearRangeActive,
         min: 1990,
         max: 2026,
@@ -178,26 +207,27 @@ export function useFilterPages(params: UseFilterPagesParams): FilterPage[] {
       {
         type: 'list',
         icon: IconGasStation,
-        label: 'Rodzaj paliwa',
-        placeholder: 'Wyszukaj rodzaj paliwa...',
+        label: labels.fuelTypesLabel,
+        placeholder: labels.fuelTypesPlaceholder,
         active: !!fuelTypeId,
-        data: [{ label: 'Alfabetycznie', data: fuelTypes }],
+        data: [{ label: labels.groupAlphabetical, data: fuelTypes }],
         onSelect: (item) => setValue('fuelTypeId', item.id),
       },
       {
         type: 'list',
         icon: IconManualGearbox,
-        label: 'Skrzynia biegów',
-        placeholder: 'Wyszukaj skrzynię biegów...',
+        label: labels.transmissionsLabel,
+        placeholder: labels.transmissionsPlaceholder,
         active: !!transmissionId,
-        data: [{ label: 'Alfabetycznie', data: transmissions }],
+        data: [{ label: labels.groupAlphabetical, data: transmissions }],
         onSelect: (item) => setValue('transmissionId', item.id),
       },
       {
         type: 'range',
+        id: 'mileage',
         icon: IconRoad,
-        label: 'Przebieg',
-        placeholder: 'Podaj przebieg...',
+        label: labels.mileageLabel,
+        placeholder: labels.mileagePlaceholder,
         active: isMileageRangeActive,
         min: 0,
         max: 300000,
@@ -249,6 +279,7 @@ export function useFilterPages(params: UseFilterPagesParams): FilterPage[] {
     yearMax,
     mileageMin,
     mileageMax,
+    labels,
     setValue,
     setMake,
     setModel,

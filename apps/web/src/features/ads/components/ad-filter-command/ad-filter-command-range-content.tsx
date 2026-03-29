@@ -1,8 +1,10 @@
 import { Histogram, Input, Slider } from '@lumo/ui/components'
 import type { Icon } from '@lumo/ui/icons'
+import { useTranslations } from 'next-intl'
 
 type RangeFilterPage = {
   type: 'range'
+  id: 'price' | 'year' | 'mileage'
   icon: Icon
   label: string
   placeholder: string
@@ -31,6 +33,7 @@ type RangeFilterContentProps = {
 
 function RangeFilterContent(props: RangeFilterContentProps) {
   const { page, value, onChange, styles } = props
+  const t = useTranslations('AdFilterCommand')
 
   return (
     <div className={styles.rangeContent()}>
@@ -54,11 +57,11 @@ function RangeFilterContent(props: RangeFilterContentProps) {
             <Slider.Indicator className="opacity-75" />
             <Slider.Thumb
               index={0}
-              aria-label="Wartość minimalna"
+              aria-label={t('sliderMin')}
             />
             <Slider.Thumb
               index={1}
-              aria-label="Wartość maksymalna"
+              aria-label={t('sliderMax')}
             />
           </Slider.Track>
         </Slider.Control>
@@ -66,7 +69,8 @@ function RangeFilterContent(props: RangeFilterContentProps) {
       <div className={styles.rangeInputRow()}>
         <label className={styles.rangeInputLabel()}>
           <span className={styles.rangeInputLabelText()}>
-            Od{page.unit ? ` (${page.unit})` : ''}
+            {t('rangeFrom')}
+            {page.unit ? ` (${page.unit})` : ''}
           </span>
           <Input
             type="number"
@@ -81,7 +85,8 @@ function RangeFilterContent(props: RangeFilterContentProps) {
         </label>
         <label className={styles.rangeInputLabel()}>
           <span className={styles.rangeInputLabelText()}>
-            Do{page.unit ? ` (${page.unit})` : ''}
+            {t('rangeTo')}
+            {page.unit ? ` (${page.unit})` : ''}
           </span>
           <Input
             type="number"

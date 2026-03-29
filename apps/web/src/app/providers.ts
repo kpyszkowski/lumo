@@ -1,4 +1,5 @@
 import { ThemeProvider } from 'next-themes'
+import { NextIntlClientProvider } from 'next-intl'
 import {
   type ComponentProps,
   type ComponentType,
@@ -45,6 +46,9 @@ export function Providers(props: PropsWithChildren) {
       props: {
         attribute: 'data-theme',
       },
+    },
+    {
+      provider: NextIntlClientProvider as ComponentType,
     },
     {
       provider: RPCProvider,

@@ -1,6 +1,7 @@
 'use client'
 import { StaggeredList } from '@lumo/ui/components'
 import { createStyles, type StylesProps } from '@lumo/ui/utils'
+import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 
 const recommendedSearchQueriesStyles = createStyles({
@@ -12,45 +13,6 @@ const recommendedSearchQueriesStyles = createStyles({
     item: 'text-main w-fit text-3xl/snug font-bold',
   },
 })
-
-const MOCK = [
-  {
-    heading: 'Popularne marki',
-    items: [
-      { label: 'BMW', href: '/search?query=bmw' },
-      { label: 'Mercedes-Benz', href: '/search?query=mercedes' },
-      { label: 'Toyota', href: '/search?query=toyota' },
-      { label: 'Ford', href: '/search?query=ford' },
-    ],
-  },
-  {
-    heading: 'Popularne wyszukiwania',
-    items: [
-      { label: 'Coupe do 20k PLN', href: '/search?query=c' },
-      { label: 'Hybrydowy SUV', href: '/search?query=h' },
-      { label: 'Miejski elektryk', href: '/search?query=m' },
-      { label: 'Limuzyna od 250 koni', href: '/search?query=l' },
-    ],
-  },
-  {
-    heading: 'Rodzaje nadwozia',
-    items: [
-      { label: 'SUV', href: '/search?query=s' },
-      { label: 'Limuzyna', href: '/search?query=l' },
-      { label: 'Kombi', href: '/search?query=k' },
-      { label: 'Coupe', href: '/search?query=c' },
-    ],
-  },
-  {
-    heading: 'Rodzaje paliwa',
-    items: [
-      { label: 'Elektryczny', href: '/search?query=e' },
-      { label: 'Benzyna', href: '/search?query=b' },
-      { label: 'Diesel', href: '/search?query=d' },
-      { label: 'Hybryda', href: '/search?query=h' },
-    ],
-  },
-]
 
 type RecommendedSearchQueriesProps = StylesProps<
   typeof recommendedSearchQueriesStyles
@@ -64,13 +26,53 @@ export default function RecommendedSearchQueries(
   const { className, ...restProps } = props
 
   const styles = recommendedSearchQueriesStyles()
+  const t = useTranslations('RecommendedSearchQueries')
+
+  const sections = [
+    {
+      heading: t('popularBrandsHeading'),
+      items: [
+        { label: 'BMW', href: '/search?query=bmw' },
+        { label: 'Mercedes-Benz', href: '/search?query=mercedes' },
+        { label: 'Toyota', href: '/search?query=toyota' },
+        { label: 'Ford', href: '/search?query=ford' },
+      ],
+    },
+    {
+      heading: t('popularSearchesHeading'),
+      items: [
+        { label: t('searchCoupe'), href: '/search?query=c' },
+        { label: t('searchHybridSuv'), href: '/search?query=h' },
+        { label: t('searchCityElectric'), href: '/search?query=m' },
+        { label: t('searchLimousine'), href: '/search?query=l' },
+      ],
+    },
+    {
+      heading: t('bodyTypesHeading'),
+      items: [
+        { label: t('bodySuv'), href: '/search?query=s' },
+        { label: t('bodyLimousine'), href: '/search?query=l' },
+        { label: t('bodyEstate'), href: '/search?query=k' },
+        { label: t('bodyCoupe'), href: '/search?query=c' },
+      ],
+    },
+    {
+      heading: t('fuelTypesHeading'),
+      items: [
+        { label: t('fuelElectric'), href: '/search?query=e' },
+        { label: t('fuelPetrol'), href: '/search?query=b' },
+        { label: t('fuelDiesel'), href: '/search?query=d' },
+        { label: t('fuelHybrid'), href: '/search?query=h' },
+      ],
+    },
+  ]
 
   return (
     <div
       className={styles.container({ className })}
       {...restProps}
     >
-      {MOCK.map((section) => (
+      {sections.map((section) => (
         <div
           key={section.heading}
           className={styles.section()}

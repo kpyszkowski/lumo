@@ -7,6 +7,7 @@ import {
 } from '@lumo/ui/icons'
 import { createStyles, type StylesProps } from '@lumo/ui/utils'
 import { AdFilterCommand } from '~/features/ads/components/ad-filter-command'
+import { getTranslations } from 'next-intl/server'
 
 const headerStyles = createStyles({
   slots: {
@@ -23,10 +24,11 @@ type HeaderProps = StylesProps<typeof headerStyles> & {
   className?: string
 }
 
-function Header(props: HeaderProps) {
+async function Header(props: HeaderProps) {
   const { className, ...restProps } = props
 
   const styles = headerStyles()
+  const t = await getTranslations('Header')
 
   return (
     <div
@@ -43,22 +45,22 @@ function Header(props: HeaderProps) {
         <div className={styles.userPanelActionsWrapper()}>
           <IconButton
             icon={IconBell}
-            label="Powiadomienia"
+            label={t('notifications')}
             variant="ghost"
           />
           <IconButton
             icon={IconHeart}
-            label="Obserwowane ogłoszenia"
+            label={t('watchedAds')}
             variant="ghost"
           />
           <IconButton
             icon={IconMessageCircle}
-            label="Wiadomości"
+            label={t('messages')}
             variant="ghost"
           />
         </div>
 
-        <Button icon={IconPlus}>Dodaj ogłoszenie</Button>
+        <Button icon={IconPlus}>{t('addAd')}</Button>
 
         <div className={styles.avatar()}>KP</div>
       </div>

@@ -1,0 +1,83 @@
+{
+  "Metadata": {
+    "title": "Lumo — passenger cars",
+    "description": "Find your dream car"
+  },
+  "Header": {
+    "notifications": "Notifications",
+    "watchedAds": "Watched listings",
+    "messages": "Messages",
+    "addAd": "Add listing"
+  },
+  "HomePage": {
+    "advertTypeLabel": "Listing type",
+    "promoted": "Promoted",
+    "newest": "Newest",
+    "mostPopular": "Most popular",
+    "filter": "Filters"
+  },
+  "AdFilterCommand": {
+    "triggerPlaceholder": "Make, model, year...",
+    "searchSubmit": "Search",
+    "searchFallbackPlaceholder": "Search...",
+    "rangeFrom": "From",
+    "rangeTo": "To",
+    "sliderMin": "Minimum value",
+    "sliderMax": "Maximum value"
+  },
+  "FilterPages": {
+    "makesLabel": "Make",
+    "makesPlaceholder": "Search make...",
+    "modelsLabel": "Model",
+    "modelsPlaceholder": "Search model...",
+    "generationsLabel": "Generation",
+    "generationsPlaceholder": "Search generation...",
+    "bodyTypesLabel": "Body type",
+    "bodyTypesPlaceholder": "Search body type...",
+    "priceLabel": "Price",
+    "pricePlaceholder": "Enter price...",
+    "yearLabel": "Year",
+    "yearPlaceholder": "Enter year...",
+    "fuelTypesLabel": "Fuel type",
+    "fuelTypesPlaceholder": "Search fuel type...",
+    "transmissionsLabel": "Transmission",
+    "transmissionsPlaceholder": "Search transmission...",
+    "mileageLabel": "Mileage",
+    "mileagePlaceholder": "Enter mileage...",
+    "groupAlphabetical": "Alphabetically"
+  },
+  "AdTile": {
+    "watchButton": "Add to watched",
+    "discussButton": "Discussion",
+    "fuelTypePluginHybrid": "Plug-in hybrid",
+    "fuelTypePetrol": "Petrol",
+    "fuelTypeDiesel": "Diesel",
+    "fuelTypeElectric": "Electric",
+    "transmissionAutomatic": "Automatic",
+    "transmissionManual": "Manual",
+    "mileageValue": "{value} km",
+    "engineCapacityValue": "{value} L",
+    "powerValue": "{value} HP"
+  },
+  "FilterData": {
+    "generationPresent": "present"
+  },
+  "RecommendedSearchQueries": {
+    "popularBrandsHeading": "Popular brands",
+    "popularSearchesHeading": "Popular searches",
+    "bodyTypesHeading": "Body types",
+    "fuelTypesHeading": "Fuel types",
+    "searchCoupe": "Coupe under 20k PLN",
+    "searchHybridSuv": "Hybrid SUV",
+    "searchCityElectric": "City electric",
+    "searchLimousine": "Saloon with 250+ hp",
+    "bodySuv": "SUV",
+    "bodyLimousine": "Saloon",
+    "bodyEstate": "Estate",
+    "bodyCoupe": "Coupe",
+    "fuelElectric": "Electric",
+    "fuelPetrol": "Petrol",
+    "fuelDiesel": "Diesel",
+    "fuelHybrid": "Hybrid"
+  }
+}

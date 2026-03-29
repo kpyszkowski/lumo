@@ -8,6 +8,7 @@
     "allowJs": true,
     "jsx": "preserve",
     "noEmit": true,
+    "resolveJsonModule": true,
     // Next.js seems to not support ${configDir} template variable.
     // Both `baseUrl` and `paths` needs to be rewritten with relative paths.
     "baseUrl": "./src",

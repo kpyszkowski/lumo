@@ -9,6 +9,7 @@ import {
 import { createStyles } from '@lumo/ui/utils'
 import AdTile from '~/features/ads/components/ad-tile'
 import RecommendedSearchQueries from '~/features/recommendations/components/recommended-search-queries'
+import { getTranslations } from 'next-intl/server'
 
 const pageStyles = createStyles({
   slots: {
@@ -19,6 +20,7 @@ const pageStyles = createStyles({
 
 export default async function Homepage() {
   const styles = pageStyles()
+  const t = await getTranslations('HomePage')
 
   return (
     <div className={styles.container()}>
@@ -55,12 +57,12 @@ export default async function Homepage() {
             id="radiogroup-label"
             className="sr-only"
           >
-            Rodzaj ogłoszenia
+            {t('advertTypeLabel')}
           </div>
 
-          <Radio.Button value="advert:promoted">Promowane</Radio.Button>
-          <Radio.Button value="advert:newest">Najnowsze</Radio.Button>
-          <Radio.Button value="advert:popular">Najpopularniejsze</Radio.Button>
+          <Radio.Button value="advert:promoted">{t('promoted')}</Radio.Button>
+          <Radio.Button value="advert:newest">{t('newest')}</Radio.Button>
+          <Radio.Button value="advert:popular">{t('mostPopular')}</Radio.Button>
         </Radio.Group>
 
         <Button
@@ -68,7 +70,7 @@ export default async function Homepage() {
           variant="ghost"
           icon={IconAdjustmentsHorizontal}
         >
-          Filtrowanie
+          {t('filter')}
         </Button>
       </div>
 

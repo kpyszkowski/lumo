@@ -1,4 +1,5 @@
 import { useMemo } from 'react'
+import { useFormatter, useTranslations } from 'next-intl'
 import type { UseFormSetValue } from 'react-hook-form'
 import {
   bodyTypes,
@@ -45,6 +46,9 @@ export function useActiveFilters(
   const { priceMin, priceMax, yearMin, yearMax, mileageMin, mileageMax } =
     AD_FILTER_DEFAULTS
 
+  const format = useFormatter()
+  const t = useTranslations('FilterData')
+
   return useMemo((): ActiveFilter[] => {
     const filters: ActiveFilter[] = []
 
@@ -70,7 +74,9 @@ export function useActiveFilters(
       const gen = indexes.generations[`${makeId}:${modelId}:${generationId}`]
       filters.push({
         id: 'generation',
-        label: gen ? formatGenerationLabel(gen) : generationId,
+        label: gen
+          ? formatGenerationLabel(gen, t('generationPresent'))
+          : generationId,
         onRemove: () => setValue('generationId', null),
       })
     }
@@ -85,9 +91,17 @@ export function useActiveFilters(
     }
 
     if (priceRange[0] !== priceMin || priceRange[1] !== priceMax) {
+      const formatPrice = (v: number) =>
+        format.number(v, {
+          style: 'currency',
+          currency: 'PLN',
+          currencyDisplay: 'code',
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 0,
+        })
       filters.push({
         id: 'price',
-        label: `${priceRange[0].toLocaleString('pl')}–${priceRange[1].toLocaleString('pl')} zł`,
+        label: `${formatPrice(priceRange[0])}–${formatPrice(priceRange[1])}`,
         onRemove: () => setValue('priceRange', [priceMin, priceMax]),
       })
     }
@@ -121,7 +135,7 @@ export function useActiveFilters(
     if (mileageRange[0] !== mileageMin || mileageRange[1] !== mileageMax) {
       filters.push({
         id: 'mileage',
-        label: `${mileageRange[0].toLocaleString('pl')}–${mileageRange[1].toLocaleString('pl')} km`,
+        label: `${format.number(mileageRange[0])}–${format.number(mileageRange[1])} km`,
         onRemove: () => setValue('mileageRange', [mileageMin, mileageMax]),
       })
     }
@@ -143,6 +157,8 @@ export function useActiveFilters(
     yearMax,
     mileageMin,
     mileageMax,
+    format,
+    t,
     setValue,
     setMake,
     setModel,
