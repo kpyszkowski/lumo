@@ -103,7 +103,6 @@ const CommandItem = ({
   })
 
   return (
-    //@ts-expect-error `children` prop are `string` type but `ReactNode` is fine
     <Command.Item
       value={value}
       className={styles.container({

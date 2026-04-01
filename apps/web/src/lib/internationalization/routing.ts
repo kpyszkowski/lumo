@@ -6,11 +6,11 @@ export const routing = defineRouting({
   localePrefix: 'as-needed',
   pathnames: {
     '/': '/',
-    '/oferty': {
+    '/offers': {
       pl: '/oferty',
       en: '/offers',
     },
-    '/oferty/[marka]/[model]': {
+    '/offers/[make]/[model]': {
       pl: '/oferty/[marka]/[model]',
       en: '/offers/[make]/[model]',
     },

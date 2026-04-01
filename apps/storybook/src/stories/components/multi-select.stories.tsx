@@ -1,7 +1,7 @@
 import type { ComponentProps } from 'react'
 import type { Meta, StoryFn } from 'storybook-react-rsbuild'
 
-import { Button, MultiSelect } from '@lumo/ui/components'
+import { Button, Chip, MultiSelect } from '@lumo/ui/components'
 import { type ButtonProps } from '@lumo/ui/components'
 import { IconChevronDown } from '@lumo/ui/icons'
 import { motion } from '@lumo/ui/motion'
@@ -71,13 +71,13 @@ export const Default: Story = (args) => {
 
           return (
             <Button variant={variant}>
-              <div className="flex items-center gap-3">
-                Marka pojazdu
-                {value.length > 0 && (
-                  <span className="bg-elevated-inv text-main-inv dark:text-main rounded-xl px-2 py-0.5 text-sm">
-                    {selectedItem ? selectedItem.label : value.length}
-                  </span>
-                )}
+              <div className="flex items-center gap-2">
+                <span>Marka pojazdu</span>
+                {selectedItem ? (
+                  <Chip label={selectedItem.label} />
+                ) : value.length > 1 ? (
+                  <Chip label={`${value.length}`} />
+                ) : null}
                 <MotionIconChevronDown
                   className="-mr-3 size-4"
                   animate={{

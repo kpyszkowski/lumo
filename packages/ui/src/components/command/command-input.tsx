@@ -1,8 +1,9 @@
 'use client'
 import { createStyles, type StylesProps } from '~/utils'
 import { Command as CommandPrimitive } from 'cmdk-base'
-import { type ComponentProps, type ReactNode } from 'react'
+import { type ComponentProps } from 'react'
 import { useCommandRootContext } from '~/components/command/command-root'
+import { Chip, type ChipProps } from '~/components'
 
 const commandInputStyles = createStyles({
   slots: {
@@ -25,7 +26,7 @@ type CommandInputProps = ComponentProps<typeof CommandPrimitive.Input> &
   StylesProps<typeof commandInputStyles> & {
     className?: string
     /** Optional content (e.g. chips) rendered before the text input. */
-    chips?: ReactNode
+    chips?: ChipProps[]
   }
 
 function CommandInput(props: CommandInputProps) {
@@ -39,7 +40,12 @@ function CommandInput(props: CommandInputProps) {
 
   return (
     <div className={styles.wrapper()}>
-      {chips}
+      {chips?.map((chipProps) => (
+        <Chip
+          key={chipProps.label}
+          {...chipProps}
+        />
+      ))}
       <CommandPrimitive.Input
         className={styles.container({ className })}
         {...restProps}

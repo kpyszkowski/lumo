@@ -8,6 +8,8 @@ import {
   type ReactNode,
 } from 'react'
 import { RPCProvider } from '~/rpc/provider'
+import { NuqsAdapter } from 'nuqs/adapters/next/app'
+import * as OffersFilter from '~/features/offers/components/offers-filter'
 
 type Providers<P extends readonly ComponentType[]> = {
   [K in keyof P]: {
@@ -52,6 +54,14 @@ export function Providers(props: PropsWithChildren) {
     },
     {
       provider: RPCProvider,
+    },
+    {
+      provider: NuqsAdapter as ComponentType,
+    },
+    {
+      // Using `OffersFilter.Root` directly as provider to ensure the filter
+      // state is available across the app
+      provider: OffersFilter.Root as ComponentType,
     },
   ])
 }

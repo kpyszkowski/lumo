@@ -6,7 +6,7 @@ import {
   IconPlus,
 } from '@lumo/ui/icons'
 import { createStyles, type StylesProps } from '@lumo/ui/utils'
-import { AdFilterCommand } from '~/features/ads/components/ad-filter-command'
+import * as OffersFilter from '~/features/offers/components/offers-filter'
 import { getTranslations } from 'next-intl/server'
 
 const headerStyles = createStyles({
@@ -38,7 +38,7 @@ async function Header(props: HeaderProps) {
       <Logo />
 
       <div className={styles.searchBarWrapper()}>
-        <AdFilterCommand />
+        <OffersFilter.Command />
       </div>
 
       <div className={styles.userPanelWrapper()}>

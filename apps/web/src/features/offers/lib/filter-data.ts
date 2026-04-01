@@ -54,3 +54,45 @@ export const indexes = {
     ]),
   ),
 }
+
+export const getMakeIndexes = () => {
+  return Object.entries(indexes.makes).map(([makeId, make]) => ({
+    id: makeId,
+    label: make.name,
+  }))
+}
+
+export const getModelIndexes = (make?: string) => {
+  return make
+    ? indexes.makes[make]?.modelIds.map((modelId) => ({
+        id: modelId,
+        label: indexes.models[`${make}:${modelId}`]?.name ?? modelId,
+      }))
+    : []
+}
+
+export const getGenerationIndexes = (make?: string, model?: string) => {
+  return make && model
+    ? indexes.models[`${make}:${model}`]?.generationIds.map((generationId) => ({
+        id: generationId,
+        label:
+          indexes.generations[`${make}:${model}:${generationId}`]?.name ??
+          generationId,
+      }))
+    : []
+}
+
+export const getTrimIndexes = (
+  make?: string,
+  model?: string,
+  generation?: string,
+) => {
+  return make && model && generation
+    ? (indexes.generations[`${make}:${model}:${generation}`]?.engineTrims.map(
+        (trim, index) => ({
+          id: `${make}:${model}:${generation}:${index}`,
+          label: trim.name,
+        }),
+      ) ?? [])
+    : []
+}

@@ -16,37 +16,34 @@
     "mostPopular": "Najpopularniejsze",
     "filter": "Filtrowanie"
   },
-  "AdFilterCommand": {
-    "triggerPlaceholder": "Marka, model, rok produkcji...",
-    "searchSubmit": "Wyszukaj",
-    "searchFallbackPlaceholder": "Wyszukaj...",
-    "rangeFrom": "Od",
-    "rangeTo": "Do",
-    "sliderMin": "Wartość minimalna",
-    "sliderMax": "Wartość maksymalna"
+  "OffersFilter": {
+    "labels": {
+      "make": "Marka pojazdu",
+      "model": "Model pojazdu",
+      "generation": "Generacja",
+      "bodyType": "Typ nadwozia",
+      "price": "Cena",
+      "year": "Rok produkcji",
+      "fuelType": "Rodzaj paliwa",
+      "transmission": "Skrzynia biegów",
+      "mileage": "Przebieg",
+      "alphabetical": "Alfabetycznie",
+      "submit": "Wyszukaj"
+    },
+    "placeholders": {
+      "default": "Marka, model, rok produkcji...",
+      "make": "Wyszukaj markę...",
+      "model": "Wyszukaj model...",
+      "generation": "Wyszukaj generację...",
+      "bodyType": "Wyszukaj typ nadwozia...",
+      "price": "Podaj cenę...",
+      "year": "Podaj rok produkcji...",
+      "fuelType": "Wyszukaj rodzaj paliwa...",
+      "transmission": "Wyszukaj skrzynię biegów...",
+      "mileage": "Podaj przebieg..."
+    }
   },
-  "FilterPages": {
-    "makesLabel": "Marka pojazdu",
-    "makesPlaceholder": "Wyszukaj markę...",
-    "modelsLabel": "Model pojazdu",
-    "modelsPlaceholder": "Wyszukaj model...",
-    "generationsLabel": "Generacja",
-    "generationsPlaceholder": "Wyszukaj generację...",
-    "bodyTypesLabel": "Typ nadwozia",
-    "bodyTypesPlaceholder": "Wyszukaj typ nadwozia...",
-    "priceLabel": "Cena",
-    "pricePlaceholder": "Podaj cenę...",
-    "yearLabel": "Rok produkcji",
-    "yearPlaceholder": "Podaj rok produkcji...",
-    "fuelTypesLabel": "Rodzaj paliwa",
-    "fuelTypesPlaceholder": "Wyszukaj rodzaj paliwa...",
-    "transmissionsLabel": "Skrzynia biegów",
-    "transmissionsPlaceholder": "Wyszukaj skrzynię biegów...",
-    "mileageLabel": "Przebieg",
-    "mileagePlaceholder": "Podaj przebieg...",
-    "groupAlphabetical": "Alfabetycznie"
-  },
-  "AdTile": {
+  "OfferTile": {
     "watchButton": "Dodaj do obserwowanych",
     "discussButton": "Dyskusja",
     "fuelTypePluginHybrid": "Hybryda plug-in",
@@ -61,6 +58,22 @@
   },
   "FilterData": {
     "generationPresent": "obecnie"
+  },
+  "OffersPage": {
+    "makesPlaceholder": "Marka",
+    "modelsPlaceholder": "Model",
+    "bodyTypesPlaceholder": "Typ nadwozia",
+    "fuelTypesPlaceholder": "Rodzaj paliwa",
+    "transmissionsPlaceholder": "Skrzynia biegów",
+    "pricePlaceholder": "Cena",
+    "yearPlaceholder": "Rok produkcji",
+    "mileagePlaceholder": "Przebieg",
+    "sortButton": "Sortowanie",
+    "sortRelevance": "Trafność",
+    "sortPriceAsc": "Cena: od najniższej",
+    "sortPriceDesc": "Cena: od najwyższej",
+    "sortYearDesc": "Najnowsze",
+    "sortMileageAsc": "Najniższy przebieg"
   },
   "RecommendedSearchQueries": {
     "popularBrandsHeading": "Popularne marki",

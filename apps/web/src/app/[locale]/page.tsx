@@ -7,7 +7,7 @@ import {
   IconCarBodySuv,
 } from '@lumo/ui/icons'
 import { createStyles } from '@lumo/ui/utils'
-import AdTile from '~/features/ads/components/ad-tile'
+import { OfferTile } from '~/features/offers/components/offer-tile'
 import RecommendedSearchQueries from '~/features/recommendations/components/recommended-search-queries'
 import { getTranslations } from 'next-intl/server'
 
@@ -75,10 +75,10 @@ export default async function Homepage() {
       </div>
 
       <div className="grid grid-cols-3 gap-x-6 gap-y-8 py-3">
-        <AdTile />
-        <AdTile />
-        <AdTile />
-        <AdTile />
+        <OfferTile />
+        <OfferTile />
+        <OfferTile />
+        <OfferTile />
       </div>
     </div>
   )

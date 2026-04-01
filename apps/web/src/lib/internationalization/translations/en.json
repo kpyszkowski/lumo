@@ -46,7 +46,7 @@
     "mileagePlaceholder": "Enter mileage...",
     "groupAlphabetical": "Alphabetically"
   },
-  "AdTile": {
+  "OfferTile": {
     "watchButton": "Add to watched",
     "discussButton": "Discussion",
     "fuelTypePluginHybrid": "Plug-in hybrid",
@@ -61,6 +61,22 @@
   },
   "FilterData": {
     "generationPresent": "present"
+  },
+  "OffersPage": {
+    "makesPlaceholder": "Make",
+    "modelsPlaceholder": "Model",
+    "bodyTypesPlaceholder": "Body type",
+    "fuelTypesPlaceholder": "Fuel type",
+    "transmissionsPlaceholder": "Transmission",
+    "pricePlaceholder": "Price",
+    "yearPlaceholder": "Year",
+    "mileagePlaceholder": "Mileage",
+    "sortButton": "Sort",
+    "sortRelevance": "Relevance",
+    "sortPriceAsc": "Price: low to high",
+    "sortPriceDesc": "Price: high to low",
+    "sortYearDesc": "Newest first",
+    "sortMileageAsc": "Lowest mileage"
   },
   "RecommendedSearchQueries": {
     "popularBrandsHeading": "Popular brands",

@@ -15,7 +15,7 @@ import { createStyles } from '@lumo/ui/utils'
 import { useMemo } from 'react'
 import { useTranslations, useFormatter } from 'next-intl'
 
-const adTileStyles = createStyles({
+const offerTileStyles = createStyles({
   slots: {
     container: 'flex flex-col',
     galleryWrapper:
@@ -40,7 +40,7 @@ const adTileStyles = createStyles({
   },
 })
 
-type AdTileProps = {
+type OfferTileProps = {
   className?: string
 }
 
@@ -70,11 +70,11 @@ const detailKeyToIcon = {
   transmission: IconManualGearbox,
 }
 
-function AdTile(props: AdTileProps) {
+function OfferTile(props: OfferTileProps) {
   const { className } = props
 
-  const styles = adTileStyles()
-  const t = useTranslations('AdTile')
+  const styles = offerTileStyles()
+  const t = useTranslations('OfferTile')
   const format = useFormatter()
 
   const fuelTypeKeyToLabel = useMemo(
@@ -201,4 +201,4 @@ function AdTile(props: AdTileProps) {
   )
 }
 
-export default AdTile
+export { OfferTile, type OfferTileProps, offerTileStyles }

@@ -1,6 +1,6 @@
 'use client'
 import { Command as CommandPrimitive } from 'cmdk-base'
-import { type ComponentProps } from 'react'
+import { type ReactNode, type ComponentProps } from 'react'
 import { type Icon } from '~/icons'
 
 type CommandItemProps = Omit<
@@ -9,7 +9,7 @@ type CommandItemProps = Omit<
 > & {
   className?: string
   icon?: Icon
-  children: string
+  children?: ReactNode
 }
 
 function CommandItem(props: CommandItemProps) {

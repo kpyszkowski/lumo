@@ -70,7 +70,7 @@ function PopoverContent(props: PopoverContentProps) {
                 initial={{
                   opacity: 0,
                   scale: 0.92,
-                  [sizeProperty]: `calc(var(--positioner-${sizeProperty}) * 0.92)`,
+                  [sizeProperty]: `calc(var(--positioner-${sizeProperty}) * 0.96)`,
                 }}
                 animate={{
                   opacity: 1,
@@ -80,7 +80,7 @@ function PopoverContent(props: PopoverContentProps) {
                 exit={{
                   opacity: 0,
                   scale: 0.92,
-                  [sizeProperty]: `calc(var(--positioner-${sizeProperty}) * 0.92)`,
+                  [sizeProperty]: `calc(var(--positioner-${sizeProperty}) * 0.96)`,
                 }}
                 transition={{
                   type: 'spring',
@@ -90,6 +90,7 @@ function PopoverContent(props: PopoverContentProps) {
                   opacity: {
                     type: 'tween',
                     ease: [0.16, 1, 0.3, 1],
+                    delay: 0.04,
                   },
                 }}
               >
