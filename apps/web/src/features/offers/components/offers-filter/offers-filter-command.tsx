@@ -198,6 +198,8 @@ function OffersFilterCommand(props: OffersFilterCommandProps) {
       )
     }
 
+    // Keyboard navigation is interrupted by onKeyDown handler.
+    // TODO: Find a way to make it work.
     return (
       <FormRangeSelect.Root
         key={currentFilterKey}
