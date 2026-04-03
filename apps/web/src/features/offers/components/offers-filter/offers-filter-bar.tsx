@@ -9,7 +9,7 @@ import {
 import * as FormRangeSelect from '~/components/form/form-range-select'
 import * as FormMultiSelect from '~/components/form/form-multi-select'
 import { Button, Chip } from '@lumo/ui/components'
-import { motion, LayoutGroup } from '@lumo/ui/motion'
+import { motion, LayoutGroup, AnimatePresence } from '@lumo/ui/motion'
 import { IconArrowsSort, IconChevronDown } from '@lumo/ui/icons'
 import { useResizeObserver } from '@lumo/ui/hooks'
 import { getRangeLabel } from '~/features/offers/utils/get-range-label'
@@ -115,15 +115,17 @@ function OffersFilterBar(props: OffersFilterBarProps) {
                               <div className={styles.triggerWrapper()}>
                                 <motion.span layout>{filter.label}</motion.span>
 
-                                {value.length > 0 && (
-                                  <Chip
-                                    label={
-                                      value.length > 1
-                                        ? `${value.length}`
-                                        : (singleItem?.label ?? '')
-                                    }
-                                  />
-                                )}
+                                <AnimatePresence mode="popLayout">
+                                  {value.length > 0 && (
+                                    <Chip
+                                      label={
+                                        value.length > 1
+                                          ? `${value.length}`
+                                          : (singleItem?.label ?? '')
+                                      }
+                                    />
+                                  )}
+                                </AnimatePresence>
 
                                 <MotionIconChevronDown
                                   className={styles.triggerIcon()}

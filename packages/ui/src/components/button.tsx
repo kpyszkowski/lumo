@@ -78,6 +78,9 @@ const buttonStyles = createStyles({
       end: {
         wrapper: 'justify-start',
       },
+      justify: {
+        wrapper: 'justify-between',
+      },
     },
   },
   defaultVariants: {
@@ -141,7 +144,7 @@ type ButtonProps = Omit<ButtonPrimitive.Props, 'nativeButton'> &
     /** Side the icon appears on relative to the label. @default 'left' */
     iconPosition?: 'left' | 'right'
     /** Horizontal alignment of the label and icon inside the button. */
-    contentAlignment?: 'center' | 'start' | 'end'
+    contentAlignment?: 'center' | 'start' | 'end' | 'justify'
   }
 
 /**
@@ -195,7 +198,14 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
         <span className={styles.label()}>{children}</span>
         {Icon &&
           (isValidElement(Icon) ? (
-            cloneElement(Icon, { className: styles.icon() } as object)
+            cloneElement(Icon, {
+              className: [
+                styles.icon(),
+                (Icon.props as { className?: string }).className,
+              ]
+                .filter(Boolean)
+                .join(' '),
+            } as object)
           ) : (
             <Icon
               className={styles.icon()}

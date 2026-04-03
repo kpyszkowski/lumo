@@ -264,8 +264,12 @@ function OffersFilterRoot(props: OffersFilterRootProps) {
   const state = useWatch({
     control,
     compute: (values) => ({
-      model: { disabled: !values.make?.length },
-      generation: { disabled: !values.make?.length || !values.model?.length },
+      model: {
+        disabled: (values.make?.length ?? 0) !== 1,
+      },
+      generation: {
+        disabled: (values.make?.length ?? 0) !== 1 || !values.model?.length,
+      },
     }),
   })
 

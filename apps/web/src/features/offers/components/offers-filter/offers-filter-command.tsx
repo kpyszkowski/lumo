@@ -4,6 +4,7 @@ import {
   type Icon,
   IconCalendarDot,
   IconCarBodyLimousine,
+  IconCheck,
   IconCoin,
   IconGasStation,
   IconGenerations,
@@ -22,7 +23,7 @@ import {
   useState,
 } from 'react'
 import { useTranslations } from 'next-intl'
-import { useFormContext } from 'react-hook-form'
+import { useFormContext, useWatch } from 'react-hook-form'
 import {
   type OffersFilterValues,
   useOffersFilterContext,
@@ -46,6 +47,11 @@ export const adFilterCommandStyles = createStyles({
     rangeContent: 'mx-auto min-w-96',
   },
 })
+
+const GENDER: Partial<Record<keyof OffersFilterValues, 'masculine'>> = {
+  year: 'masculine',
+  mileage: 'masculine',
+}
 
 const ICONS: Record<keyof OffersFilterValues, Icon> = {
   make: IconMakes,
@@ -81,6 +87,8 @@ function OffersFilterCommand(props: OffersFilterCommandProps) {
 
   const t = useTranslations('OffersFilter')
 
+  const selectedMakes = useWatch({ control: form.control, name: 'make' })
+
   const handleCurrentFilterRemove = useCallback(
     (filterKey: string) => {
       form.setValue(filterKey as keyof OffersFilterValues, undefined)
@@ -96,9 +104,32 @@ function OffersFilterCommand(props: OffersFilterCommandProps) {
     [form],
   )
 
+  const handleMakeRemove = useCallback(
+    (makeId: string) => {
+      const next = (selectedMakes ?? []).filter((id) => id !== makeId)
+      form.setValue('make', next.length > 0 ? next : undefined)
+      if (
+        next.length !== 1 &&
+        (currentFilterKey === 'model' || currentFilterKey === 'generation')
+      ) {
+        setCurrentFilterKey('make')
+      }
+    },
+    [currentFilterKey, form, selectedMakes],
+  )
+
   const handleOptionSelect = useCallback(
     (option: { id: string; label: string }) => {
       if (!currentFilterKey) return
+
+      if (currentFilterKey === 'make') {
+        const current = form.getValues('make') ?? []
+        const next = current.includes(option.id)
+          ? current.filter((id) => id !== option.id)
+          : [...current, option.id]
+        form.setValue('make', next.length > 0 ? next : undefined)
+        return
+      }
 
       form.setValue(currentFilterKey as keyof OffersFilterValues, [option.id])
 
@@ -112,14 +143,33 @@ function OffersFilterCommand(props: OffersFilterCommandProps) {
   )
 
   const activeFilters = useMemo(() => {
-    return Object.entries(offersFilter.activeFilters)
+    const makeChips = (selectedMakes ?? []).map((makeId) => {
+      const label =
+        offersFilter.data.make.options.find((o) => o.id === makeId)?.label ?? ''
+      return {
+        key: 'make',
+        label,
+        onRemove: () => handleMakeRemove(makeId),
+      }
+    })
+
+    const otherChips = Object.entries(offersFilter.activeFilters)
+      .filter(([key]) => key !== 'make')
       .map(([key, value]) => ({
         key,
         label: value?.label || '',
         onRemove: () => handleCurrentFilterRemove(key),
       }))
       .filter(({ label }) => !!label)
-  }, [handleCurrentFilterRemove, offersFilter.activeFilters])
+
+    return [...makeChips, ...otherChips]
+  }, [
+    handleCurrentFilterRemove,
+    handleMakeRemove,
+    offersFilter.activeFilters,
+    offersFilter.data.make.options,
+    selectedMakes,
+  ])
 
   const handleDialogKeyDown = useCallback<KeyboardEventHandler>(
     (event) => {
@@ -169,25 +219,37 @@ function OffersFilterCommand(props: OffersFilterCommandProps) {
           <ScrollArea.Viewport className={styles.commandScrollAreaViewport()}>
             <Command.List className={styles.commandList()}>
               <Command.Group heading={t(`labels.alphabetical`)}>
-                {data.options.map((option) => (
-                  <Button
-                    className={styles.commandPageButton()}
-                    key={option.id}
-                    variant="ghost"
-                    inverted
-                    contentAlignment="start"
-                    shape="rounded"
-                    render={
-                      <Command.Item
-                        className={styles.commandItem()}
-                        value={option.id}
-                        onSelect={() => handleOptionSelect(option)}
-                      />
-                    }
-                  >
-                    {option.label}
-                  </Button>
-                ))}
+                {data.options.map((option) => {
+                  const checked =
+                    currentFilterKey === 'make' &&
+                    (selectedMakes ?? []).includes(option.id)
+
+                  return (
+                    <Button
+                      className={styles.commandPageButton()}
+                      key={option.id}
+                      variant="ghost"
+                      inverted
+                      contentAlignment="justify"
+                      shape="rounded"
+                      iconPosition="right"
+                      icon={
+                        <IconCheck
+                          className={checked ? 'opacity-100' : 'opacity-0'}
+                        />
+                      }
+                      render={
+                        <Command.Item
+                          className={styles.commandItem()}
+                          value={option.id}
+                          onSelect={() => handleOptionSelect(option)}
+                        />
+                      }
+                    >
+                      {option.label}
+                    </Button>
+                  )
+                })}
               </Command.Group>
             </Command.List>
           </ScrollArea.Viewport>
@@ -215,6 +277,18 @@ function OffersFilterCommand(props: OffersFilterCommandProps) {
           histogramData={data.distribution}
           unit={data.unit}
           variant="inverted"
+          fromLabel={t('labels.from', {
+            noun: t(`labels.${currentFilterKey}`),
+          })}
+          toLabel={t('labels.to', { noun: t(`labels.${currentFilterKey}`) })}
+          sliderMinLabel={t('labels.minimum', {
+            noun: t(`labels.${currentFilterKey}`).toLowerCase(),
+            gender: GENDER[currentFilterKey] ?? 'other',
+          })}
+          sliderMaxLabel={t('labels.maximum', {
+            noun: t(`labels.${currentFilterKey}`).toLowerCase(),
+            gender: GENDER[currentFilterKey] ?? 'other',
+          })}
         />
       </FormRangeSelect.Root>
     )
@@ -223,6 +297,7 @@ function OffersFilterCommand(props: OffersFilterCommandProps) {
     form.control,
     handleOptionSelect,
     offersFilter.data,
+    selectedMakes,
     styles,
     t,
   ])

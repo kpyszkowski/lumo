@@ -1,14 +1,17 @@
 'use client'
 import { createStyles, type StylesProps } from '~/utils'
 import { Command as CommandPrimitive } from 'cmdk-base'
-import { type ComponentProps } from 'react'
+import { forwardRef, type ComponentProps } from 'react'
 import { useCommandRootContext } from '~/components/command/command-root'
 import { Chip, type ChipProps } from '~/components'
+import { AnimatePresence, motion, type MotionProps } from '~/motion'
+
+const MotionCommandPrimitiveInput = motion.create(CommandPrimitive.Input)
 
 const commandInputStyles = createStyles({
   slots: {
-    wrapper: 'flex flex-wrap items-center gap-x-2 gap-y-1.5 px-6 py-4',
-    container: 'min-w-32 flex-1 bg-transparent outline-none',
+    container: 'flex flex-wrap items-center gap-x-2 gap-y-1.5 px-6 py-4',
+    input: 'min-h-8 min-w-32 flex-1 bg-transparent outline-none',
   },
   variants: {
     variant: {
@@ -29,29 +32,43 @@ type CommandInputProps = ComponentProps<typeof CommandPrimitive.Input> &
     chips?: ChipProps[]
   }
 
-function CommandInput(props: CommandInputProps) {
-  const { className, variant: propsVariant, chips, ...restProps } = props
+const CommandInput = forwardRef<HTMLInputElement, CommandInputProps>(
+  (props, ref) => {
+    const { className, variant: propsVariant, chips, ...restProps } = props
 
-  const { variant: contextVariant } = useCommandRootContext() ?? {}
+    const { variant: contextVariant } = useCommandRootContext() ?? {}
 
-  const styles = commandInputStyles({
-    variant: propsVariant ?? contextVariant,
-  })
+    const styles = commandInputStyles({
+      variant: propsVariant ?? contextVariant,
+    })
 
-  return (
-    <div className={styles.wrapper()}>
-      {chips?.map((chipProps) => (
-        <Chip
-          key={chipProps.label}
-          {...chipProps}
-        />
-      ))}
-      <CommandPrimitive.Input
+    return (
+      <motion.div
+        layout
+        layoutRoot
         className={styles.container({ className })}
-        {...restProps}
-      />
-    </div>
-  )
-}
+      >
+        <AnimatePresence mode="popLayout">
+          {chips?.map((chipProps) => (
+            <Chip
+              key={chipProps.label}
+              {...chipProps}
+            />
+          ))}
+        </AnimatePresence>
+
+        <MotionCommandPrimitiveInput
+          ref={ref}
+          layout="position"
+          layoutId={'command-input'}
+          className={styles.input()}
+          {...(restProps as MotionProps)}
+        />
+      </motion.div>
+    )
+  },
+)
+
+CommandInput.displayName = 'CommandInput'
 
 export { CommandInput, type CommandInputProps, commandInputStyles }

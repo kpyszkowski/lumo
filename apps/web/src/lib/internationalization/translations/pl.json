@@ -30,7 +30,11 @@
       "mileage": "Przebieg",
       "alphabetical": "Alfabetycznie",
       "submit": "Wyszukaj",
-      "selected": "Wybrane"
+      "selected": "Wybrane",
+      "from": "{noun} od",      
+      "to": "{noun} do",
+      "minimum": "{gender, select, masculine {Minimalny {noun}} other {Minimalna {noun}}}",
+      "maximum": "{gender, select, masculine {Maksymalny {noun}} other {Maksymalna {noun}}}"
     },
     "placeholders": {
       "default": "Marka, model, rok produkcji...",
