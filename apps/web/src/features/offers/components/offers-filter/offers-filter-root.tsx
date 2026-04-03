@@ -20,7 +20,7 @@ import {
 } from '~/features/offers/lib/filter-data'
 import { getRangeLabel } from '~/features/offers/utils/get-range-label'
 
-const string = z.string().optional()
+const string = z.array(z.string()).optional()
 const range = z
   .object({
     min: z.number().optional(),
@@ -135,27 +135,27 @@ function OffersFilterRoot(props: OffersFilterRootProps) {
   const models: SelectDataEntry = useWatch({
     control,
     name: 'make',
-    compute: (makeId) => ({
+    compute: (makeIds) => ({
       type: 'select',
-      options: getModelIndexes(makeId) ?? [],
+      options: getModelIndexes(makeIds?.[0]) ?? [],
     }),
   })
 
   const generations: SelectDataEntry = useWatch({
     control,
     name: ['make', 'model'],
-    compute: ([make, model]) => ({
+    compute: ([makes, models]) => ({
       type: 'select',
-      options: getGenerationIndexes(make, model) ?? [],
+      options: getGenerationIndexes(makes?.[0], models?.[0]) ?? [],
     }),
   })
 
   const trims: SelectDataEntry = useWatch({
     control,
     name: ['make', 'model', 'generation'],
-    compute: ([make, model, generation]) => ({
+    compute: ([makes, models, generations]) => ({
       type: 'select',
-      options: getTrimIndexes(make, model, generation) ?? [],
+      options: getTrimIndexes(makes?.[0], models?.[0], generations?.[0]) ?? [],
     }),
   })
 
@@ -215,25 +215,25 @@ function OffersFilterRoot(props: OffersFilterRootProps) {
   const activeFilters = useWatch({
     control,
     compute: (values) => ({
-      make: values.make
-        ? makes.options.find((m) => m.id === values.make)
+      make: values.make?.[0]
+        ? makes.options.find((m) => m.id === values.make![0])
         : undefined,
       model:
-        values.make && values.model
-          ? models.options.find((m) => m.id === values.model)
+        values.make?.[0] && values.model?.[0]
+          ? models.options.find((m) => m.id === values.model![0])
           : undefined,
       generation:
-        values.make && values.model && values.generation
-          ? generations.options.find((g) => g.id === values.generation)
+        values.make?.[0] && values.model?.[0] && values.generation?.[0]
+          ? generations.options.find((g) => g.id === values.generation![0])
           : undefined,
-      bodyType: values.bodyType
-        ? bodyTypes.options.find((bt) => bt.id === values.bodyType)
+      bodyType: values.bodyType?.[0]
+        ? bodyTypes.options.find((bt) => bt.id === values.bodyType![0])
         : undefined,
-      fuelType: values.fuelType
-        ? fuelTypes.options.find((ft) => ft.id === values.fuelType)
+      fuelType: values.fuelType?.[0]
+        ? fuelTypes.options.find((ft) => ft.id === values.fuelType![0])
         : undefined,
-      transmission: values.transmission
-        ? transmissions.options.find((t) => t.id === values.transmission)
+      transmission: values.transmission?.[0]
+        ? transmissions.options.find((t) => t.id === values.transmission![0])
         : undefined,
       price: {
         ...values.price,
@@ -264,8 +264,8 @@ function OffersFilterRoot(props: OffersFilterRootProps) {
   const state = useWatch({
     control,
     compute: (values) => ({
-      model: { disabled: !values.make },
-      generation: { disabled: !values.make || !values.model },
+      model: { disabled: !values.make?.length },
+      generation: { disabled: !values.make?.length || !values.model?.length },
     }),
   })
 

@@ -100,7 +100,7 @@ function OffersFilterCommand(props: OffersFilterCommandProps) {
     (option: { id: string; label: string }) => {
       if (!currentFilterKey) return
 
-      form.setValue(currentFilterKey as keyof OffersFilterValues, option.id)
+      form.setValue(currentFilterKey as keyof OffersFilterValues, [option.id])
 
       const nextFilterKeyIndex = offersFilter.keys.indexOf(currentFilterKey) + 1
       if (nextFilterKeyIndex >= offersFilter.keys.length) return

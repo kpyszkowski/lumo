@@ -24,7 +24,7 @@ function FormMultiSelectRoot<TFieldValues extends FieldValues>(
         return (
           <MultiSelect.Root
             {...restProps}
-            value={field.value}
+            value={field.value ?? []}
             onValueChange={(newValue) => {
               field.onChange(
                 Array.isArray(newValue) && newValue.length > 0

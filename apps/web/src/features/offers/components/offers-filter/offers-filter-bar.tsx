@@ -105,7 +105,7 @@ function OffersFilterBar(props: OffersFilterBarProps) {
                       <FormMultiSelect.Trigger
                         disabled={filter.options.length === 0}
                         render={({ value, items }, { open }) => {
-                          const selectedItem =
+                          const singleItem =
                             value.length === 1
                               ? items.find((item) => item.value === value[0])
                               : null
@@ -115,12 +115,12 @@ function OffersFilterBar(props: OffersFilterBarProps) {
                               <div className={styles.triggerWrapper()}>
                                 <motion.span layout>{filter.label}</motion.span>
 
-                                {selectedItem && (
+                                {value.length > 0 && (
                                   <Chip
                                     label={
                                       value.length > 1
                                         ? `${value.length}`
-                                        : selectedItem.label
+                                        : (singleItem?.label ?? '')
                                     }
                                   />
                                 )}
