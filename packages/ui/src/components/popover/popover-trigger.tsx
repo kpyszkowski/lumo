@@ -75,8 +75,8 @@ const PopoverTrigger = forwardRef<
         render
           ? (triggerProps) =>
               cloneElement(render(context) as ReactElement, {
-                ...restPropsWithRenderFunction,
                 ...triggerProps,
+                ...restPropsWithRenderFunction,
               })
           : undefined
       }

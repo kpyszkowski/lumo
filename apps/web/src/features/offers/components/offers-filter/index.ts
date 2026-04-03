@@ -9,3 +9,8 @@ export {
   type OffersFilterValues,
   offersFilterSchema,
 } from './offers-filter-root'
+export {
+  OffersFilterBar as Bar,
+  type OffersFilterBarProps as BarProps,
+  offersFilterBarStyles,
+} from './offers-filter-bar'

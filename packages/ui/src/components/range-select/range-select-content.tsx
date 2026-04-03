@@ -63,7 +63,7 @@ function RangeSelectContent(props: RangeSelectContentProps) {
     ...restProps
   } = props
 
-  const { value, onValueChange, min, max, step, standalone } =
+  const { value, onValueChange, min, max, step, standalone, onValueCommitted } =
     useRangeSelectRootContext()
 
   const styles = rangeSelectContentStyles()
@@ -94,6 +94,7 @@ function RangeSelectContent(props: RangeSelectContentProps) {
           step={step}
           value={value}
           onValueChange={(v) => onValueChange(v as [number, number])}
+          onValueCommitted={(v) => onValueCommitted?.(v as [number, number])}
         >
           <Slider.Control>
             <Slider.Track>

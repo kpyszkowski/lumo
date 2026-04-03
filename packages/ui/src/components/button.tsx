@@ -2,12 +2,13 @@
 import { createStyles, type StylesProps } from '~/utils'
 import { Button as ButtonPrimitive } from '@base-ui/react/button'
 import { type Icon } from '~/icons'
+import { forwardRef, isValidElement, cloneElement } from 'react'
 
 const buttonStyles = createStyles({
   slots: {
     container:
       'block cursor-pointer transition-all disabled:pointer-events-none disabled:opacity-40',
-    wrapper: 'flex h-6 items-center justify-center outline-none transition-all',
+    wrapper: 'flex h-6 items-center justify-center transition-all outline-none',
     label: 'whitespace-nowrap antialiased',
     icon: 'stroke-[1.5]',
   },
@@ -22,7 +23,7 @@ const buttonStyles = createStyles({
     variant: {
       outline: {
         container:
-          'border-subtle-inv hover:border-muted-inv focus-visible:border-muted-inv active:border-accent active:scale-96 border-2',
+          'border-muted-inv hover:border-subtle-inv focus-visible:border-subtle-inv border-2 active:scale-98',
         wrapper: 'text-main dark:text-main-inv -m-0.5',
       },
       ghost: {
@@ -127,8 +128,8 @@ const buttonStyles = createStyles({
 
 type ButtonProps = Omit<ButtonPrimitive.Props, 'nativeButton'> &
   StylesProps<typeof buttonStyles> & {
-    /** Tabler icon component rendered alongside the label. */
-    icon?: Icon
+    /** Tabler icon component or JSX element rendered alongside the label. */
+    icon?: Icon | React.ReactElement
     /** Visual style of the button. @default 'outline' */
     variant?: 'outline' | 'ghost' | 'solid' | 'accent'
     /** Size of the button. @default 'md' */
@@ -153,7 +154,7 @@ type ButtonProps = Omit<ButtonPrimitive.Props, 'nativeButton'> &
  * <Button variant="solid" inverted>Confirm</Button>
  * ```
  */
-function Button(props: ButtonProps) {
+const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
   const {
     className,
     children,
@@ -179,6 +180,7 @@ function Button(props: ButtonProps) {
 
   return (
     <ButtonPrimitive
+      ref={ref}
       className={(state) =>
         styles.container({
           className:
@@ -191,15 +193,20 @@ function Button(props: ButtonProps) {
     >
       <div className={styles.wrapper()}>
         <span className={styles.label()}>{children}</span>
-        {Icon && (
-          <Icon
-            className={styles.icon()}
-            data-testid="button-icon"
-          />
-        )}
+        {Icon &&
+          (isValidElement(Icon) ? (
+            cloneElement(Icon, { className: styles.icon() } as object)
+          ) : (
+            <Icon
+              className={styles.icon()}
+              data-testid="button-icon"
+            />
+          ))}
       </div>
     </ButtonPrimitive>
   )
-}
+})
+
+Button.displayName = 'Button'
 
 export { Button, buttonStyles, type ButtonProps }

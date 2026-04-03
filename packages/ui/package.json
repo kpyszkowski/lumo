@@ -28,6 +28,12 @@
         "types": "./dist/motion.d.ts",
         "default": "./dist/motion.mjs"
       }
+    },
+    "./hooks": {
+      "import": {
+        "types": "./dist/hooks.d.ts",
+        "default": "./dist/hooks.mjs"
+      }
     }
   },
   "scripts": {
@@ -67,6 +73,7 @@
     "cmdk-base": "^1.0.0",
     "motion": "^12.23.22",
     "tailwind-merge": "^3.3.1",
-    "tailwind-variants": "^3.1.1"
+    "tailwind-variants": "^3.1.1",
+    "usehooks-ts": "^3.1.1"
   }
 }

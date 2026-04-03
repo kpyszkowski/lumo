@@ -13,13 +13,13 @@ const commandRootStyles = createStyles({
     inputIcon: 'size-4',
     inputField: 'outline-none',
     group:
-      '**:[[cmdk-group-heading]]:text-subtle **:[[cmdk-group-heading]]:mb-2 **:[[cmdk-group-heading]]:px-1 **:[[cmdk-group-heading]]:text-sm mt-3 flex flex-col px-2',
+      '**:[[cmdk-group-heading]]:text-subtle mt-3 flex flex-col px-2 **:[[cmdk-group-heading]]:mb-2 **:[[cmdk-group-heading]]:px-1 **:[[cmdk-group-heading]]:text-sm',
     item: [
       'group flex cursor-pointer items-center gap-3 rounded-md px-3 py-2',
       'hover:bg-elevated-inv dark:hover:bg-elevated focus:bg-elevated-inv dark:focus:bg-elevated data-[selected=true]:bg-highlighted-inv dark:data-[selected=true]:bg-highlighted',
     ],
     itemIcon:
-      'text-muted-inv dark:text-muted bg-elevated-inv dark:bg-highlighted group-data-[selected=true]:dark:bg-elevated not-data-[checked=true]:text-transparent size-4 rounded-sm stroke-2 p-0.5 [transition-property:color]',
+      'text-muted-inv dark:text-muted bg-elevated-inv dark:bg-highlighted group-data-[selected=true]:dark:bg-elevated size-4 rounded-sm stroke-2 p-0.5 [transition-property:color] not-data-[checked=true]:text-transparent',
     list: 'gap-6',
     scrollAreaViewport: 'max-h-96 min-w-64 pr-2',
   },
@@ -69,12 +69,11 @@ function MultiSelectPopup(props: MultiSelectPopupProps) {
   const handleValueChange = (selectedValue: string) => {
     const normalizedValue = selectedValue.replace('-selected', '')
 
-    onValueChange((previousValues) => {
-      if (previousValues.includes(normalizedValue)) {
-        return previousValues.filter((value) => value !== normalizedValue)
-      }
-      return [...previousValues, normalizedValue]
-    })
+    const nextValue = value.includes(normalizedValue)
+      ? value.filter((v) => v !== normalizedValue)
+      : [...value, normalizedValue]
+
+    onValueChange(nextValue)
   }
 
   const valueToItems = useMemo(

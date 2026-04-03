@@ -21,6 +21,7 @@
       "make": "Marka pojazdu",
       "model": "Model pojazdu",
       "generation": "Generacja",
+      "trim": "Wersja wyposażenia",
       "bodyType": "Typ nadwozia",
       "price": "Cena",
       "year": "Rok produkcji",
@@ -28,7 +29,8 @@
       "transmission": "Skrzynia biegów",
       "mileage": "Przebieg",
       "alphabetical": "Alfabetycznie",
-      "submit": "Wyszukaj"
+      "submit": "Wyszukaj",
+      "selected": "Wybrane"
     },
     "placeholders": {
       "default": "Marka, model, rok produkcji...",

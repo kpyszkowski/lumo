@@ -17,6 +17,7 @@ type RangeSelectRootContextValue = {
   max: number
   step: number
   standalone?: boolean
+  onValueCommitted?: (v: [number, number]) => void
 }
 
 const RangeSelectRootContext =
@@ -54,6 +55,8 @@ type RangeSelectRootProps = Pick<
   defaultValue?: [number, number]
   /** Callback fired when the range changes. */
   onValueChange?: (v: [number, number]) => void
+  /** Callback fired when the range value is committed (e.g., on slider release). */
+  onValueCommitted?: (v: [number, number]) => void
   /** If `true`, the component will not render a `Popover` and will instead render its children directly. Useful for embedding the range select content in a non-dropdown context. */
   standalone?: boolean
 }
@@ -80,6 +83,7 @@ function RangeSelectRoot(props: RangeSelectRootProps) {
     value: controlledValue,
     defaultValue,
     onValueChange: controlledOnValueChange,
+    onValueCommitted,
     min,
     max,
     step,
@@ -108,7 +112,15 @@ function RangeSelectRoot(props: RangeSelectRootProps) {
 
   return (
     <RangeSelectRootContext.Provider
-      value={{ value, onValueChange, min, max, step, standalone }}
+      value={{
+        value,
+        onValueChange,
+        min,
+        max,
+        step,
+        standalone,
+        onValueCommitted,
+      }}
     >
       {standalone ? (
         children

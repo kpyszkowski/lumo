@@ -6,7 +6,7 @@ import { useSliderRootContext } from '~/components/slider/slider-root'
 const sliderControlStyles = createStyles({
   slots: {
     container:
-      'has-disabled:pointer-events-none has-disabled:opacity-50 flex w-full touch-none select-none items-center',
+      'flex w-full touch-none items-center select-none has-disabled:pointer-events-none has-disabled:opacity-50',
   },
   variants: {
     variant: {

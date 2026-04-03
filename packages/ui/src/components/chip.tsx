@@ -6,7 +6,7 @@ const chipStyles = createStyles({
   slots: {
     container:
       'bg-elevated-inv text-main-inv inline-flex items-center gap-1 rounded-full px-2.5 py-1',
-    label: 'whitespace-nowrap text-xs font-medium',
+    label: 'text-xs font-medium whitespace-nowrap',
     removeButton:
       'text-muted-inv hover:text-main-inv cursor-pointer rounded-full transition-colors',
     removeIcon: 'size-3 stroke-[2.5]',
