@@ -115,7 +115,10 @@ function OffersFilterBar(props: OffersFilterBarProps) {
                               <div className={styles.triggerWrapper()}>
                                 <motion.span layout>{filter.label}</motion.span>
 
-                                <AnimatePresence mode="popLayout">
+                                <AnimatePresence
+                                  mode="popLayout"
+                                  key={filter.name}
+                                >
                                   {value.length > 0 && (
                                     <Chip
                                       label={
