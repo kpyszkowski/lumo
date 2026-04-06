@@ -28,6 +28,9 @@
       "fuelType": "Rodzaj paliwa",
       "transmission": "Skrzynia biegów",
       "mileage": "Przebieg",
+      "power": "Moc silnika",
+      "engineCapacity": "Pojemność silnika",
+      "condition": "Stan pojazdu",
       "alphabetical": "Alfabetycznie",
       "submit": "Wyszukaj",
       "selected": "Wybrane",
@@ -46,7 +49,10 @@
       "year": "Podaj rok produkcji...",
       "fuelType": "Wyszukaj rodzaj paliwa...",
       "transmission": "Wyszukaj skrzynię biegów...",
-      "mileage": "Podaj przebieg..."
+      "mileage": "Podaj przebieg...",
+      "power": "Podaj moc silnika...",
+      "engineCapacity": "Podaj pojemność silnika...",
+      "condition": "Wybierz stan pojazdu..."
     }
   },
   "OfferTile": {
@@ -63,7 +69,11 @@
     "powerValue": "{value} KM"
   },
   "FilterData": {
-    "generationPresent": "obecnie"
+    "generationPresent": "obecnie",
+    "modelSeries": "Seria",
+    "modelClass": "Klasa",
+    "conditionUndamaged": "Nieuszkodzony",
+    "conditionDamaged": "Uszkodzony"
   },
   "OffersPage": {
     "makesPlaceholder": "Marka",

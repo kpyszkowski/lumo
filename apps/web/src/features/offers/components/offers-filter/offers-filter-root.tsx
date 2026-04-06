@@ -14,11 +14,13 @@ import {
   getModelIndexes,
   getGenerationIndexes,
   getTrimIndexes,
+  getConditions,
   bodyTypes as bodyTypesOptions,
   transmissions as transmissionsOptions,
   fuelTypes as fuelTypesOptions,
 } from '~/features/offers/lib/filter-data'
 import { getRangeLabel } from '~/features/offers/utils/get-range-label'
+import { useTranslations } from 'next-intl'
 
 const string = z.array(z.string()).optional()
 const range = z
@@ -35,9 +37,12 @@ const offersFilterSchema = z.object({
   bodyType: string,
   fuelType: string,
   transmission: string,
+  condition: string,
   price: range,
   year: range,
   mileage: range,
+  power: range,
+  engineCapacity: range,
 })
 
 type OffersFilterValues = z.infer<typeof offersFilterSchema>
@@ -73,21 +78,26 @@ type OffersFilterContextValue =
         | 'trim'
         | 'bodyType'
         | 'fuelType'
-        | 'transmission',
+        | 'transmission'
+        | 'condition',
         SelectDataEntry
       > &
-        Record<'price' | 'year' | 'mileage', RangeDataEntry>
+        Record<
+          'price' | 'year' | 'mileage' | 'power' | 'engineCapacity',
+          RangeDataEntry
+        >
       activeFilters: Record<
         | 'make'
         | 'model'
         | 'generation'
         | 'bodyType'
         | 'fuelType'
-        | 'transmission',
+        | 'transmission'
+        | 'condition',
         { id: string; label: string } | undefined
       > &
         Record<
-          'price' | 'year' | 'mileage',
+          'price' | 'year' | 'mileage' | 'power' | 'engineCapacity',
           { min?: number; max?: number; label: string } | undefined
         >
       keys: ReturnType<typeof offersFilterSchema.keyof>['options']
@@ -112,6 +122,24 @@ type OffersFilterRootProps = {
 function OffersFilterRoot(props: OffersFilterRootProps) {
   const { children } = props
 
+  const tFilterData = useTranslations('FilterData')
+
+  const modelNameLabels = useMemo(
+    () => ({
+      series: tFilterData('modelSeries'),
+      class: tFilterData('modelClass'),
+    }),
+    [tFilterData],
+  )
+
+  const conditionLabels = useMemo(
+    () => ({
+      undamaged: tFilterData('conditionUndamaged'),
+      damaged: tFilterData('conditionDamaged'),
+    }),
+    [tFilterData],
+  )
+
   const { setValue, control, ...restFormProps } = useForm<OffersFilterValues>({
     resolver: zodResolver(offersFilterSchema),
     defaultValues: {
@@ -121,9 +149,12 @@ function OffersFilterRoot(props: OffersFilterRootProps) {
       bodyType: undefined,
       fuelType: undefined,
       transmission: undefined,
+      condition: undefined,
       price: undefined,
       year: undefined,
       mileage: undefined,
+      power: undefined,
+      engineCapacity: undefined,
     },
   })
 
@@ -137,7 +168,7 @@ function OffersFilterRoot(props: OffersFilterRootProps) {
     name: 'make',
     compute: (makeIds) => ({
       type: 'select',
-      options: getModelIndexes(makeIds?.[0]) ?? [],
+      options: getModelIndexes(makeIds?.[0], modelNameLabels) ?? [],
     }),
   })
 
@@ -172,6 +203,11 @@ function OffersFilterRoot(props: OffersFilterRootProps) {
   const transmissions: SelectDataEntry = {
     type: 'select',
     options: transmissionsOptions,
+  }
+
+  const conditions: SelectDataEntry = {
+    type: 'select',
+    options: getConditions(conditionLabels),
   }
 
   const price = useMemo<RangeDataEntry>(() => {
@@ -212,6 +248,26 @@ function OffersFilterRoot(props: OffersFilterRootProps) {
     return { type: 'range', min, max, unit, step, distribution }
   }, [])
 
+  const power = useMemo<RangeDataEntry>(() => {
+    const min = 0
+    const max = 1_000
+    const step = 10
+    const unit = 'KM'
+    const distribution = [50, 100, 150, 200, 250, 300, 400, 500, 600, 800]
+
+    return { type: 'range', min, max, unit, step, distribution }
+  }, [])
+
+  const engineCapacity = useMemo<RangeDataEntry>(() => {
+    const min = 0
+    const max = 8_000
+    const step = 100
+    const unit = 'cm³'
+    const distribution = [500, 1_000, 2_000, 3_000, 4_000, 5_000, 6_000, 7_000]
+
+    return { type: 'range', min, max, unit, step, distribution }
+  }, [])
+
   const activeFilters = useWatch({
     control,
     compute: (values) => ({
@@ -235,6 +291,9 @@ function OffersFilterRoot(props: OffersFilterRootProps) {
       transmission: values.transmission?.[0]
         ? transmissions.options.find((t) => t.id === values.transmission![0])
         : undefined,
+      condition: values.condition?.[0]
+        ? conditions.options.find((c) => c.id === values.condition![0])
+        : undefined,
       price: {
         ...values.price,
         label: getRangeLabel({
@@ -256,6 +315,22 @@ function OffersFilterRoot(props: OffersFilterRootProps) {
           from: values.mileage?.min,
           to: values.mileage?.max,
           unit: mileage.unit,
+        }),
+      },
+      power: {
+        ...values.power,
+        label: getRangeLabel({
+          from: values.power?.min,
+          to: values.power?.max,
+          unit: power.unit,
+        }),
+      },
+      engineCapacity: {
+        ...values.engineCapacity,
+        label: getRangeLabel({
+          from: values.engineCapacity?.min,
+          to: values.engineCapacity?.max,
+          unit: engineCapacity.unit,
         }),
       },
     }),
@@ -303,9 +378,12 @@ function OffersFilterRoot(props: OffersFilterRootProps) {
       bodyType: bodyTypes,
       fuelType: fuelTypes,
       transmission: transmissions,
+      condition: conditions,
       price,
       year,
       mileage,
+      power,
+      engineCapacity,
     },
     activeFilters,
     keys,

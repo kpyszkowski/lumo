@@ -8,14 +8,18 @@ import { filterLocale as _filterLocale } from '@lumo/scraper/locales/pl'
 const filterData: FilterDataGenerated = _filterData
 const filterLocale: FilterLocaleData = _filterLocale
 
-function translateModelName(name: string): string {
-  // "5er" → "Seria 5", "3er-Reihe" → "Seria 3", "2er Tourer" → "Seria 2 Tourer"
+function translateModelName(
+  name: string,
+  labels: { series: string; class: string },
+): string {
+  // "5er" → "{series} 5", "3er-Reihe" → "{series} 3", "2er Tourer" → "{series} 2 Tourer"
   const erMatch = name.match(/^(\d+)er(?:-Reihe)?(?:\s+(.+))?$/)
-  if (erMatch) return `Seria ${erMatch[1]}${erMatch[2] ? ` ${erMatch[2]}` : ''}`
+  if (erMatch)
+    return `${labels.series} ${erMatch[1]}${erMatch[2] ? ` ${erMatch[2]}` : ''}`
 
-  // "E-Klasse" → "Klasa E"
+  // "E-Klasse" → "{class} E"
   const klasseMatch = name.match(/^([A-Z])-Klasse$/)
-  if (klasseMatch) return `Klasa ${klasseMatch[1]}`
+  if (klasseMatch) return `${labels.class} ${klasseMatch[1]}`
 
   return name
 }
@@ -45,15 +49,7 @@ export const transmissions = filterData.transmissions.map((id) => ({
   label: filterLocale.transmissions[id] ?? id,
 }))
 
-export const indexes = {
-  ...filterData.indexes,
-  models: Object.fromEntries(
-    Object.entries(filterData.indexes.models).map(([key, model]) => [
-      key,
-      { ...model, name: translateModelName(model.name) },
-    ]),
-  ),
-}
+export const indexes = filterData.indexes
 
 export const getMakeIndexes = () => {
   return Object.entries(indexes.makes).map(([makeId, make]) => ({
@@ -62,12 +58,18 @@ export const getMakeIndexes = () => {
   }))
 }
 
-export const getModelIndexes = (make?: string) => {
+export const getModelIndexes = (
+  make?: string,
+  labels?: { series: string; class: string },
+) => {
   return make
-    ? indexes.makes[make]?.modelIds.map((modelId) => ({
-        id: modelId,
-        label: indexes.models[`${make}:${modelId}`]?.name ?? modelId,
-      }))
+    ? indexes.makes[make]?.modelIds.map((modelId) => {
+        const raw = indexes.models[`${make}:${modelId}`]?.name ?? modelId
+        return {
+          id: modelId,
+          label: labels ? translateModelName(raw, labels) : raw,
+        }
+      })
     : []
 }
 
@@ -96,3 +98,11 @@ export const getTrimIndexes = (
       ) ?? [])
     : []
 }
+
+export const getConditions = (labels: {
+  undamaged: string
+  damaged: string
+}) => [
+  { id: 'undamaged', label: labels.undamaged },
+  { id: 'damaged', label: labels.damaged },
+]

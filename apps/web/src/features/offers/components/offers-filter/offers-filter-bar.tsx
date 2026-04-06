@@ -17,6 +17,13 @@ import { type RefObject, useMemo, useRef, useState } from 'react'
 
 const MotionIconChevronDown = motion.create(IconChevronDown)
 
+const GENDER: Partial<Record<keyof OffersFilterValues, 'masculine'>> = {
+  year: 'masculine',
+  mileage: 'masculine',
+  power: 'masculine',
+  engineCapacity: 'masculine',
+}
+
 export const offersFilterBarStyles = createStyles({
   slots: {
     container: 'flex items-start py-6',
@@ -103,7 +110,13 @@ function OffersFilterBar(props: OffersFilterBarProps) {
                       }))}
                     >
                       <FormMultiSelect.Trigger
-                        disabled={filter.options.length === 0}
+                        disabled={
+                          (filter.name === 'model' &&
+                            offersFilter.state.model.disabled) ||
+                          (filter.name === 'generation' &&
+                            offersFilter.state.generation.disabled) ||
+                          filter.options.length === 0
+                        }
                         render={({ value, items }, { open }) => {
                           const singleItem =
                             value.length === 1
@@ -171,7 +184,7 @@ function OffersFilterBar(props: OffersFilterBarProps) {
                             <div className={styles.triggerWrapper()}>
                               <span>{filter.label}</span>
 
-                              {(from || to) && (
+                              {(from !== filter.min || to !== filter.max) && (
                                 <Chip
                                   label={getRangeLabel({
                                     from,
@@ -193,7 +206,23 @@ function OffersFilterBar(props: OffersFilterBarProps) {
                       }}
                     />
 
-                    <FormRangeSelect.Content />
+                    <FormRangeSelect.Content
+                      unit={filter.unit}
+                      fromLabel={t('labels.from', {
+                        noun: t(`labels.${filter.name}`),
+                      })}
+                      toLabel={t('labels.to', {
+                        noun: t(`labels.${filter.name}`),
+                      })}
+                      sliderMinLabel={t('labels.minimum', {
+                        noun: t(`labels.${filter.name}`).toLowerCase(),
+                        gender: GENDER[filter.name] ?? 'other',
+                      })}
+                      sliderMaxLabel={t('labels.maximum', {
+                        noun: t(`labels.${filter.name}`).toLowerCase(),
+                        gender: GENDER[filter.name] ?? 'other',
+                      })}
+                    />
                   </FormRangeSelect.Root>
                 </motion.li>
               )

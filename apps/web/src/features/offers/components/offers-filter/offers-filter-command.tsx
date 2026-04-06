@@ -63,6 +63,9 @@ const ICONS: Record<keyof OffersFilterValues, Icon> = {
   price: IconCoin,
   mileage: IconRoad,
   year: IconCalendarDot,
+  power: IconRoad,
+  engineCapacity: IconRoad,
+  condition: IconCheck,
 }
 
 type OffersFilterCommandProps = StylesProps<typeof adFilterCommandStyles> & {
