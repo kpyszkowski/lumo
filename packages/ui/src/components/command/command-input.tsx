@@ -48,7 +48,10 @@ const CommandInput = forwardRef<HTMLInputElement, CommandInputProps>(
         layoutRoot
         className={styles.container({ className })}
       >
-        <AnimatePresence mode="popLayout">
+        <AnimatePresence
+          mode="popLayout"
+          initial={false}
+        >
           {chips?.map((chipProps) => (
             <Chip
               key={chipProps.label}

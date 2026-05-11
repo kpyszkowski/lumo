@@ -9,8 +9,8 @@ const chipStyles = createStyles({
     container: 'bg-elevated-inv text-main-inv px-2.5 py-1',
     wrapper: 'inline-flex items-center gap-1 overflow-hidden',
     label: 'text-xs font-medium whitespace-nowrap',
-    removeButton:
-      'text-muted-inv hover:text-main-inv cursor-pointer rounded-full transition-colors',
+    removeIconWrapper:
+      'text-muted-inv hover:text-main-inv rounded-full transition-colors',
     removeIcon: 'size-3 stroke-[2.5]',
   },
 })
@@ -25,16 +25,23 @@ type ChipProps = StylesProps<typeof chipStyles> & {
   style?: CSSProperties
 }
 
-const Chip = forwardRef<HTMLDivElement, ChipProps>((props, ref) => {
+const Chip = forwardRef<HTMLElement, ChipProps>((props, ref) => {
   const { label, className, onRemove, style, ...restProps } = props
 
   const styles = chipStyles({ className })
 
+  const Element = onRemove ? motion.button : motion.div
+
   return (
-    <motion.div
+    <Element
+      //@ts-expect-error TODO: Fix this
       ref={ref}
+      type="button"
+      onClick={onRemove}
       layout
-      className={styles.container()}
+      className={styles.container({
+        className: onRemove ? 'cursor-pointer' : undefined,
+      })}
       initial={{ scale: 0 }}
       animate={{ scale: 1 }}
       exit={{ scale: 0 }}
@@ -66,20 +73,12 @@ const Chip = forwardRef<HTMLDivElement, ChipProps>((props, ref) => {
           )}
         </AnimatePresence>
         {onRemove && (
-          <button
-            type="button"
-            className={styles.removeButton()}
-            onClick={(e) => {
-              e.stopPropagation()
-              onRemove()
-            }}
-            aria-label={`Usuń filtr: ${label}`}
-          >
+          <span className={styles.removeIconWrapper()}>
             <IconX className={styles.removeIcon()} />
-          </button>
+          </span>
         )}
       </motion.span>
-    </motion.div>
+    </Element>
   )
 })
 

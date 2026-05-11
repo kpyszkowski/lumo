@@ -1,14 +1,13 @@
 'use client'
 import { RangeSelect } from '@lumo/ui/components'
-import type { ReactNode } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
 import {
   Controller,
+  useWatch,
   type Control,
   type FieldValues,
   type Path,
 } from 'react-hook-form'
-
-type RangeFieldValue = { min?: number; max?: number }
 
 type FormRangeSelectRootProps<TFieldValues extends FieldValues = FieldValues> =
   {
@@ -30,25 +29,36 @@ function FormRangeSelectRoot<TFieldValues extends FieldValues>(
 ) {
   const { control, name, min, max, step, standalone, children } = props
 
+  const fieldValue = useWatch({
+    control,
+    name,
+  })
+
+  const [value, setValue] = useState<[number, number]>([min, max])
+
+  useEffect(() => {
+    if (fieldValue === undefined) {
+      setValue([min, max])
+    } else if (fieldValue && typeof fieldValue === 'object') {
+      const rangeValue = fieldValue as { min?: number; max?: number }
+      setValue([rangeValue.min ?? min, rangeValue.max ?? max])
+    }
+  }, [fieldValue, min, max])
+
   return (
     <Controller
       control={control}
       name={name}
       render={({ field }) => {
-        const { min: formMin, max: formMax } =
-          (field.value as RangeFieldValue | undefined) ?? {}
-        const sliderValue: [number, number] = [formMin ?? min, formMax ?? max]
-
         return (
           <RangeSelect.Root
-            value={sliderValue}
-            onValueChange={([newMin, newMax]) => {
-              const nextValue: RangeFieldValue = {}
-              if (newMin !== min) nextValue.min = newMin
-              if (newMax !== max) nextValue.max = newMax
-              field.onChange(
-                Object.keys(nextValue).length > 0 ? nextValue : undefined,
-              )
+            value={value}
+            onValueChange={setValue}
+            onValueCommitted={([newMin, newMax]) => {
+              field.onChange({
+                min: newMin !== min ? newMin : undefined,
+                max: newMax !== max ? newMax : undefined,
+              })
             }}
             min={min}
             max={max}

@@ -6,6 +6,7 @@ import { filterData as _filterData } from '@lumo/scraper/filter-data'
 import { filterLocale as _filterLocale } from '@lumo/scraper/locales/pl'
 
 const filterData: FilterDataGenerated = _filterData
+// TODO: Refactor - it should live in translations registies
 const filterLocale: FilterLocaleData = _filterLocale
 
 function translateModelName(
@@ -32,8 +33,6 @@ export function formatGenerationLabel(
   return `${gen.name} (${gen.production.start}–${end})`
 }
 
-export const makes = filterData.makes
-
 export const bodyTypes = filterData.bodyTypes.map((id) => ({
   id,
   label: filterLocale.bodyTypes[id] ?? id,
@@ -51,14 +50,12 @@ export const transmissions = filterData.transmissions.map((id) => ({
 
 export const indexes = filterData.indexes
 
-export const getMakeIndexes = () => {
-  return Object.entries(indexes.makes).map(([makeId, make]) => ({
-    id: makeId,
-    label: make.name,
-  }))
-}
+export const makes = Object.entries(indexes.makes).map(([makeId, make]) => ({
+  id: makeId,
+  label: make.name,
+}))
 
-export const getModelIndexes = (
+export const getModels = (
   make?: string,
   labels?: { series: string; class: string },
 ) => {
@@ -73,7 +70,7 @@ export const getModelIndexes = (
     : []
 }
 
-export const getGenerationIndexes = (make?: string, model?: string) => {
+export const getGenerations = (make?: string, model?: string) => {
   return make && model
     ? indexes.models[`${make}:${model}`]?.generationIds.map((generationId) => ({
         id: generationId,
@@ -84,7 +81,7 @@ export const getGenerationIndexes = (make?: string, model?: string) => {
     : []
 }
 
-export const getTrimIndexes = (
+export const getTrims = (
   make?: string,
   model?: string,
   generation?: string,
@@ -98,11 +95,3 @@ export const getTrimIndexes = (
       ) ?? [])
     : []
 }
-
-export const getConditions = (labels: {
-  undamaged: string
-  damaged: string
-}) => [
-  { id: 'undamaged', label: labels.undamaged },
-  { id: 'damaged', label: labels.damaged },
-]

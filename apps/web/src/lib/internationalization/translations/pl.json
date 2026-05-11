@@ -44,6 +44,7 @@
       "make": "Wyszukaj markę...",
       "model": "Wyszukaj model...",
       "generation": "Wyszukaj generację...",
+      "trim": "Wyszukaj wersję wyposażenia...",
       "bodyType": "Wyszukaj typ nadwozia...",
       "price": "Podaj cenę...",
       "year": "Podaj rok produkcji...",
@@ -72,8 +73,8 @@
     "generationPresent": "obecnie",
     "modelSeries": "Seria",
     "modelClass": "Klasa",
-    "conditionUndamaged": "Nieuszkodzony",
-    "conditionDamaged": "Uszkodzony"
+    "undamaged": "Nieuszkodzony",
+    "damaged": "Uszkodzony"
   },
   "OffersPage": {
     "makesPlaceholder": "Marka",

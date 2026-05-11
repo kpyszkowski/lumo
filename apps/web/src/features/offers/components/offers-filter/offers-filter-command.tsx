@@ -57,6 +57,7 @@ const ICONS: Record<keyof OffersFilterValues, Icon> = {
   make: IconMakes,
   model: IconModels,
   generation: IconGenerations,
+  trim: IconGenerations,
   bodyType: IconCarBodyLimousine,
   fuelType: IconGasStation,
   transmission: IconManualGearbox,
@@ -65,7 +66,6 @@ const ICONS: Record<keyof OffersFilterValues, Icon> = {
   year: IconCalendarDot,
   power: IconRoad,
   engineCapacity: IconRoad,
-  condition: IconCheck,
 }
 
 type OffersFilterCommandProps = StylesProps<typeof adFilterCommandStyles> & {
@@ -80,25 +80,36 @@ function OffersFilterCommand(props: OffersFilterCommandProps) {
   const form = useFormContext<OffersFilterValues>()
   const offersFilter = useOffersFilterContext()
 
+  const offersFilterKeys = Object.keys(
+    offersFilter,
+  ) as (keyof OffersFilterValues)[]
+
   const inputRef = useRef<HTMLInputElement>(null)
 
   const [open, setOpen] = useState(false)
   const [currentFilterKey, setCurrentFilterKey] = useState(
-    offersFilter.keys.at(0),
+    offersFilterKeys.at(0),
   )
   const [searchValue, setSearchValue] = useState('')
 
   const t = useTranslations('OffersFilter')
 
   const selectedMakes = useWatch({ control: form.control, name: 'make' })
+  const selectedGenerations = useWatch({
+    control: form.control,
+    name: 'generation',
+  })
 
   const handleCurrentFilterRemove = useCallback(
     (filterKey: string) => {
       form.setValue(filterKey as keyof OffersFilterValues, undefined)
 
-      const isHierarchicalFilter = ['make', 'model', 'generation'].includes(
-        filterKey,
-      )
+      const isHierarchicalFilter = [
+        'make',
+        'model',
+        'generation',
+        'trim',
+      ].includes(filterKey)
 
       if (isHierarchicalFilter) {
         setCurrentFilterKey(filterKey as keyof OffersFilterValues)
@@ -136,43 +147,67 @@ function OffersFilterCommand(props: OffersFilterCommandProps) {
 
       form.setValue(currentFilterKey as keyof OffersFilterValues, [option.id])
 
-      const nextFilterKeyIndex = offersFilter.keys.indexOf(currentFilterKey) + 1
-      if (nextFilterKeyIndex >= offersFilter.keys.length) return
+      const nextFilterKeyIndex = offersFilterKeys.indexOf(currentFilterKey) + 1
+      if (nextFilterKeyIndex >= offersFilterKeys.length) return
 
-      setCurrentFilterKey(offersFilter.keys[nextFilterKeyIndex])
+      setCurrentFilterKey(offersFilterKeys[nextFilterKeyIndex])
       setSearchValue('')
     },
-    [currentFilterKey, form, offersFilter.keys],
+    [currentFilterKey, form, offersFilterKeys],
   )
 
   const activeFilters = useMemo(() => {
-    const makeChips = (selectedMakes ?? []).map((makeId) => {
-      const label =
-        offersFilter.data.make.options.find((o) => o.id === makeId)?.label ?? ''
-      return {
-        key: 'make',
-        label,
-        onRemove: () => handleMakeRemove(makeId),
-      }
-    })
+    const { price, year, mileage, engineCapacity, power, ...selectValues } =
+      form.watch()
 
-    const otherChips = Object.entries(offersFilter.activeFilters)
-      .filter(([key]) => key !== 'make')
-      .map(([key, value]) => ({
-        key,
-        label: value?.label || '',
-        onRemove: () => handleCurrentFilterRemove(key),
-      }))
-      .filter(({ label }) => !!label)
+    const rangeValues = { price, year, mileage, engineCapacity, power }
 
-    return [...makeChips, ...otherChips]
-  }, [
-    handleCurrentFilterRemove,
-    handleMakeRemove,
-    offersFilter.activeFilters,
-    offersFilter.data.make.options,
-    selectedMakes,
-  ])
+    const selectActiveFilters = Object.entries(selectValues)
+      .filter(([, values]) => values !== undefined)
+      .map(([key, values]) => {
+        const filter = offersFilter[key as keyof typeof selectValues]
+
+        return values.map((value) => {
+          const option = filter.options?.find((option) => option.id === value)
+          return {
+            label: option ? option.label : value,
+            onRemove: () => {
+              if (key === 'make') {
+                handleMakeRemove(value)
+              } else {
+                handleCurrentFilterRemove(key)
+              }
+            },
+          }
+        })
+      })
+      .flat()
+
+    const rangeActiveFilters = Object.entries(rangeValues)
+      .filter(
+        ([, value]) =>
+          value !== undefined ||
+          Object.values(value ?? {}).some((v) => v !== undefined),
+      )
+      .map(([key, value]) => {
+        const filter = offersFilter[key as keyof typeof rangeValues]
+
+        const label = filter
+          ? `${t(`labels.${key as keyof OffersFilterValues}`)}: ${
+              value?.min !== undefined
+                ? `≥ ${value.min}${filter.unit ?? ''}`
+                : ''
+            }${value?.max !== undefined ? ` ≤ ${value.max}${filter.unit ?? ''}` : ''}`
+          : ''
+
+        return {
+          label,
+          onRemove: () => handleCurrentFilterRemove(key),
+        }
+      })
+
+    return [...selectActiveFilters, ...rangeActiveFilters]
+  }, [form, handleCurrentFilterRemove, handleMakeRemove, offersFilter, t])
 
   const handleDialogKeyDown = useCallback<KeyboardEventHandler>(
     (event) => {
@@ -188,11 +223,19 @@ function OffersFilterCommand(props: OffersFilterCommandProps) {
       }
       if (event.key === 'Tab') {
         event.preventDefault()
-        const enabledFilterKeys = offersFilter.keys.filter(
-          (filterKey) =>
-            offersFilter.state[filterKey as 'model' | 'generation']
-              ?.disabled !== true,
-        )
+        const enabledFilterKeys = offersFilterKeys.filter((filterKey) => {
+          if (filterKey === 'model' && !offersFilter.model.options) return false
+          if (filterKey === 'generation' && !offersFilter.generation.options)
+            return false
+          if (
+            filterKey === 'trim' &&
+            (!selectedGenerations ||
+              (Array.isArray(selectedGenerations) &&
+                selectedGenerations.length === 0))
+          )
+            return false
+          return true
+        })
         const currentIndex = enabledFilterKeys.indexOf(currentFilterKey!)
         const nextIndex = event.shiftKey
           ? (currentIndex - 1 + enabledFilterKeys.length) %
@@ -204,16 +247,17 @@ function OffersFilterCommand(props: OffersFilterCommandProps) {
     [
       activeFilters,
       currentFilterKey,
-      offersFilter.keys,
-      offersFilter.state,
+      offersFilterKeys,
+      offersFilter,
       searchValue,
+      selectedGenerations,
     ],
   )
 
   const currentView = useMemo(() => {
     if (!currentFilterKey) return null
 
-    const data = offersFilter.data[currentFilterKey]
+    const data = offersFilter[currentFilterKey as keyof OffersFilterValues]
     if (!data) return null
 
     if (data.type === 'select') {
@@ -222,7 +266,7 @@ function OffersFilterCommand(props: OffersFilterCommandProps) {
           <ScrollArea.Viewport className={styles.commandScrollAreaViewport()}>
             <Command.List className={styles.commandList()}>
               <Command.Group heading={t(`labels.alphabetical`)}>
-                {data.options.map((option) => {
+                {data.options?.map((option) => {
                   const checked =
                     currentFilterKey === 'make' &&
                     (selectedMakes ?? []).includes(option.id)
@@ -299,7 +343,7 @@ function OffersFilterCommand(props: OffersFilterCommandProps) {
     currentFilterKey,
     form.control,
     handleOptionSelect,
-    offersFilter.data,
+    offersFilter,
     selectedMakes,
     styles,
     t,
@@ -345,28 +389,33 @@ function OffersFilterCommand(props: OffersFilterCommandProps) {
         />
         <div className={styles.commandWrapper()}>
           <div className={styles.commandPageButtons()}>
-            {offersFilter.keys.map((filterKey) => (
-              <Button
-                className={styles.commandPageButton()}
-                data-selected={currentFilterKey === filterKey}
-                data-active={!!form.getValues(filterKey)}
-                icon={ICONS[filterKey]}
-                variant="ghost"
-                inverted
-                shape="rounded"
-                contentAlignment="start"
-                key={filterKey}
-                disabled={
-                  (filterKey === 'model' &&
-                    offersFilter.state.model.disabled) ||
-                  (filterKey === 'generation' &&
-                    offersFilter.state.generation.disabled)
-                }
-                onClick={() => setCurrentFilterKey(filterKey)}
-              >
-                {t(`labels.${filterKey}`)}
-              </Button>
-            ))}
+            {offersFilterKeys.map((filterKey) => {
+              const disabled =
+                (filterKey === 'model' && !offersFilter.model.options) ||
+                (filterKey === 'generation' &&
+                  !offersFilter.generation.options) ||
+                (filterKey === 'trim' &&
+                  (!selectedGenerations ||
+                    (Array.isArray(selectedGenerations) &&
+                      selectedGenerations.length === 0)))
+              return (
+                <Button
+                  className={styles.commandPageButton()}
+                  data-selected={currentFilterKey === filterKey}
+                  data-active={!!form.getValues(filterKey)}
+                  icon={ICONS[filterKey]}
+                  variant="ghost"
+                  inverted
+                  shape="rounded"
+                  contentAlignment="start"
+                  key={filterKey}
+                  disabled={disabled}
+                  onClick={() => setCurrentFilterKey(filterKey)}
+                >
+                  {t(`labels.${filterKey}`)}
+                </Button>
+              )
+            })}
           </div>
 
           {currentView}
