@@ -1,5 +1,6 @@
 import { type ContractRouterClient, oc } from '@orpc/contract'
 import { implement } from '@orpc/server'
+import type { router } from '~/rpc/router'
 
 /**
  * Alias for contract builder.
@@ -13,4 +14,4 @@ export const contract = oc
  */
 export const implementContract = implement
 
-export type RPCClient = ContractRouterClient<Record<string, never>>
+export type RPCClient = ContractRouterClient<typeof router>

@@ -206,11 +206,7 @@ function OffersFilterBar(props: OffersFilterBarProps) {
                   const isDisabled =
                     (filter.name === 'model' && !offersFilter.model.options) ||
                     (filter.name === 'generation' &&
-                      !offersFilter.generation.options) ||
-                    (filter.name === 'trim' &&
-                      (!filterValues.generation ||
-                        (Array.isArray(filterValues.generation) &&
-                          filterValues.generation.length === 0)))
+                      !offersFilter.generation.options)
 
                   return (
                     <motion.li

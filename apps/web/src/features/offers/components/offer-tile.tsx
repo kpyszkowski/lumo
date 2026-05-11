@@ -32,7 +32,6 @@ const offerTileStyles = createStyles({
     makeIconWrapper: 'bg-elevated size-12 rounded-2xl',
     makeModelWrapper: 'flex flex-1 grow flex-col',
     makeModel: 'mb-1 font-semibold',
-    trim: 'text-muted mb-1 text-sm',
     locationWrapper: 'text-muted flex items-center gap-2',
     locationIcon: 'size-4',
     location: 'text-sm whitespace-nowrap',
@@ -47,7 +46,6 @@ type OfferTileProps = {
 const MOCK = {
   make: 'BMW',
   model: 'Seria 5',
-  trim: '530e iPerformance M Sport',
   city: 'Poznań',
   voivodeship: 'wielkopolskie',
   price: 189900,
@@ -170,8 +168,6 @@ function OfferTile(props: OfferTileProps) {
 
         <div className={styles.makeModelWrapper()}>
           <span className={styles.makeModel()}>{makeModelLabel}</span>
-
-          <span className={styles.trim()}>{MOCK.trim}</span>
 
           <div className={styles.locationWrapper()}>
             <IconMapPin className={styles.locationIcon()} />

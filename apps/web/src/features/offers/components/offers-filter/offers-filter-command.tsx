@@ -57,7 +57,6 @@ const ICONS: Record<keyof OffersFilterValues, Icon> = {
   make: IconMakes,
   model: IconModels,
   generation: IconGenerations,
-  trim: IconGenerations,
   bodyType: IconCarBodyLimousine,
   fuelType: IconGasStation,
   transmission: IconManualGearbox,
@@ -95,21 +94,14 @@ function OffersFilterCommand(props: OffersFilterCommandProps) {
   const t = useTranslations('OffersFilter')
 
   const selectedMakes = useWatch({ control: form.control, name: 'make' })
-  const selectedGenerations = useWatch({
-    control: form.control,
-    name: 'generation',
-  })
 
   const handleCurrentFilterRemove = useCallback(
     (filterKey: string) => {
       form.setValue(filterKey as keyof OffersFilterValues, undefined)
 
-      const isHierarchicalFilter = [
-        'make',
-        'model',
-        'generation',
-        'trim',
-      ].includes(filterKey)
+      const isHierarchicalFilter = ['make', 'model', 'generation'].includes(
+        filterKey,
+      )
 
       if (isHierarchicalFilter) {
         setCurrentFilterKey(filterKey as keyof OffersFilterValues)
@@ -227,13 +219,6 @@ function OffersFilterCommand(props: OffersFilterCommandProps) {
           if (filterKey === 'model' && !offersFilter.model.options) return false
           if (filterKey === 'generation' && !offersFilter.generation.options)
             return false
-          if (
-            filterKey === 'trim' &&
-            (!selectedGenerations ||
-              (Array.isArray(selectedGenerations) &&
-                selectedGenerations.length === 0))
-          )
-            return false
           return true
         })
         const currentIndex = enabledFilterKeys.indexOf(currentFilterKey!)
@@ -250,7 +235,6 @@ function OffersFilterCommand(props: OffersFilterCommandProps) {
       offersFilterKeys,
       offersFilter,
       searchValue,
-      selectedGenerations,
     ],
   )
 
@@ -392,12 +376,7 @@ function OffersFilterCommand(props: OffersFilterCommandProps) {
             {offersFilterKeys.map((filterKey) => {
               const disabled =
                 (filterKey === 'model' && !offersFilter.model.options) ||
-                (filterKey === 'generation' &&
-                  !offersFilter.generation.options) ||
-                (filterKey === 'trim' &&
-                  (!selectedGenerations ||
-                    (Array.isArray(selectedGenerations) &&
-                      selectedGenerations.length === 0)))
+                (filterKey === 'generation' && !offersFilter.generation.options)
               return (
                 <Button
                   className={styles.commandPageButton()}

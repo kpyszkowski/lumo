@@ -10,14 +10,15 @@ import {
 import { FormProvider, useForm, useWatch } from 'react-hook-form'
 import { z } from 'zod'
 import {
-  makes,
-  getModels,
-  getGenerations,
-  getTrims,
-  bodyTypes,
-  transmissions,
-  fuelTypes,
+  bodyTypeOptions,
+  transmissionOptions,
+  fuelTypeOptions,
 } from '~/features/offers/lib/filter-data'
+import {
+  useCatalogBrands,
+  useCatalogGenerations,
+  useCatalogModels,
+} from '~/features/offers/hooks/use-catalog'
 
 const string = z.array(z.string()).optional()
 const range = z
@@ -31,7 +32,6 @@ const offersFilterSchema = z.object({
   make: string,
   model: string,
   generation: string,
-  trim: string,
   bodyType: string,
   fuelType: string,
   transmission: string,
@@ -63,7 +63,7 @@ type OffersFilterContextValue =
       'make' | 'bodyType' | 'fuelType' | 'transmission',
       SelectDataEntry
     > &
-      Record<'model' | 'generation' | 'trim', SelectDataEntry> &
+      Record<'model' | 'generation', SelectDataEntry> &
       Record<
         'price' | 'year' | 'mileage' | 'power' | 'engineCapacity',
         RangeDataEntry
@@ -121,59 +121,54 @@ function OffersFilterRoot(props: OffersFilterRootProps) {
     [setValue],
   )
 
-  const models = useWatch({
+  const makeOptions = useCatalogBrands()
+
+  // Watch selected make
+  const selectedMake = useWatch({
     control,
     name: 'make',
-    compute: (make) => (make?.length === 1 ? getModels(make[0]) : undefined),
   })
 
-  const generations = useWatch({
+  const selectedMakeName = selectedMake?.[0]
+  const modelOptions = useCatalogModels(selectedMakeName)
+
+  // Watch selected model
+  const selectedModel = useWatch({
     control,
-    name: ['make', 'model'],
-    compute: ([make, model]) =>
-      make?.length === 1 && model?.length === 1
-        ? getGenerations(make[0], model[0])
-        : undefined,
+    name: 'model',
   })
 
-  const trims = useWatch({
-    control,
-    name: ['make', 'model', 'generation'],
-    compute: ([make, model, generation]) =>
-      make?.length === 1 && model?.length === 1 && generation?.length === 1
-        ? getTrims(make[0], model[0], generation[0])
-        : undefined,
-  })
+  const selectedModelName = selectedModel?.[0]
+  const generationOptions = useCatalogGenerations(
+    selectedMakeName,
+    selectedModelName,
+  )
 
   const contextValue = useMemo<OffersFilterContextValue>(
     () => ({
       make: {
         type: 'select',
-        options: makes,
+        options: makeOptions,
       },
       model: {
         type: 'select',
-        options: models,
+        options: modelOptions.length > 0 ? modelOptions : undefined,
       },
       generation: {
         type: 'select',
-        options: generations,
-      },
-      trim: {
-        type: 'select',
-        options: trims,
+        options: generationOptions.length > 0 ? generationOptions : undefined,
       },
       bodyType: {
         type: 'select',
-        options: bodyTypes,
+        options: bodyTypeOptions,
       },
       fuelType: {
         type: 'select',
-        options: fuelTypes,
+        options: fuelTypeOptions,
       },
       transmission: {
         type: 'select',
-        options: transmissions,
+        options: transmissionOptions,
       },
       price: {
         type: 'range',
@@ -201,7 +196,7 @@ function OffersFilterRoot(props: OffersFilterRootProps) {
         distribution: [],
       },
     }),
-    [models, generations, trims],
+    [makeOptions, modelOptions, generationOptions],
   )
 
   return (
