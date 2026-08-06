@@ -8,7 +8,7 @@ const buttonStyles = createStyles({
   slots: {
     container:
       'block cursor-pointer transition-all disabled:pointer-events-none disabled:opacity-40',
-    wrapper: 'flex h-6 items-center justify-center transition-all outline-none',
+    wrapper: 'flex h-6 items-center justify-center outline-none transition-all',
     label: 'whitespace-nowrap antialiased',
     icon: 'stroke-[1.5]',
   },
@@ -23,7 +23,7 @@ const buttonStyles = createStyles({
     variant: {
       outline: {
         container:
-          'border-muted-inv hover:border-subtle-inv focus-visible:border-subtle-inv border-2 active:scale-98',
+          'border-muted-inv hover:border-subtle-inv focus-visible:border-subtle-inv active:scale-98 border-2',
         wrapper: 'text-main dark:text-main-inv -m-0.5',
       },
       ghost: {

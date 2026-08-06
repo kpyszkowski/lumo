@@ -6,9 +6,9 @@ import { type CSSProperties, forwardRef } from 'react'
 
 const chipStyles = createStyles({
   slots: {
-    container: 'bg-elevated-inv text-main-inv px-2.5 py-1',
+    container: 'bg-elevated-inv text-main-inv inline-flex px-3 py-2',
     wrapper: 'inline-flex items-center gap-1 overflow-hidden',
-    label: 'text-xs font-medium whitespace-nowrap',
+    label: 'whitespace-nowrap text-sm font-medium',
     removeIconWrapper:
       'text-muted-inv hover:text-main-inv rounded-full transition-colors',
     removeIcon: 'size-3 stroke-[2.5]',

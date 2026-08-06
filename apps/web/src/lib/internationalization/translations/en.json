@@ -16,35 +16,86 @@
     "mostPopular": "Most popular",
     "filter": "Filters"
   },
-  "AdFilterCommand": {
-    "triggerPlaceholder": "Make, model, year...",
-    "searchSubmit": "Search",
-    "searchFallbackPlaceholder": "Search...",
-    "rangeFrom": "From",
-    "rangeTo": "To",
-    "sliderMin": "Minimum value",
-    "sliderMax": "Maximum value"
-  },
-  "FilterPages": {
-    "makesLabel": "Make",
-    "makesPlaceholder": "Search make...",
-    "modelsLabel": "Model",
-    "modelsPlaceholder": "Search model...",
-    "generationsLabel": "Generation",
-    "generationsPlaceholder": "Search generation...",
-    "bodyTypesLabel": "Body type",
-    "bodyTypesPlaceholder": "Search body type...",
-    "priceLabel": "Price",
-    "pricePlaceholder": "Enter price...",
-    "yearLabel": "Year",
-    "yearPlaceholder": "Enter year...",
-    "fuelTypesLabel": "Fuel type",
-    "fuelTypesPlaceholder": "Search fuel type...",
-    "transmissionsLabel": "Transmission",
-    "transmissionsPlaceholder": "Search transmission...",
-    "mileageLabel": "Mileage",
-    "mileagePlaceholder": "Enter mileage...",
-    "groupAlphabetical": "Alphabetically"
+  "OffersFilter": {
+    "labels": {
+      "make": "Make",
+      "model": "Model",
+      "generation": "Generation",
+      "bodyType": "Body type",
+      "price": "Price",
+      "year": "Year of production",
+      "fuelType": "Fuel type",
+      "transmission": "Transmission",
+      "mileage": "Mileage",
+      "power": "Engine power",
+      "engineCapacity": "Engine capacity",
+      "condition": "Vehicle condition",
+      "alphabetical": "Alphabetically",
+      "submit": "Search",
+      "selected": "Selected",
+      "from": "{noun} from",
+      "to": "{noun} to",
+      "minimum": "{gender, select, other {Minimum {noun}}}",
+      "maximum": "{gender, select, other {Maximum {noun}}}"
+    },
+    "values": {
+      "fuelType": {
+        "petrol": "Petrol",
+        "diesel": "Diesel",
+        "electric": "Electric",
+        "hybrid": "Hybrid",
+        "hybrid-plugin": "Plug-in hybrid"
+      },
+      "transmission": {
+        "automatic": "Automatic",
+        "manual": "Manual"
+      },
+      "condition": {
+        "undamaged": "Undamaged",
+        "damaged": "Damaged"
+      },
+      "bodyType": {
+        "sedan": "Sedan",
+        "hatchback": "Hatchback",
+        "coupe": "Coupe",
+        "suv": "SUV",
+        "crossover": "Crossover",
+        "van": "Van",
+        "pickup": "Pickup",
+        "limousine": "Limousine",
+        "estate": "Estate",
+        "other": "Other"
+      }
+    },
+    "placeholders": {
+      "default": "Make, model, year of production...",
+      "make": "Search make...",
+      "model": "Search model...",
+      "generation": "Search generation...",
+      "bodyType": "Search body type...",
+      "price": "Enter price...",
+      "year": "Enter year of production...",
+      "fuelType": "Search fuel type...",
+      "transmission": "Search transmission...",
+      "mileage": "Enter mileage...",
+      "power": "Enter engine power...",
+      "engineCapacity": "Enter engine capacity...",
+      "condition": "Select vehicle condition..."
+    },
+    "urlKeys": {
+      "make": "make",
+      "model": "model",
+      "generation": "generation",
+      "bodyType": "body-type",
+      "fuelType": "fuel-type",
+      "transmission": "transmission",
+      "condition": "condition",
+      "price": "price",
+      "year": "year",
+      "mileage": "mileage",
+      "power": "power",
+      "engineCapacity": "engine-capacity"
+    }
   },
   "OfferTile": {
     "watchButton": "Add to watched",
@@ -60,7 +111,11 @@
     "powerValue": "{value} HP"
   },
   "FilterData": {
-    "generationPresent": "present"
+    "generationPresent": "present",
+    "modelSeries": "Series",
+    "modelClass": "Class",
+    "undamaged": "Undamaged",
+    "damaged": "Damaged"
   },
   "OffersPage": {
     "makesPlaceholder": "Make",

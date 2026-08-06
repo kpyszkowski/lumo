@@ -81,6 +81,20 @@
       "power": "Podaj moc silnika...",
       "engineCapacity": "Podaj pojemność silnika...",
       "condition": "Wybierz stan pojazdu..."
+    },
+    "urlKeys": {
+      "make": "marka",
+      "model": "model",
+      "generation": "generacja",
+      "bodyType": "nadwozie",
+      "fuelType": "paliwo",
+      "transmission": "skrzynia",
+      "condition": "stan",
+      "price": "cena",
+      "year": "rok",
+      "mileage": "przebieg",
+      "power": "moc",
+      "engineCapacity": "pojemnosc"
     }
   },
   "OfferTile": {
