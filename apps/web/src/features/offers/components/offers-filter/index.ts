@@ -6,8 +6,16 @@ export {
   OffersFilterRoot as Root,
   type OffersFilterRootProps as RootProps,
   useOffersFilterContext,
+  FILTER_KEYS,
+  SELECT_KEYS,
+  RANGE_KEYS,
+  ENUM_SELECT_KEYS,
   type OffersFilterValues,
-  offersFilterSchema,
+  type OffersFilterFieldKey,
+  type OffersFilterSelectKey,
+  type OffersFilterRangeKey,
+  type OffersFilterSelectOption,
+  type OffersFilterData,
 } from './offers-filter-root'
 export {
   OffersFilterBar as Bar,

@@ -38,6 +38,35 @@
       "minimum": "{gender, select, masculine {Minimalny {noun}} other {Minimalna {noun}}}",
       "maximum": "{gender, select, masculine {Maksymalny {noun}} other {Maksymalna {noun}}}"
     },
+    "values": {
+      "fuelType": {
+        "petrol": "Benzyna",
+        "diesel": "Diesel",
+        "electric": "Elektryczny",
+        "hybrid": "Hybryda",
+        "hybrid-plugin": "Hybryda plug-in"
+      },
+      "transmission": {
+        "automatic": "Automatyczna",
+        "manual": "Manualna"
+      },
+      "condition": {
+        "undamaged": "Nieuszkodzony",
+        "damaged": "Uszkodzony"
+      },
+      "bodyType": {
+        "sedan": "Sedan",
+        "hatchback": "Hatchback",
+        "coupe": "Coupe",
+        "suv": "SUV",
+        "crossover": "Crossover",
+        "van": "Van",
+        "pickup": "Pickup",
+        "limousine": "Limuzyna",
+        "estate": "Kombi",
+        "other": "Inny"
+      }
+    },
     "placeholders": {
       "default": "Marka, model, rok produkcji...",
       "make": "Wyszukaj markę...",

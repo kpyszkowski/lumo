@@ -2,7 +2,7 @@
   "enableAllProjectMcpServers": true,
   "permissions": {
     "allow": [
-      "mcp__*"
+      "mcp__context7"
     ]
   }
 }

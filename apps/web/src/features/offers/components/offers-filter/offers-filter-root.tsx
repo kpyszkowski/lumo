@@ -1,5 +1,4 @@
 'use client'
-import { zodResolver } from '@hookform/resolvers/zod'
 import {
   createContext,
   useCallback,
@@ -7,76 +6,134 @@ import {
   useMemo,
   type ReactNode,
 } from 'react'
-import { FormProvider, useForm, useWatch } from 'react-hook-form'
-import { z } from 'zod'
 import {
-  bodyTypeOptions,
-  transmissionOptions,
-  fuelTypeOptions,
-} from '~/features/offers/lib/filter-data'
-import {
-  useCatalogBrands,
-  useCatalogGenerations,
-  useCatalogModels,
-} from '~/features/offers/hooks/use-catalog'
+  createParser,
+  parseAsString,
+  parseAsArrayOf,
+  useQueryStates,
+  type Values,
+  type SetValues,
+} from 'nuqs'
+import { carsRegistry } from '~/features/offers/lib/data/car/cars-registry'
+import { useTranslations } from 'next-intl'
+import { transmissions } from '~/features/offers/lib/data/transmission'
+import { bodyTypes } from '~/features/offers/lib/data/body-type'
+import { fuelTypes } from '~/features/offers/lib/data/fuel-type'
+import { conditions } from '~/features/offers/lib/data/condition'
 
-const string = z.array(z.string()).optional()
-const range = z
-  .object({
-    min: z.number().optional(),
-    max: z.number().optional(),
-  })
-  .optional()
-
-const offersFilterSchema = z.object({
-  make: string,
-  model: string,
-  generation: string,
-  bodyType: string,
-  fuelType: string,
-  transmission: string,
-  price: range,
-  year: range,
-  mileage: range,
-  power: range,
-  engineCapacity: range,
+const parseAsRange = createParser({
+  parse: (value) => {
+    // Positional `min:max`; an empty slot means that bound is unset. Parsing
+    // positionally (rather than filtering out nulls) keeps a max-only range
+    // from being read back as a min-only one.
+    const [rawMin = '', rawMax = ''] = value.split(':')
+    return {
+      min: rawMin === '' ? null : parseInt(rawMin, 10),
+      max: rawMax === '' ? null : parseInt(rawMax, 10),
+    }
+  },
+  serialize: (value) => {
+    const { min, max } = value
+    return `${min ?? ''}:${max ?? ''}`
+  },
 })
 
-type OffersFilterValues = z.infer<typeof offersFilterSchema>
+const parseAsArrayOfStrings = parseAsArrayOf(parseAsString)
 
-type RangeDataEntry = {
-  type: 'range'
-  min: number
-  max: number
-  step: number
-  unit?: string
-  distribution: number[]
+const DEFAULT_STATE = {
+  make: parseAsArrayOfStrings,
+  model: parseAsArrayOfStrings,
+  generation: parseAsArrayOfStrings,
+  bodyType: parseAsArrayOfStrings,
+  fuelType: parseAsArrayOfStrings,
+  transmission: parseAsArrayOfStrings,
+  condition: parseAsArrayOfStrings,
+  price: parseAsRange,
+  year: parseAsRange,
+  mileage: parseAsRange,
+  power: parseAsRange,
+  engineCapacity: parseAsRange,
 }
 
-type SelectDataEntry = {
-  type: 'select'
-  options: { id: string; label: string }[] | undefined
-}
+/** Select-type filter keys, in display order. */
+const SELECT_KEYS = [
+  'make',
+  'model',
+  'generation',
+  'bodyType',
+  'fuelType',
+  'transmission',
+  'condition',
+] as const
 
-type OffersFilterContextValue =
-  | (Record<
-      'make' | 'bodyType' | 'fuelType' | 'transmission',
-      SelectDataEntry
-    > &
-      Record<'model' | 'generation', SelectDataEntry> &
-      Record<
-        'price' | 'year' | 'mileage' | 'power' | 'engineCapacity',
-        RangeDataEntry
-      >)
-  | undefined
+/** Range-type filter keys, in display order. */
+const RANGE_KEYS = [
+  'price',
+  'year',
+  'mileage',
+  'power',
+  'engineCapacity',
+] as const
 
+/** All filter keys, selects first then ranges, in display order. */
+const FILTER_KEYS = [...SELECT_KEYS, ...RANGE_KEYS] as const
+
+/**
+ * Select keys whose option values are enum tokens and therefore need to be
+ * translated for display — unlike make/model/generation, whose values already
+ * are their display names.
+ */
+const ENUM_SELECT_KEYS = [
+  'bodyType',
+  'fuelType',
+  'transmission',
+  'condition',
+] as const
+
+type OffersFilterValues = Values<typeof DEFAULT_STATE>
+type OffersFilterFieldKey = keyof typeof DEFAULT_STATE
+type OffersFilterSelectKey = (typeof SELECT_KEYS)[number]
+type OffersFilterRangeKey = (typeof RANGE_KEYS)[number]
+
+type OffersFilterSelectOption = { value: string; label: string }
+type RangeConfig = { min: number; max: number; step: number; unit?: string }
+
+/**
+ * Static range bounds. Kept in the root so it stays the single source of truth
+ * for filter data; these are expected to become dynamic (narrowed from the
+ * selected make/model via the backend) in the future.
+ */
 const RANGES = {
   price: { min: 0, max: 1_000_000, step: 1_000, unit: 'PLN' },
   year: { min: 1900, max: new Date().getFullYear() + 1, step: 1 },
   mileage: { min: 0, max: 500_000, step: 5_000, unit: 'km' },
   power: { min: 0, max: 1_000, step: 10, unit: 'KM' },
   engineCapacity: { min: 0, max: 10_000, step: 100, unit: 'cm³' },
-} as const
+} as const satisfies Record<OffersFilterRangeKey, RangeConfig>
+
+type OffersFilterData = Record<
+  OffersFilterSelectKey,
+  OffersFilterSelectOption[] | null
+> &
+  Record<OffersFilterRangeKey, RangeConfig>
+
+const toOption = (value: string): OffersFilterSelectOption => ({
+  value,
+  label: value,
+})
+
+const hasSingleValue = (array: string[] | null): array is [string] =>
+  array !== null && array.length === 1 && array[0] !== ''
+
+type OffersFilterContextValue =
+  | {
+      get: OffersFilterValues
+      set: SetValues<typeof DEFAULT_STATE>
+      data: OffersFilterData
+      labels: Record<OffersFilterFieldKey, string>
+      placeholders: Record<OffersFilterFieldKey, string>
+    }
+  | undefined
 
 const OffersFilterContext = createContext<OffersFilterContextValue>(undefined)
 
@@ -89,133 +146,139 @@ function useOffersFilterContext(): NonNullable<OffersFilterContextValue> {
   return ctx
 }
 
-type OffersFilterRootProps = {
+interface OffersFilterRootProps {
   children: ReactNode
 }
 
 function OffersFilterRoot(props: OffersFilterRootProps) {
   const { children } = props
 
-  const { setValue, control, ...restFormProps } = useForm<OffersFilterValues>({
-    resolver: zodResolver(offersFilterSchema),
-    defaultValues: Object.fromEntries(
-      Object.keys(offersFilterSchema.shape).map((key) => [key, undefined]),
-    ),
-  })
+  const t = useTranslations('OffersFilter')
 
-  const handleSetValue = useCallback(
-    (...args: Parameters<typeof setValue>) => {
-      const [name, ...restArgs] = args
+  const [filters, setFilters] = useQueryStates(DEFAULT_STATE)
 
-      if (name === 'make') {
-        setValue('model', undefined, { shouldDirty: true })
-        setValue('generation', undefined, { shouldDirty: true })
-      }
+  const handleSetFilters = useCallback<SetValues<typeof DEFAULT_STATE>>(
+    async (setter) => {
+      const newFilters = typeof setter === 'function' ? setter(filters) : setter
+      if (newFilters === null) return new URLSearchParams()
 
-      if (name === 'model') {
-        setValue('generation', undefined, { shouldDirty: true })
-      }
+      const shouldClearModel = newFilters.make !== filters.make
+      const shouldClearGeneration = newFilters.model !== filters.model
 
-      setValue(name, ...restArgs)
+      console.log({ shouldClearModel, shouldClearGeneration })
+
+      return await setFilters({
+        ...newFilters,
+        model: shouldClearModel ? null : newFilters.model,
+        generation: shouldClearGeneration ? null : newFilters.generation,
+      })
     },
-    [setValue],
+    [filters, setFilters],
   )
 
-  const makeOptions = useCatalogBrands()
-
-  // Watch selected make
-  const selectedMake = useWatch({
-    control,
-    name: 'make',
-  })
-
-  const selectedMakeName = selectedMake?.[0]
-  const modelOptions = useCatalogModels(selectedMakeName)
-
-  // Watch selected model
-  const selectedModel = useWatch({
-    control,
-    name: 'model',
-  })
-
-  const selectedModelName = selectedModel?.[0]
-  const generationOptions = useCatalogGenerations(
-    selectedMakeName,
-    selectedModelName,
-  )
-
-  const contextValue = useMemo<OffersFilterContextValue>(
+  const data = useMemo<OffersFilterData>(
     () => ({
-      make: {
-        type: 'select',
-        options: makeOptions,
-      },
-      model: {
-        type: 'select',
-        options: modelOptions.length > 0 ? modelOptions : undefined,
-      },
-      generation: {
-        type: 'select',
-        options: generationOptions.length > 0 ? generationOptions : undefined,
-      },
-      bodyType: {
-        type: 'select',
-        options: bodyTypeOptions,
-      },
-      fuelType: {
-        type: 'select',
-        options: fuelTypeOptions,
-      },
-      transmission: {
-        type: 'select',
-        options: transmissionOptions,
-      },
-      price: {
-        type: 'range',
-        ...RANGES.price,
-        distribution: [],
-      },
-      year: {
-        type: 'range',
-        ...RANGES.year,
-        distribution: [],
-      },
-      mileage: {
-        type: 'range',
-        ...RANGES.mileage,
-        distribution: [],
-      },
-      power: {
-        type: 'range',
-        ...RANGES.power,
-        distribution: [],
-      },
-      engineCapacity: {
-        type: 'range',
-        ...RANGES.engineCapacity,
-        distribution: [],
-      },
+      make: carsRegistry.getMakes().map(toOption),
+      model: hasSingleValue(filters.make)
+        ? carsRegistry.getModels(filters.make[0]).map(toOption)
+        : null,
+      generation:
+        hasSingleValue(filters.make) && hasSingleValue(filters.model)
+          ? carsRegistry
+              .getGenerations(filters.make[0], filters.model[0])
+              .map((generation) => toOption(generation.name))
+          : null,
+      bodyType: bodyTypes.map((value) => ({
+        value,
+        label: t(`values.bodyType.${value}`),
+      })),
+      fuelType: fuelTypes.map((value) => ({
+        value,
+        label: t(`values.fuelType.${value}`),
+      })),
+      transmission: transmissions.map((value) => ({
+        value,
+        label: t(`values.transmission.${value}`),
+      })),
+      condition: conditions.map((value) => ({
+        value,
+        label: t(`values.condition.${value}`),
+      })),
+      price: RANGES.price,
+      year: RANGES.year,
+      mileage: RANGES.mileage,
+      power: RANGES.power,
+      engineCapacity: RANGES.engineCapacity,
     }),
-    [makeOptions, modelOptions, generationOptions],
+    [filters.make, filters.model, t],
+  )
+
+  const labels = useMemo(
+    () => ({
+      make: t('labels.make'),
+      model: t('labels.model'),
+      generation: t('labels.generation'),
+      bodyType: t('labels.bodyType'),
+      fuelType: t('labels.fuelType'),
+      transmission: t('labels.transmission'),
+      condition: t('labels.condition'),
+      price: t('labels.price'),
+      year: t('labels.year'),
+      mileage: t('labels.mileage'),
+      power: t('labels.power'),
+      engineCapacity: t('labels.engineCapacity'),
+    }),
+    [t],
+  )
+
+  const placeholders = useMemo(
+    () => ({
+      make: t('placeholders.make'),
+      model: t('placeholders.model'),
+      generation: t('placeholders.generation'),
+      bodyType: t('placeholders.bodyType'),
+      fuelType: t('placeholders.fuelType'),
+      transmission: t('placeholders.transmission'),
+      condition: t('placeholders.condition'),
+      price: t('placeholders.price'),
+      year: t('placeholders.year'),
+      mileage: t('placeholders.mileage'),
+      power: t('placeholders.power'),
+      engineCapacity: t('placeholders.engineCapacity'),
+    }),
+    [t],
+  )
+
+  const contextValue = useMemo<NonNullable<OffersFilterContextValue>>(
+    () => ({
+      get: filters,
+      set: handleSetFilters,
+      data,
+      labels,
+      placeholders,
+    }),
+    [filters, handleSetFilters, data, labels, placeholders],
   )
 
   return (
     <OffersFilterContext.Provider value={contextValue}>
-      <FormProvider
-        setValue={handleSetValue}
-        control={control}
-        {...restFormProps}
-      >
-        {children}
-      </FormProvider>
+      {children}
     </OffersFilterContext.Provider>
   )
 }
 
 export {
   OffersFilterRoot,
-  type OffersFilterRootProps,
   useOffersFilterContext,
+  FILTER_KEYS,
+  SELECT_KEYS,
+  RANGE_KEYS,
+  ENUM_SELECT_KEYS,
+  type OffersFilterRootProps,
   type OffersFilterValues,
-  offersFilterSchema,
+  type OffersFilterFieldKey,
+  type OffersFilterSelectKey,
+  type OffersFilterRangeKey,
+  type OffersFilterSelectOption,
+  type OffersFilterData,
 }

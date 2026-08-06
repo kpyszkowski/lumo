@@ -1,14 +1,14 @@
 'use client'
 import { createStyles, type StylesProps } from '@lumo/ui/utils'
 import { useTranslations } from 'next-intl'
-import { useFormContext, useWatch } from 'react-hook-form'
 import {
-  type OffersFilterValues,
+  FILTER_KEYS,
+  RANGE_KEYS,
   useOffersFilterContext,
+  type OffersFilterFieldKey,
+  type OffersFilterRangeKey,
 } from '~/features/offers/components/offers-filter'
-import * as FormRangeSelect from '~/components/form/form-range-select'
-import * as FormMultiSelect from '~/components/form/form-multi-select'
-import { Button, Chip } from '@lumo/ui/components'
+import { Button, Chip, MultiSelect, RangeSelect } from '@lumo/ui/components'
 import { motion, LayoutGroup, AnimatePresence } from '@lumo/ui/motion'
 import { IconArrowsSort, IconChevronDown } from '@lumo/ui/icons'
 import { useResizeObserver } from '@lumo/ui/hooks'
@@ -16,12 +16,15 @@ import { useMemo, useRef, useState } from 'react'
 
 const MotionIconChevronDown = motion.create(IconChevronDown)
 
-const GENDER: Partial<Record<keyof OffersFilterValues, 'masculine'>> = {
+const GENDER: Partial<Record<OffersFilterFieldKey, 'masculine'>> = {
   year: 'masculine',
   mileage: 'masculine',
   power: 'masculine',
   engineCapacity: 'masculine',
 }
+
+const isRangeKey = (key: OffersFilterFieldKey): key is OffersFilterRangeKey =>
+  (RANGE_KEYS as readonly string[]).includes(key)
 
 export const offersFilterBarStyles = createStyles({
   slots: {
@@ -48,10 +51,16 @@ function OffersFilterBar(props: OffersFilterBarProps) {
 
   const [expanded, setExpanded] = useState(false)
 
+  // In-progress slider values, so dragging doesn't write the URL on every
+  // frame. Cleared once a chip is removed, which snaps the slider back to the
+  // committed (URL) range.
+  const [rangeDrafts, setRangeDrafts] = useState<
+    Partial<Record<OffersFilterRangeKey, [number, number]>>
+  >({})
+
   const styles = offersFilterBarStyles()
 
-  const form = useFormContext<OffersFilterValues>()
-  const offersFilter = useOffersFilterContext()
+  const { get, set, data, labels } = useOffersFilterContext()
 
   const t = useTranslations('OffersFilter')
 
@@ -60,101 +69,84 @@ function OffersFilterBar(props: OffersFilterBarProps) {
     ref: containerRef,
   })
 
-  const offersFilterData = useMemo(
-    () =>
-      Object.entries(offersFilter).map(([key, value]) => ({
-        name: key as keyof OffersFilterValues,
-        label: t(`labels.${key as keyof OffersFilterValues}`),
-        ...value,
-      })),
-    [offersFilter, t],
-  )
-
-  const filterValues = useWatch({ control: form.control })
-
   const activeFilters = useMemo(
     () =>
-      offersFilterData.flatMap((filter) => {
-        const value = filterValues[filter.name]
-
-        if (filter.type === 'select') {
-          const selectedValues = value as string[] | undefined
+      FILTER_KEYS.flatMap((key) => {
+        if (!isRangeKey(key)) {
+          const selectedValues = get[key]
 
           if (!selectedValues || selectedValues.length === 0) return []
 
-          return selectedValues.map((optionId: string) => {
-            const option = filter.options?.find(({ id }) => id === optionId)
+          const options = data[key] ?? []
+
+          return selectedValues.map((value) => {
+            const option = options.find((item) => item.value === value)
 
             return {
-              label: option?.label ?? optionId,
+              label: option?.label ?? value,
               onRemove: () => {
-                const next = selectedValues.filter(
-                  (id: string) => id !== optionId,
-                )
-                form.setValue(filter.name, next.length > 0 ? next : undefined, {
-                  shouldDirty: true,
-                  shouldValidate: true,
-                  shouldTouch: true,
-                })
+                const next = selectedValues.filter((id) => id !== value)
+                void set((prev) => ({
+                  ...prev,
+                  [key]: next.length > 0 ? next : null,
+                }))
               },
             }
           })
         }
 
-        const rangeValue = value as { min?: number; max?: number } | undefined
+        const rangeValue = get[key]
 
         if (!rangeValue) return []
 
+        const config = data[key]
         const from = rangeValue.min
         const to = rangeValue.max
-        const hasFrom = from !== undefined && from !== filter.min
-        const hasTo = to !== undefined && to !== filter.max
+        const hasFrom = from !== null && from !== config.min
+        const hasTo = to !== null && to !== config.max
 
         if (!hasFrom && !hasTo) return []
 
-        const chips = []
+        const unit = config.unit ? ` ${config.unit}` : ''
+        const chips: { label: string; onRemove: () => void }[] = []
 
         if (hasFrom) {
           chips.push({
-            key: `${filter.name}-from`,
-            label: `${t('labels.from', {
-              noun: t(`labels.${filter.name}`),
-            })} ${from}${filter.unit ? ` ${filter.unit}` : ''}`,
+            label: `${t('labels.from', { noun: labels[key] })} ${from}${unit}`,
             onRemove: () => {
-              const newValue = { ...rangeValue, min: filter.min }
-              form.setValue(
-                filter.name,
-                newValue.max === filter.max && newValue.min === filter.min
-                  ? undefined
-                  : newValue,
-                { shouldDirty: true, shouldValidate: true, shouldTouch: true },
-              )
+              const nextMax = rangeValue.max
+              void set((prev) => ({
+                ...prev,
+                [key]:
+                  nextMax === null || nextMax === config.max
+                    ? null
+                    : { min: null, max: nextMax },
+              }))
+              setRangeDrafts((prev) => ({ ...prev, [key]: undefined }))
             },
           })
         }
 
         if (hasTo) {
           chips.push({
-            key: `${filter.name}-to`,
-            label: `${t('labels.to', {
-              noun: t(`labels.${filter.name}`),
-            })} ${to}${filter.unit ? ` ${filter.unit}` : ''}`,
+            label: `${t('labels.to', { noun: labels[key] })} ${to}${unit}`,
             onRemove: () => {
-              const newValue = { ...rangeValue, max: filter.max }
-              form.setValue(
-                filter.name,
-                newValue.max === filter.max && newValue.min === filter.min
-                  ? undefined
-                  : newValue,
-                { shouldDirty: true, shouldValidate: true, shouldTouch: true },
-              )
+              const nextMin = rangeValue.min
+              void set((prev) => ({
+                ...prev,
+                [key]:
+                  nextMin === null || nextMin === config.min
+                    ? null
+                    : { min: nextMin, max: null },
+              }))
+              setRangeDrafts((prev) => ({ ...prev, [key]: undefined }))
             },
           })
         }
 
         return chips
       }),
-    [offersFilterData, filterValues, form, t],
+    [get, data, labels, set, t],
   )
 
   return (
@@ -181,8 +173,8 @@ function OffersFilterBar(props: OffersFilterBarProps) {
               }}
               className={styles.list()}
             >
-              {offersFilterData.map((filter) => {
-                const isActive = filterValues[filter.name] ? true : undefined
+              {FILTER_KEYS.map((key) => {
+                const isActive = get[key] ? true : undefined
 
                 const triggerContent = (open: boolean) => (
                   <Button
@@ -190,7 +182,7 @@ function OffersFilterBar(props: OffersFilterBarProps) {
                     data-active={isActive}
                   >
                     <div className={styles.triggerWrapper()}>
-                      <motion.span layout>{filter.label}</motion.span>
+                      <motion.span layout>{labels[key]}</motion.span>
 
                       <MotionIconChevronDown
                         className={styles.triggerIcon()}
@@ -202,82 +194,106 @@ function OffersFilterBar(props: OffersFilterBarProps) {
                   </Button>
                 )
 
-                if (filter.type === 'select') {
+                if (!isRangeKey(key)) {
                   const isDisabled =
-                    (filter.name === 'model' && !offersFilter.model.options) ||
-                    (filter.name === 'generation' &&
-                      !offersFilter.generation.options)
+                    (key === 'model' && !data.model) ||
+                    (key === 'generation' && !data.generation)
 
                   return (
                     <motion.li
                       layout
-                      key={filter.name}
+                      key={key}
                       transition={{
                         type: 'tween',
                         ease: 'easeOut',
                       }}
                     >
-                      <FormMultiSelect.Root
-                        control={form.control}
-                        name={filter.name}
-                        items={
-                          filter.options
-                            ? filter.options.map(({ id, label }) => ({
-                                value: id,
-                                label,
-                              }))
-                            : []
-                        }
+                      <MultiSelect.Root
+                        items={data[key] ?? []}
+                        value={get[key] ?? []}
+                        onValueChange={(next) => {
+                          const current = get[key] ?? []
+                          const resolved =
+                            typeof next === 'function' ? next(current) : next
+                          void set((prev) => ({
+                            ...prev,
+                            [key]: resolved.length > 0 ? resolved : null,
+                          }))
+                        }}
                       >
-                        <FormMultiSelect.Trigger
+                        <MultiSelect.Trigger
                           disabled={isDisabled}
                           render={(_, { open }) => triggerContent(open)}
                         />
 
-                        <FormMultiSelect.Popup
-                          searchPlaceholder={t(`labels.${filter.name}`)}
+                        <MultiSelect.Popup
+                          searchPlaceholder={labels[key]}
                           selectedLabel={t('labels.selected')}
                           itemsLabel={t('labels.alphabetical')}
                         />
-                      </FormMultiSelect.Root>
+                      </MultiSelect.Root>
                     </motion.li>
                   )
                 }
 
+                const config = data[key]
+                const rangeValue = get[key]
+
+                // Controlled by the committed (URL) range unless a drag is in
+                // progress, so clearing a chip reverts the slider to the full
+                // range instead of leaving it stuck on the removed value.
+                const value: [number, number] = rangeDrafts[key] ?? [
+                  rangeValue?.min ?? config.min,
+                  rangeValue?.max ?? config.max,
+                ]
+
                 return (
                   <motion.li
                     layout
-                    key={filter.name}
+                    key={key}
                   >
-                    <FormRangeSelect.Root
-                      control={form.control}
-                      name={filter.name}
-                      min={filter.min}
-                      max={filter.max}
-                      step={filter.step}
+                    <RangeSelect.Root
+                      min={config.min}
+                      max={config.max}
+                      step={config.step}
+                      value={value}
+                      onValueChange={(nextValue) =>
+                        setRangeDrafts((prev) => ({
+                          ...prev,
+                          [key]: nextValue,
+                        }))
+                      }
+                      onValueCommitted={([newMin, newMax]) => {
+                        const nextMin = newMin !== config.min ? newMin : null
+                        const nextMax = newMax !== config.max ? newMax : null
+
+                        void set((prev) => ({
+                          ...prev,
+                          [key]:
+                            nextMin === null && nextMax === null
+                              ? null
+                              : { min: nextMin, max: nextMax },
+                        }))
+                      }}
                     >
-                      <FormRangeSelect.Trigger
+                      <RangeSelect.Trigger
                         render={(_, { open }) => triggerContent(open)}
                       />
 
-                      <FormRangeSelect.Content
-                        unit={filter.unit}
-                        fromLabel={t('labels.from', {
-                          noun: t(`labels.${filter.name}`),
-                        })}
-                        toLabel={t('labels.to', {
-                          noun: t(`labels.${filter.name}`),
-                        })}
+                      <RangeSelect.Content
+                        unit={config.unit}
+                        fromLabel={t('labels.from', { noun: labels[key] })}
+                        toLabel={t('labels.to', { noun: labels[key] })}
                         sliderMinLabel={t('labels.minimum', {
-                          noun: t(`labels.${filter.name}`).toLowerCase(),
-                          gender: GENDER[filter.name] ?? 'other',
+                          noun: labels[key].toLowerCase(),
+                          gender: GENDER[key] ?? 'other',
                         })}
                         sliderMaxLabel={t('labels.maximum', {
-                          noun: t(`labels.${filter.name}`).toLowerCase(),
-                          gender: GENDER[filter.name] ?? 'other',
+                          noun: labels[key].toLowerCase(),
+                          gender: GENDER[key] ?? 'other',
                         })}
                       />
-                    </FormRangeSelect.Root>
+                    </RangeSelect.Root>
                   </motion.li>
                 )
               })}

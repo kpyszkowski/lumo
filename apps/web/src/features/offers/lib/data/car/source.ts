@@ -6,17 +6,72 @@ export type Generation = {
 
 export type Model = {
   name: string
-  generations: readonly Generation[]
+  generations: Generation[]
 }
 
-export type Brand = {
-  brand: string
-  models: readonly Model[]
+export type Make = {
+  make: string
+  models: Model[]
 }
 
-export const brands = [
+export const source = [
   {
-    brand: 'Acura',
+    make: 'Abarth',
+    models: [
+      {
+        name: '124 Spider',
+        generations: [
+          {
+            name: 'Mk1 (348)',
+            yearFrom: 2016,
+            yearTo: 2020,
+          },
+        ],
+      },
+      {
+        name: '500',
+        generations: [
+          {
+            name: 'Mk1 (312)',
+            yearFrom: 2008,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: '595',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2012,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: '695',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2010,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Punto Evo',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2010,
+            yearTo: 2012,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    make: 'Acura',
     models: [
       {
         name: 'CL',
@@ -266,8 +321,128 @@ export const brands = [
     ],
   },
   {
-    brand: 'Alfa Romeo',
+    make: 'Aito',
     models: [
+      {
+        name: 'M5',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2022,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'M7',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2022,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'M9',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    make: 'Aixam',
+    models: [
+      {
+        name: 'City',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2013,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Crossline',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2016,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'e-City',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2020,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Mega',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2005,
+            yearTo: 2013,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    make: 'Alfa Romeo',
+    models: [
+      {
+        name: '4C',
+        generations: [
+          {
+            name: 'MK1',
+            yearFrom: 2013,
+            yearTo: 2020,
+          },
+        ],
+      },
+      {
+        name: '33',
+        generations: [
+          {
+            name: 'Series 905',
+            yearFrom: 1983,
+            yearTo: 1995,
+          },
+        ],
+      },
+      {
+        name: '75',
+        generations: [
+          {
+            name: 'Series 161',
+            yearFrom: 1985,
+            yearTo: 1992,
+          },
+        ],
+      },
+      {
+        name: '90',
+        generations: [
+          {
+            name: 'Series 162',
+            yearFrom: 1984,
+            yearTo: 1987,
+          },
+        ],
+      },
       {
         name: '145',
         generations: [
@@ -385,46 +560,6 @@ export const brands = [
             name: 'MK2 (Restyling)',
             yearFrom: 2003,
             yearTo: 2007,
-          },
-        ],
-      },
-      {
-        name: '33',
-        generations: [
-          {
-            name: 'Series 905',
-            yearFrom: 1983,
-            yearTo: 1995,
-          },
-        ],
-      },
-      {
-        name: '4C',
-        generations: [
-          {
-            name: 'MK1',
-            yearFrom: 2013,
-            yearTo: 2020,
-          },
-        ],
-      },
-      {
-        name: '75',
-        generations: [
-          {
-            name: 'Series 161',
-            yearFrom: 1985,
-            yearTo: 1992,
-          },
-        ],
-      },
-      {
-        name: '90',
-        generations: [
-          {
-            name: 'Series 162',
-            yearFrom: 1984,
-            yearTo: 1987,
           },
         ],
       },
@@ -611,48 +746,123 @@ export const brands = [
     ],
   },
   {
-    brand: 'Audi',
+    make: 'Alpine',
     models: [
       {
-        name: '100',
+        name: 'A110',
         generations: [
           {
-            name: 'C1 (F104)',
-            yearFrom: 1968,
-            yearTo: 1976,
-          },
-          {
-            name: 'C2 (Type 43)',
-            yearFrom: 1976,
-            yearTo: 1982,
-          },
-          {
-            name: 'C3 (Type 44)',
-            yearFrom: 1982,
-            yearTo: 1991,
-          },
-          {
-            name: 'C4 (Type 4A)',
-            yearFrom: 1990,
-            yearTo: 1994,
+            name: 'Mk1 (A110)',
+            yearFrom: 2017,
+            yearTo: null,
           },
         ],
       },
       {
-        name: '100 Avant',
+        name: 'A310',
         generations: [
           {
-            name: 'C3 (Type 44)',
-            yearFrom: 1983,
-            yearTo: 1991,
-          },
-          {
-            name: 'C4 (Type 4A)',
-            yearFrom: 1991,
-            yearTo: 1994,
+            name: 'Mk1',
+            yearFrom: 1971,
+            yearTo: 1984,
           },
         ],
       },
+      {
+        name: 'A610',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 1991,
+            yearTo: 1995,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    make: 'Aston Martin',
+    models: [
+      {
+        name: 'DB11',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2016,
+            yearTo: 2023,
+          },
+        ],
+      },
+      {
+        name: 'DB12',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'DBS',
+        generations: [
+          {
+            name: 'Mk3 (Superleggera)',
+            yearFrom: 2018,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'DBX',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2020,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Rapide',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2010,
+            yearTo: 2020,
+          },
+        ],
+      },
+      {
+        name: 'Vanquish',
+        generations: [
+          {
+            name: 'Mk2',
+            yearFrom: 2012,
+            yearTo: 2018,
+          },
+        ],
+      },
+      {
+        name: 'Vantage',
+        generations: [
+          {
+            name: 'Mk1 (V8)',
+            yearFrom: 2005,
+            yearTo: 2017,
+          },
+          {
+            name: 'Mk2 (V8/V12)',
+            yearFrom: 2018,
+            yearTo: null,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    make: 'Audi',
+    models: [
       {
         name: '80',
         generations: [
@@ -715,6 +925,46 @@ export const brands = [
             name: 'B3 (Type 89)',
             yearFrom: 1987,
             yearTo: 1991,
+          },
+        ],
+      },
+      {
+        name: '100',
+        generations: [
+          {
+            name: 'C1 (F104)',
+            yearFrom: 1968,
+            yearTo: 1976,
+          },
+          {
+            name: 'C2 (Type 43)',
+            yearFrom: 1976,
+            yearTo: 1982,
+          },
+          {
+            name: 'C3 (Type 44)',
+            yearFrom: 1982,
+            yearTo: 1991,
+          },
+          {
+            name: 'C4 (Type 4A)',
+            yearFrom: 1990,
+            yearTo: 1994,
+          },
+        ],
+      },
+      {
+        name: '100 Avant',
+        generations: [
+          {
+            name: 'C3 (Type 44)',
+            yearFrom: 1983,
+            yearTo: 1991,
+          },
+          {
+            name: 'C4 (Type 4A)',
+            yearFrom: 1991,
+            yearTo: 1994,
           },
         ],
       },
@@ -1116,6 +1366,21 @@ export const brands = [
             yearFrom: 2018,
             yearTo: null,
           },
+          {
+            name: 'Mk1 (GE)',
+            yearFrom: 2018,
+            yearTo: 2022,
+          },
+        ],
+      },
+      {
+        name: 'e-tron GT',
+        generations: [
+          {
+            name: 'Mk1 (J1)',
+            yearFrom: 2021,
+            yearTo: null,
+          },
         ],
       },
       {
@@ -1141,6 +1406,11 @@ export const brands = [
             yearFrom: 2021,
             yearTo: null,
           },
+          {
+            name: 'Mk1 (F4)',
+            yearFrom: 2021,
+            yearTo: null,
+          },
         ],
       },
       {
@@ -1154,6 +1424,16 @@ export const brands = [
           {
             name: 'FY (Second Gen)',
             yearFrom: 2017,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Q6 e-tron',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2024,
             yearTo: null,
           },
         ],
@@ -1179,6 +1459,16 @@ export const brands = [
           {
             name: 'First Gen',
             yearFrom: 2018,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Q8 e-tron',
+        generations: [
+          {
+            name: 'Mk1 (GE)',
+            yearFrom: 2022,
             yearTo: null,
           },
         ],
@@ -1541,7 +1831,162 @@ export const brands = [
     ],
   },
   {
-    brand: 'Bentley',
+    make: 'Avatr',
+    models: [
+      {
+        name: '11',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2022,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: '12',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    make: 'BAIC',
+    models: [
+      {
+        name: 'BJ40 Plus',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2016,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'BJ60',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2022,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'U5 Plus',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2020,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'X7',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2019,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'X35',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2016,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'X55',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2022,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'X75',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    make: 'Belgee',
+    models: [
+      {
+        name: 'S50',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'X50',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'X50+',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2025,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'X70',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'X80 PHEV',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2025,
+            yearTo: null,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    make: 'Bentley',
     models: [
       {
         name: 'Arnage',
@@ -1711,7 +2156,62 @@ export const brands = [
     ],
   },
   {
-    brand: 'BMW',
+    make: 'Bestune',
+    models: [
+      {
+        name: 'B70',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2020,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'T55',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2022,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'T77',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2020,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'T90',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'T99',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2019,
+            yearTo: null,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    make: 'BMW',
     models: [
       {
         name: 'i3',
@@ -1736,6 +2236,11 @@ export const brands = [
             yearFrom: 2021,
             yearTo: null,
           },
+          {
+            name: 'Mk1 (G26)',
+            yearFrom: 2021,
+            yearTo: null,
+          },
         ],
       },
       {
@@ -1746,6 +2251,11 @@ export const brands = [
             yearFrom: 2023,
             yearTo: null,
           },
+          {
+            name: 'Mk1 (G60)',
+            yearFrom: 2023,
+            yearTo: null,
+          },
         ],
       },
       {
@@ -1753,6 +2263,11 @@ export const brands = [
         generations: [
           {
             name: 'G70',
+            yearFrom: 2022,
+            yearTo: null,
+          },
+          {
+            name: 'Mk1 (G70)',
             yearFrom: 2022,
             yearTo: null,
           },
@@ -1776,6 +2291,11 @@ export const brands = [
             yearFrom: 2021,
             yearTo: null,
           },
+          {
+            name: 'Mk1 (I20)',
+            yearFrom: 2021,
+            yearTo: null,
+          },
         ],
       },
       {
@@ -1786,6 +2306,21 @@ export const brands = [
             yearFrom: 2022,
             yearTo: null,
           },
+          {
+            name: 'Mk1 (U11)',
+            yearFrom: 2022,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'iX2',
+        generations: [
+          {
+            name: 'Mk1 (U10)',
+            yearFrom: 2023,
+            yearTo: null,
+          },
         ],
       },
       {
@@ -1793,6 +2328,11 @@ export const brands = [
         generations: [
           {
             name: 'G08',
+            yearFrom: 2020,
+            yearTo: null,
+          },
+          {
+            name: 'Mk1 (G08)',
             yearFrom: 2020,
             yearTo: null,
           },
@@ -2464,6 +3004,16 @@ export const brands = [
         ],
       },
       {
+        name: 'XM',
+        generations: [
+          {
+            name: 'Mk1 (G09)',
+            yearFrom: 2022,
+            yearTo: null,
+          },
+        ],
+      },
+      {
         name: 'Z3',
         generations: [
           {
@@ -2496,7 +3046,52 @@ export const brands = [
     ],
   },
   {
-    brand: 'Buick',
+    make: 'Bugatti',
+    models: [
+      {
+        name: 'Chiron',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2016,
+            yearTo: 2022,
+          },
+        ],
+      },
+      {
+        name: 'Divo',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2019,
+            yearTo: 2021,
+          },
+        ],
+      },
+      {
+        name: 'Mistral',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2022,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Veyron',
+        generations: [
+          {
+            name: 'Mk1 (16.4)',
+            yearFrom: 2005,
+            yearTo: 2015,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    make: 'Buick',
     models: [
       {
         name: 'Apollo',
@@ -2926,8 +3521,78 @@ export const brands = [
     ],
   },
   {
-    brand: 'BYD',
+    make: 'BYD',
     models: [
+      {
+        name: 'Atto 2',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Atto 2 DM-i',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2025,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Atto 3',
+        generations: [
+          {
+            name: 'Mk1 (Yuan Plus)',
+            yearFrom: 2021,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Atto 3 EVO',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Dolphin',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2021,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Dolphin G DM-i',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2025,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Dolphin Surf',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
       {
         name: 'e5',
         generations: [
@@ -3149,6 +3814,76 @@ export const brands = [
         ],
       },
       {
+        name: 'Seal 5 DM-i',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Seal 6 DM-i',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Seal 6 DM-i Touring',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2025,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Seal U',
+        generations: [
+          {
+            name: 'Mk1 (Song Plus)',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Seal U DM-i',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Sealion 5 DM-i',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Sealion 7',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
+      {
         name: 'Song',
         generations: [
           {
@@ -3241,7 +3976,7 @@ export const brands = [
     ],
   },
   {
-    brand: 'Cadillac',
+    make: 'Cadillac',
     models: [
       {
         name: 'Allanté',
@@ -3601,7 +4336,7 @@ export const brands = [
     ],
   },
   {
-    brand: 'Changan',
+    make: 'Changan',
     models: [
       {
         name: 'Alsvin',
@@ -3704,6 +4439,16 @@ export const brands = [
         ],
       },
       {
+        name: 'CS35 Max',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2025,
+            yearTo: null,
+          },
+        ],
+      },
+      {
         name: 'CS35 Plus',
         generations: [
           {
@@ -3759,6 +4504,21 @@ export const brands = [
           {
             name: 'Mk1',
             yearFrom: 2019,
+            yearTo: null,
+          },
+          {
+            name: 'Mk4 (IV/New)',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'CS75 Pro',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2024,
             yearTo: null,
           },
         ],
@@ -3829,6 +4589,16 @@ export const brands = [
         ],
       },
       {
+        name: 'Eado Max',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2025,
+            yearTo: null,
+          },
+        ],
+      },
+      {
         name: 'Eado Plus',
         generations: [
           {
@@ -3864,6 +4634,26 @@ export const brands = [
           {
             name: 'Mk1',
             yearFrom: 2021,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Hunter Plus',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2022,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Lamore',
+        generations: [
+          {
+            name: 'Mk1 (Uni-L)',
+            yearFrom: 2023,
             yearTo: null,
           },
         ],
@@ -3969,6 +4759,16 @@ export const brands = [
         ],
       },
       {
+        name: 'UNI-S',
+        generations: [
+          {
+            name: 'Mk1 (CS55 Plus)',
+            yearFrom: 2025,
+            yearTo: null,
+          },
+        ],
+      },
+      {
         name: 'Uni-T',
         generations: [
           {
@@ -4001,7 +4801,7 @@ export const brands = [
     ],
   },
   {
-    brand: 'Chery',
+    make: 'Chery',
     models: [
       {
         name: 'Amulet',
@@ -4045,6 +4845,16 @@ export const brands = [
             name: 'Mk1',
             yearFrom: 2013,
             yearTo: 2021,
+          },
+        ],
+      },
+      {
+        name: 'Arrizo 8',
+        generations: [
+          {
+            name: 'Mk1 (M1A)',
+            yearFrom: 2022,
+            yearTo: null,
           },
         ],
       },
@@ -4219,6 +5029,26 @@ export const brands = [
         ],
       },
       {
+        name: 'Tiggo 4 New',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Tiggo 4 Pro',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2020,
+            yearTo: null,
+          },
+        ],
+      },
+      {
         name: 'Tiggo 5',
         generations: [
           {
@@ -4244,6 +5074,36 @@ export const brands = [
         ],
       },
       {
+        name: 'Tiggo 7 Pro Max',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Tiggo 7 Pro Plug-in Hybrid',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Tiggo 7L',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2025,
+            yearTo: null,
+          },
+        ],
+      },
+      {
         name: 'Tiggo 8',
         generations: [
           {
@@ -4254,6 +5114,36 @@ export const brands = [
           {
             name: 'Mk2 (Pro)',
             yearFrom: 2021,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Tiggo 8 Pro Max',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2022,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Tiggo 8 Pro Plug-in Hybrid',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Tiggo 9',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2024,
             yearTo: null,
           },
         ],
@@ -4271,7 +5161,7 @@ export const brands = [
     ],
   },
   {
-    brand: 'Chevrolet',
+    make: 'Chevrolet',
     models: [
       {
         name: 'Alero',
@@ -4362,12 +5252,27 @@ export const brands = [
             yearTo: 2005,
           },
           {
+            name: 'Mk3 (C1)',
+            yearFrom: 2018,
+            yearTo: null,
+          },
+          {
             name: 'Fifth gen',
             yearFrom: 2019,
             yearTo: 2023,
           },
           {
             name: 'Sixth gen',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Blazer EV',
+        generations: [
+          {
+            name: 'Mk1',
             yearFrom: 2023,
             yearTo: null,
           },
@@ -4385,6 +5290,16 @@ export const brands = [
             name: 'Second gen',
             yearFrom: 2022,
             yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Bolt EUV',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2021,
+            yearTo: 2023,
           },
         ],
       },
@@ -4485,6 +5400,11 @@ export const brands = [
             name: 'Second gen',
             yearFrom: 2012,
             yearTo: 2021,
+          },
+          {
+            name: 'Mk3 (RG)',
+            yearFrom: 2012,
+            yearTo: null,
           },
           {
             name: 'Third gen',
@@ -4608,6 +5528,16 @@ export const brands = [
           },
           {
             name: 'Fourth gen',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Equinox EV',
+        generations: [
+          {
+            name: 'Mk1',
             yearFrom: 2023,
             yearTo: null,
           },
@@ -4824,6 +5754,16 @@ export const brands = [
         ],
       },
       {
+        name: 'Montana',
+        generations: [
+          {
+            name: 'Mk2',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+      {
         name: 'Monte Carlo',
         generations: [
           {
@@ -4910,6 +5850,11 @@ export const brands = [
             name: 'Fourth gen',
             yearFrom: 2019,
             yearTo: 2023,
+          },
+          {
+            name: 'Mk4 (T1)',
+            yearFrom: 2019,
+            yearTo: null,
           },
           {
             name: 'Fifth gen',
@@ -5027,6 +5972,11 @@ export const brands = [
             yearTo: 2014,
           },
           {
+            name: 'Mk12 (GMT K2XX)',
+            yearFrom: 2014,
+            yearTo: null,
+          },
+          {
             name: 'Eleventh gen',
             yearFrom: 2015,
             yearTo: 2020,
@@ -5065,6 +6015,11 @@ export const brands = [
             name: 'Third gen',
             yearFrom: 2007,
             yearTo: 2014,
+          },
+          {
+            name: 'Mk5 (GMT K2XX)',
+            yearFrom: 2014,
+            yearTo: null,
           },
           {
             name: 'Fourth gen',
@@ -5114,6 +6069,16 @@ export const brands = [
         ],
       },
       {
+        name: 'Traverse',
+        generations: [
+          {
+            name: 'Mk2 (C1)',
+            yearFrom: 2017,
+            yearTo: null,
+          },
+        ],
+      },
+      {
         name: 'Trax',
         generations: [
           {
@@ -5128,6 +6093,11 @@ export const brands = [
           },
           {
             name: 'Third gen',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+          {
+            name: 'Mk2 (S3)',
             yearFrom: 2023,
             yearTo: null,
           },
@@ -5151,7 +6121,7 @@ export const brands = [
     ],
   },
   {
-    brand: 'Chrysler',
+    make: 'Chrysler',
     models: [
       {
         name: '300 C',
@@ -5416,7 +6386,7 @@ export const brands = [
     ],
   },
   {
-    brand: 'Citroën',
+    make: 'Citroën',
     models: [
       {
         name: 'Ami',
@@ -5424,6 +6394,16 @@ export const brands = [
           {
             name: 'MK1',
             yearFrom: 2020,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Basalt',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2024,
             yearTo: null,
           },
         ],
@@ -5539,6 +6519,11 @@ export const brands = [
           {
             name: 'MK1',
             yearFrom: 2017,
+            yearTo: null,
+          },
+          {
+            name: 'Mk2 (CC21)',
+            yearFrom: 2024,
             yearTo: null,
           },
         ],
@@ -5667,6 +6652,11 @@ export const brands = [
         name: 'C5 Aircross',
         generations: [
           {
+            name: 'Mk1 (C84)',
+            yearFrom: 2017,
+            yearTo: null,
+          },
+          {
             name: 'MK1',
             yearFrom: 2018,
             yearTo: null,
@@ -5695,6 +6685,16 @@ export const brands = [
             name: 'MK3',
             yearFrom: 2017,
             yearTo: 2021,
+          },
+        ],
+      },
+      {
+        name: 'C5 X',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2021,
+            yearTo: null,
           },
         ],
       },
@@ -5749,11 +6749,31 @@ export const brands = [
         ],
       },
       {
+        name: 'ë-C3',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+      {
         name: 'ë-C4',
         generations: [
           {
             name: 'MK1',
             yearFrom: 2020,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'ë-C4 X',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2022,
             yearTo: null,
           },
         ],
@@ -5871,7 +6891,72 @@ export const brands = [
     ],
   },
   {
-    brand: 'Dacia',
+    make: 'Cupra',
+    models: [
+      {
+        name: 'Ateca',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2018,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Born',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2021,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Formentor',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2020,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Leon',
+        generations: [
+          {
+            name: 'Mk1 (KL1)',
+            yearFrom: 2020,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Tavascan',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Terramar',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    make: 'Dacia',
     models: [
       {
         name: 'Dokker',
@@ -6064,7 +7149,7 @@ export const brands = [
     ],
   },
   {
-    brand: 'Daewoo',
+    make: 'Daewoo',
     models: [
       {
         name: 'Chairman',
@@ -6359,7 +7444,7 @@ export const brands = [
     ],
   },
   {
-    brand: 'DAF',
+    make: 'DAF',
     models: [
       {
         name: '44',
@@ -6634,7 +7719,7 @@ export const brands = [
     ],
   },
   {
-    brand: 'Daihatsu',
+    make: 'Daihatsu',
     models: [
       {
         name: 'Applause',
@@ -6754,7 +7839,7 @@ export const brands = [
     ],
   },
   {
-    brand: 'Datsun',
+    make: 'Datsun',
     models: [
       {
         name: '240Z',
@@ -6799,7 +7884,107 @@ export const brands = [
     ],
   },
   {
-    brand: 'Dodge',
+    make: 'Deepal',
+    models: [
+      {
+        name: 'G318',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'L07',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'S05',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'S07',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'SL03',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2022,
+            yearTo: null,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    make: 'Denza',
+    models: [
+      {
+        name: 'D9',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2022,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'N7',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'N8',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Z9 GT',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    make: 'Dodge',
     models: [
       {
         name: 'Avenger',
@@ -7144,7 +8329,167 @@ export const brands = [
     ],
   },
   {
-    brand: 'Eicher',
+    make: 'Dongfeng',
+    models: [
+      {
+        name: '500',
+        generations: [
+          {
+            name: 'Mk1 (DFSK)',
+            yearFrom: 2019,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: '580',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2016,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Box',
+        generations: [
+          {
+            name: 'Mk1 (Nammi 01)',
+            yearFrom: 2025,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'DF6',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2020,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'ix5',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2018,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'ix7',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2019,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Mage HEV',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2026,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Shine Max',
+        generations: [
+          {
+            name: 'Mk1 (G35)',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    make: 'DS Automobiles',
+    models: [
+      {
+        name: 'DS 3',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2014,
+            yearTo: 2019,
+          },
+          {
+            name: 'Mk2',
+            yearFrom: 2019,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'DS 3 Crossback',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2018,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'DS 4',
+        generations: [
+          {
+            name: 'Mk1 (NX)',
+            yearFrom: 2010,
+            yearTo: 2018,
+          },
+          {
+            name: 'Mk2',
+            yearFrom: 2021,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'DS 5',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2011,
+            yearTo: 2018,
+          },
+        ],
+      },
+      {
+        name: 'DS 7',
+        generations: [
+          {
+            name: 'Mk1 (Crossback)',
+            yearFrom: 2017,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'DS 9',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2020,
+            yearTo: null,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    make: 'Eicher',
     models: [
       {
         name: 'Pro 2000 Series',
@@ -7169,7 +8514,122 @@ export const brands = [
     ],
   },
   {
-    brand: 'FAW',
+    make: 'Evolute',
+    models: [
+      {
+        name: 'i-Joy',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2022,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'i-Pro',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2022,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'i-Sky',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2022,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'i-Space',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    make: 'Exeed',
+    models: [
+      {
+        name: 'LX',
+        generations: [
+          {
+            name: 'Mk1 (TXL)',
+            yearFrom: 2019,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'RX',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'TXL',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2017,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'VX',
+        generations: [
+          {
+            name: 'Mk1 (T1X)',
+            yearFrom: 2020,
+            yearTo: null,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    make: 'Exlantix',
+    models: [
+      {
+        name: 'ES',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'ET',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    make: 'FAW',
     models: [
       {
         name: 'Bestune M9',
@@ -7254,18 +8714,228 @@ export const brands = [
     ],
   },
   {
-    brand: 'Fiat',
+    make: 'Ferrari',
     models: [
       {
-        name: '1100',
+        name: '296 GTB',
         generations: [
           {
-            name: '103',
-            yearFrom: 1953,
-            yearTo: 1969,
+            name: 'Mk1 (F171)',
+            yearFrom: 2021,
+            yearTo: null,
           },
         ],
       },
+      {
+        name: '308',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 1975,
+            yearTo: 1985,
+          },
+        ],
+      },
+      {
+        name: '328',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 1985,
+            yearTo: 1989,
+          },
+        ],
+      },
+      {
+        name: '348',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 1989,
+            yearTo: 1995,
+          },
+        ],
+      },
+      {
+        name: '360 Modena',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 1999,
+            yearTo: 2005,
+          },
+        ],
+      },
+      {
+        name: '458 Italia',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2009,
+            yearTo: 2015,
+          },
+        ],
+      },
+      {
+        name: '488 GTB',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2015,
+            yearTo: 2019,
+          },
+        ],
+      },
+      {
+        name: '599 GTB',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2006,
+            yearTo: 2012,
+          },
+        ],
+      },
+      {
+        name: '612 Scaglietti',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2004,
+            yearTo: 2011,
+          },
+        ],
+      },
+      {
+        name: '812 Superfast',
+        generations: [
+          {
+            name: 'Mk1 (F152)',
+            yearFrom: 2017,
+            yearTo: 2023,
+          },
+        ],
+      },
+      {
+        name: 'California',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2008,
+            yearTo: 2014,
+          },
+          {
+            name: 'Mk2 (T)',
+            yearFrom: 2014,
+            yearTo: 2018,
+          },
+        ],
+      },
+      {
+        name: 'Enzo',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2002,
+            yearTo: 2004,
+          },
+        ],
+      },
+      {
+        name: 'F8 Tributo',
+        generations: [
+          {
+            name: 'Mk1 (F142)',
+            yearFrom: 2019,
+            yearTo: 2023,
+          },
+        ],
+      },
+      {
+        name: 'F430',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2004,
+            yearTo: 2009,
+          },
+        ],
+      },
+      {
+        name: 'FF',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2011,
+            yearTo: 2016,
+          },
+        ],
+      },
+      {
+        name: 'GTC4Lusso',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2016,
+            yearTo: 2020,
+          },
+        ],
+      },
+      {
+        name: 'Portofino',
+        generations: [
+          {
+            name: 'Mk1 (F164)',
+            yearFrom: 2017,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Purosangue',
+        generations: [
+          {
+            name: 'Mk1 (F175)',
+            yearFrom: 2022,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Roma',
+        generations: [
+          {
+            name: 'Mk1 (F169)',
+            yearFrom: 2019,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'SF90 Stradale',
+        generations: [
+          {
+            name: 'Mk1 (F173)',
+            yearFrom: 2019,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Testarossa',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 1984,
+            yearTo: 1996,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    make: 'Fiat',
+    models: [
       {
         name: '124',
         generations: [
@@ -7353,6 +9023,16 @@ export const brands = [
             name: '850',
             yearFrom: 1964,
             yearTo: 1971,
+          },
+        ],
+      },
+      {
+        name: '1100',
+        generations: [
+          {
+            name: '103',
+            yearFrom: 1953,
+            yearTo: 1969,
           },
         ],
       },
@@ -8064,7 +9744,7 @@ export const brands = [
     ],
   },
   {
-    brand: 'Ford',
+    make: 'Ford',
     models: [
       {
         name: 'Aerostar',
@@ -8087,6 +9767,26 @@ export const brands = [
         ],
       },
       {
+        name: 'Bronco',
+        generations: [
+          {
+            name: 'Mk6 (U725)',
+            yearFrom: 2020,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Bronco Sport',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2020,
+            yearTo: null,
+          },
+        ],
+      },
+      {
         name: 'C-Max',
         generations: [
           {
@@ -8098,6 +9798,16 @@ export const brands = [
             name: 'DXA/CXA',
             yearFrom: 2010,
             yearTo: 2019,
+          },
+        ],
+      },
+      {
+        name: 'Capri',
+        generations: [
+          {
+            name: 'Mk5 (EV)',
+            yearFrom: 2024,
+            yearTo: null,
           },
         ],
       },
@@ -8277,6 +9987,16 @@ export const brands = [
         ],
       },
       {
+        name: 'Explorer EV',
+        generations: [
+          {
+            name: 'Mk6 (EV)',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
+      {
         name: 'F-150',
         generations: [
           {
@@ -8318,6 +10038,11 @@ export const brands = [
             name: 'Thirteenth generation',
             yearFrom: 2015,
             yearTo: 2020,
+          },
+          {
+            name: 'Mk13 (P552)',
+            yearFrom: 2015,
+            yearTo: null,
           },
           {
             name: 'Fourteenth generation',
@@ -8555,6 +10280,11 @@ export const brands = [
             yearTo: 2019,
           },
           {
+            name: 'Mk3 (CX482)',
+            yearFrom: 2019,
+            yearTo: null,
+          },
+          {
             name: 'Mk III',
             yearFrom: 2020,
             yearTo: null,
@@ -8573,6 +10303,11 @@ export const brands = [
             name: 'Mk II',
             yearFrom: 2001,
             yearTo: 2004,
+          },
+          {
+            name: 'Mk4 (P758)',
+            yearFrom: 2021,
+            yearTo: null,
           },
           {
             name: 'Mk III',
@@ -8682,6 +10417,16 @@ export const brands = [
         ],
       },
       {
+        name: 'Mustang Mach-E',
+        generations: [
+          {
+            name: 'Mk1 (CX727)',
+            yearFrom: 2020,
+            yearTo: null,
+          },
+        ],
+      },
+      {
         name: 'Orion',
         generations: [
           {
@@ -8719,6 +10464,21 @@ export const brands = [
             yearFrom: 2019,
             yearTo: null,
           },
+          {
+            name: 'Mk1 (B515)',
+            yearFrom: 2019,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Puma Gen-E',
+        generations: [
+          {
+            name: 'Mk1 (EV)',
+            yearFrom: 2024,
+            yearTo: null,
+          },
         ],
       },
       {
@@ -8748,6 +10508,11 @@ export const brands = [
             name: 'Fifth generation',
             yearFrom: 2011,
             yearTo: 2018,
+          },
+          {
+            name: 'Mk5 (T6)',
+            yearFrom: 2011,
+            yearTo: null,
           },
           {
             name: 'Sixth generation',
@@ -8814,6 +10579,11 @@ export const brands = [
             yearFrom: 2021,
             yearTo: null,
           },
+          {
+            name: 'Mk3 (K9)',
+            yearFrom: 2021,
+            yearTo: null,
+          },
         ],
       },
       {
@@ -8827,6 +10597,11 @@ export const brands = [
           {
             name: 'V362 (facelift)',
             yearFrom: 2018,
+            yearTo: null,
+          },
+          {
+            name: 'Mk3 (V710)',
+            yearFrom: 2023,
             yearTo: null,
           },
         ],
@@ -9029,7 +10804,117 @@ export const brands = [
     ],
   },
   {
-    brand: 'Geely',
+    make: 'Forthing',
+    models: [
+      {
+        name: 'ix5',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2017,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'T5',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2018,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'T5 EVO',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2021,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'U-Tour',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2022,
+            yearTo: null,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    make: 'GAC',
+    models: [
+      {
+        name: 'Emkoo',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2022,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Empow',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2021,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'GN8',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2017,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'GS4',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2015,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'GS5',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2018,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'GS8',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2016,
+            yearTo: null,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    make: 'Geely',
     models: [
       {
         name: 'Atlas',
@@ -9112,6 +10997,16 @@ export const brands = [
           {
             name: 'Mk1',
             yearFrom: 2022,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Cityray',
+        generations: [
+          {
+            name: 'Mk1 (FX11)',
+            yearFrom: 2024,
             yearTo: null,
           },
         ],
@@ -9262,6 +11157,56 @@ export const brands = [
         ],
       },
       {
+        name: 'EX2',
+        generations: [
+          {
+            name: 'Mk1 (Geome Xingyuan)',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'EX5',
+        generations: [
+          {
+            name: 'Mk1 (Galaxy E5)',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'EX5 EM-i',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2025,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Galaxy E5',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Galaxy Starship 7',
+        generations: [
+          {
+            name: 'Mk1 (Xingjian 7)',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
+      {
         name: 'GC9',
         generations: [
           {
@@ -9367,6 +11312,26 @@ export const brands = [
         ],
       },
       {
+        name: 'Preface',
+        generations: [
+          {
+            name: 'Mk1 (JL-4)',
+            yearFrom: 2020,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Radar RD6',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2022,
+            yearTo: null,
+          },
+        ],
+      },
+      {
         name: 'SC7',
         generations: [
           {
@@ -9434,7 +11399,82 @@ export const brands = [
     ],
   },
   {
-    brand: 'GMC',
+    make: 'Genesis',
+    models: [
+      {
+        name: 'G70',
+        generations: [
+          {
+            name: 'Mk1 (IK)',
+            yearFrom: 2017,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'G80',
+        generations: [
+          {
+            name: 'Mk1 (DH)',
+            yearFrom: 2016,
+            yearTo: 2020,
+          },
+          {
+            name: 'Mk2 (RG3)',
+            yearFrom: 2020,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'G90',
+        generations: [
+          {
+            name: 'Mk1 (HI)',
+            yearFrom: 2016,
+            yearTo: 2021,
+          },
+          {
+            name: 'Mk2 (RS4)',
+            yearFrom: 2021,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'GV60',
+        generations: [
+          {
+            name: 'Mk1 (JW1)',
+            yearFrom: 2021,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'GV70',
+        generations: [
+          {
+            name: 'Mk1 (JK1)',
+            yearFrom: 2020,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'GV80',
+        generations: [
+          {
+            name: 'Mk1 (JX1)',
+            yearFrom: 2020,
+            yearTo: null,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    make: 'GMC',
     models: [
       {
         name: 'Acadia',
@@ -9699,8 +11739,18 @@ export const brands = [
     ],
   },
   {
-    brand: 'Great Wall',
+    make: 'Great Wall',
     models: [
+      {
+        name: 'Cannon',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2019,
+            yearTo: null,
+          },
+        ],
+      },
       {
         name: 'Coolbear',
         generations: [
@@ -9842,6 +11892,16 @@ export const brands = [
         ],
       },
       {
+        name: 'King Kong Poer',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2021,
+            yearTo: null,
+          },
+        ],
+      },
+      {
         name: 'Pegasus',
         generations: [
           {
@@ -9969,7 +12029,7 @@ export const brands = [
     ],
   },
   {
-    brand: 'Hanomag',
+    make: 'Hanomag',
     models: [
       {
         name: 'Henschel',
@@ -9999,7 +12059,7 @@ export const brands = [
     ],
   },
   {
-    brand: 'Haval',
+    make: 'Haval',
     models: [
       {
         name: 'Chitu',
@@ -10040,13 +12100,13 @@ export const brands = [
             yearTo: 2023,
           },
           {
-            name: 'Dargo X',
-            yearFrom: 2022,
+            name: 'Dargo Pro',
+            yearFrom: 2023,
             yearTo: null,
           },
           {
-            name: 'Dargo Pro',
-            yearFrom: 2023,
+            name: 'Dargo X',
+            yearFrom: 2022,
             yearTo: null,
           },
         ],
@@ -10355,13 +12415,13 @@ export const brands = [
             yearTo: 2023,
           },
           {
-            name: 'Jolion Hybrid',
-            yearFrom: 2021,
+            name: 'Jolion Pro',
+            yearFrom: 2023,
             yearTo: null,
           },
           {
-            name: 'Jolion Pro',
-            yearFrom: 2023,
+            name: 'Jolion Hybrid',
+            yearFrom: 2021,
             yearTo: null,
           },
         ],
@@ -10449,7 +12509,7 @@ export const brands = [
     ],
   },
   {
-    brand: 'Honda',
+    make: 'Honda',
     models: [
       {
         name: '1300',
@@ -10560,7 +12620,17 @@ export const brands = [
             yearTo: 2018,
           },
           {
+            name: 'Mk1',
+            yearFrom: 2013,
+            yearTo: 2018,
+          },
+          {
             name: 'Second gen',
+            yearFrom: 2018,
+            yearTo: null,
+          },
+          {
+            name: 'Mk2',
             yearFrom: 2018,
             yearTo: null,
           },
@@ -10615,6 +12685,11 @@ export const brands = [
             yearTo: 2018,
           },
           {
+            name: 'Mk1',
+            yearFrom: 2011,
+            yearTo: null,
+          },
+          {
             name: 'Second gen',
             yearFrom: 2018,
             yearTo: null,
@@ -10660,12 +12735,27 @@ export const brands = [
             yearTo: 2014,
           },
           {
+            name: 'Mk4 (GM2)',
+            yearFrom: 2008,
+            yearTo: 2013,
+          },
+          {
+            name: 'Mk5 (GM6)',
+            yearFrom: 2013,
+            yearTo: 2019,
+          },
+          {
             name: 'Sixth gen (GK)',
             yearFrom: 2014,
             yearTo: 2019,
           },
           {
             name: 'Seventh gen',
+            yearFrom: 2019,
+            yearTo: null,
+          },
+          {
+            name: 'Mk6 (GN)',
             yearFrom: 2019,
             yearTo: null,
           },
@@ -10847,6 +12937,16 @@ export const brands = [
         ],
       },
       {
+        name: 'e:Ny1',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+      {
         name: 'Edix',
         generations: [
           {
@@ -10863,6 +12963,16 @@ export const brands = [
             name: 'First gen',
             yearFrom: 2003,
             yearTo: 2011,
+          },
+        ],
+      },
+      {
+        name: 'Elevate',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2023,
+            yearTo: null,
           },
         ],
       },
@@ -10950,9 +13060,19 @@ export const brands = [
             yearTo: 2006,
           },
           {
+            name: 'Mk2 (RU)',
+            yearFrom: 2013,
+            yearTo: 2021,
+          },
+          {
             name: 'Second gen (RU)',
             yearFrom: 2015,
             yearTo: 2022,
+          },
+          {
+            name: 'Mk3 (RV)',
+            yearFrom: 2021,
+            yearTo: null,
           },
           {
             name: 'Third gen',
@@ -10975,7 +13095,17 @@ export const brands = [
             yearTo: 2014,
           },
           {
+            name: 'Mk2 (ZE)',
+            yearFrom: 2009,
+            yearTo: 2014,
+          },
+          {
             name: 'Third gen (ZE3)',
+            yearFrom: 2018,
+            yearTo: 2022,
+          },
+          {
+            name: 'Mk3 (ZE2)',
             yearFrom: 2018,
             yearTo: 2022,
           },
@@ -11060,9 +13190,19 @@ export const brands = [
             yearTo: 2015,
           },
           {
+            name: 'Mk2 (GE)',
+            yearFrom: 2008,
+            yearTo: 2015,
+          },
+          {
             name: 'Third gen (GK)',
             yearFrom: 2015,
             yearTo: 2020,
+          },
+          {
+            name: 'Mk3 (GK)',
+            yearFrom: 2015,
+            yearTo: null,
           },
           {
             name: 'Fourth gen (GR)',
@@ -11295,6 +13435,11 @@ export const brands = [
             yearTo: 2002,
           },
           {
+            name: 'Mk3 (YF)',
+            yearFrom: 2018,
+            yearTo: null,
+          },
+          {
             name: 'Second gen',
             yearFrom: 2019,
             yearTo: null,
@@ -11357,6 +13502,16 @@ export const brands = [
         ],
       },
       {
+        name: 'Prologue',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
+      {
         name: 'Quint',
         generations: [
           {
@@ -11380,24 +13535,14 @@ export const brands = [
             yearTo: 2020,
           },
           {
+            name: 'Mk2 (YK)',
+            yearFrom: 2016,
+            yearTo: null,
+          },
+          {
             name: 'Third gen',
             yearFrom: 2020,
             yearTo: null,
-          },
-        ],
-      },
-      {
-        name: 'S2000',
-        generations: [
-          {
-            name: 'AP1',
-            yearFrom: 1999,
-            yearTo: 2003,
-          },
-          {
-            name: 'AP2',
-            yearFrom: 2004,
-            yearTo: 2009,
           },
         ],
       },
@@ -11428,6 +13573,21 @@ export const brands = [
             name: 'First gen',
             yearFrom: 2015,
             yearTo: 2021,
+          },
+        ],
+      },
+      {
+        name: 'S2000',
+        generations: [
+          {
+            name: 'AP1',
+            yearFrom: 1999,
+            yearTo: 2003,
+          },
+          {
+            name: 'AP2',
+            yearFrom: 2004,
+            yearTo: 2009,
           },
         ],
       },
@@ -11498,6 +13658,11 @@ export const brands = [
             name: 'First gen',
             yearFrom: 2000,
             yearTo: 2006,
+          },
+          {
+            name: 'Mk2 (RN)',
+            yearFrom: 2001,
+            yearTo: 2014,
           },
           {
             name: 'Second gen',
@@ -11596,17 +13761,62 @@ export const brands = [
           },
         ],
       },
+      {
+        name: 'ZR-V',
+        generations: [
+          {
+            name: 'Mk1 (RV)',
+            yearFrom: 2022,
+            yearTo: null,
+          },
+        ],
+      },
     ],
   },
   {
-    brand: 'Hongqi',
+    make: 'Hongqi',
     models: [
+      {
+        name: 'E-HS7',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2019,
+            yearTo: null,
+          },
+        ],
+      },
       {
         name: 'E-HS9',
         generations: [
           {
             name: 'First Gen',
             yearFrom: 2020,
+            yearTo: null,
+          },
+          {
+            name: 'Mk1',
+            yearFrom: 2020,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'E-QM5',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2021,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'EH7',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2024,
             yearTo: null,
           },
         ],
@@ -11641,10 +13851,50 @@ export const brands = [
           },
         ],
       },
+      {
+        name: 'HQ9',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2022,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'HS3',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'HS5',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2019,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'HS7',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2019,
+            yearTo: null,
+          },
+        ],
+      },
     ],
   },
   {
-    brand: 'Hummer',
+    make: 'Hummer',
     models: [
       {
         name: 'H1',
@@ -11655,6 +13905,11 @@ export const brands = [
             yearTo: 2006,
           },
           {
+            name: 'H1 Alpha',
+            yearFrom: 2006,
+            yearTo: 2006,
+          },
+          {
             name: 'H1 Slantback',
             yearFrom: 1992,
             yearTo: 2006,
@@ -11662,11 +13917,6 @@ export const brands = [
           {
             name: 'H1 Open Top',
             yearFrom: 1992,
-            yearTo: 2006,
-          },
-          {
-            name: 'H1 Alpha',
-            yearFrom: 2006,
             yearTo: 2006,
           },
         ],
@@ -11680,13 +13930,13 @@ export const brands = [
             yearTo: 2007,
           },
           {
-            name: 'H2 SUT',
-            yearFrom: 2005,
+            name: 'H2 (Facelift)',
+            yearFrom: 2008,
             yearTo: 2009,
           },
           {
-            name: 'H2 (Facelift)',
-            yearFrom: 2008,
+            name: 'H2 SUT',
+            yearFrom: 2005,
             yearTo: 2009,
           },
         ],
@@ -11749,7 +13999,7 @@ export const brands = [
     ],
   },
   {
-    brand: 'Hyundai',
+    make: 'Hyundai',
     models: [
       {
         name: 'Accent',
@@ -11869,6 +14119,11 @@ export const brands = [
             yearFrom: 2021,
             yearTo: null,
           },
+          {
+            name: 'Mk1 (BC3)',
+            yearFrom: 2021,
+            yearTo: null,
+          },
         ],
       },
       {
@@ -11905,6 +14160,11 @@ export const brands = [
             yearTo: 2020,
           },
           {
+            name: 'Mk1 (SU2)',
+            yearFrom: 2014,
+            yearTo: null,
+          },
+          {
             name: 'Creta II (SU2)',
             yearFrom: 2019,
             yearTo: null,
@@ -11912,6 +14172,16 @@ export const brands = [
           {
             name: 'Creta Electric (SU2 EV)',
             yearFrom: 2025,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Custo',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2021,
             yearTo: null,
           },
         ],
@@ -12197,6 +14467,16 @@ export const brands = [
         ],
       },
       {
+        name: 'Inster',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
+      {
         name: 'IONIQ',
         generations: [
           {
@@ -12214,6 +14494,21 @@ export const brands = [
             yearFrom: 2021,
             yearTo: null,
           },
+          {
+            name: 'Mk1 (NE)',
+            yearFrom: 2021,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Ioniq 5 N',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2023,
+            yearTo: null,
+          },
         ],
       },
       {
@@ -12222,6 +14517,21 @@ export const brands = [
           {
             name: 'IONIQ 6 I (CE)',
             yearFrom: 2022,
+            yearTo: null,
+          },
+          {
+            name: 'Mk1 (CE)',
+            yearFrom: 2022,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Ioniq 9',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2024,
             yearTo: null,
           },
         ],
@@ -12266,6 +14576,16 @@ export const brands = [
           },
           {
             name: 'Kona II (SX2)',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Kona Electric',
+        generations: [
+          {
+            name: 'Mk2 (OS EV)',
             yearFrom: 2023,
             yearTo: null,
           },
@@ -12334,6 +14654,11 @@ export const brands = [
             yearFrom: 2018,
             yearTo: null,
           },
+          {
+            name: 'Mk1 (FE)',
+            yearFrom: 2018,
+            yearTo: null,
+          },
         ],
       },
       {
@@ -12343,6 +14668,11 @@ export const brands = [
             name: 'Palisade I (LX2)',
             yearFrom: 2018,
             yearTo: 2025,
+          },
+          {
+            name: 'Mk1 (LX2)',
+            yearFrom: 2018,
+            yearTo: null,
           },
           {
             name: 'Palisade II (LX3)',
@@ -12371,6 +14701,11 @@ export const brands = [
         generations: [
           {
             name: 'Santa Cruz I (NX4a OB)',
+            yearFrom: 2021,
+            yearTo: null,
+          },
+          {
+            name: 'Mk1 (NX4)',
             yearFrom: 2021,
             yearTo: null,
           },
@@ -12509,6 +14844,11 @@ export const brands = [
             yearFrom: 2021,
             yearTo: null,
           },
+          {
+            name: 'Mk1 (US4)',
+            yearFrom: 2021,
+            yearTo: null,
+          },
         ],
       },
       {
@@ -12579,6 +14919,11 @@ export const brands = [
             yearFrom: 2019,
             yearTo: null,
           },
+          {
+            name: 'Mk1 (QX)',
+            yearFrom: 2019,
+            yearTo: null,
+          },
         ],
       },
       {
@@ -12644,7 +14989,7 @@ export const brands = [
     ],
   },
   {
-    brand: 'Infiniti',
+    make: 'Infiniti',
     models: [
       {
         name: 'EX',
@@ -12872,16 +15217,6 @@ export const brands = [
         ],
       },
       {
-        name: 'QX30',
-        generations: [
-          {
-            name: 'Crossover',
-            yearFrom: 2016,
-            yearTo: 2019,
-          },
-        ],
-      },
-      {
         name: 'QX4',
         generations: [
           {
@@ -12893,6 +15228,16 @@ export const brands = [
             name: 'R50 (facelift)',
             yearFrom: 2000,
             yearTo: 2003,
+          },
+        ],
+      },
+      {
+        name: 'QX30',
+        generations: [
+          {
+            name: 'Crossover',
+            yearFrom: 2016,
+            yearTo: 2019,
           },
         ],
       },
@@ -12994,7 +15339,7 @@ export const brands = [
     ],
   },
   {
-    brand: 'Isuzu',
+    make: 'Isuzu',
     models: [
       {
         name: 'D-Max',
@@ -13039,7 +15384,7 @@ export const brands = [
     ],
   },
   {
-    brand: 'Iveco',
+    make: 'Iveco',
     models: [
       {
         name: 'Daily',
@@ -13094,7 +15439,177 @@ export const brands = [
     ],
   },
   {
-    brand: 'Jaguar',
+    make: 'JAC',
+    models: [
+      {
+        name: 'iEV7S',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2017,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'J7',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2020,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'JS3',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2019,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'JS4',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2020,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'JS6',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2022,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'JS9',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2026,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'RF8',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'S3',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2013,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'S5',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2013,
+            yearTo: 2020,
+          },
+        ],
+      },
+      {
+        name: 'S7',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2015,
+            yearTo: 2020,
+          },
+        ],
+      },
+      {
+        name: 'T6',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2015,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'T8',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2018,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'T8 Pro',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2021,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'T9',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    make: 'Jaecoo',
+    models: [
+      {
+        name: 'J7',
+        generations: [
+          {
+            name: 'Mk1 (T1N)',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'J8',
+        generations: [
+          {
+            name: 'Mk1 (T26)',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    make: 'Jaguar',
     models: [
       {
         name: 'Daimler',
@@ -13327,36 +15842,6 @@ export const brands = [
         ],
       },
       {
-        name: 'XJ12',
-        generations: [
-          {
-            name: 'Series I',
-            yearFrom: 1972,
-            yearTo: 1973,
-          },
-          {
-            name: 'Series II',
-            yearFrom: 1973,
-            yearTo: 1979,
-          },
-          {
-            name: 'Series III',
-            yearFrom: 1979,
-            yearTo: 1992,
-          },
-          {
-            name: 'XJ40-based',
-            yearFrom: 1993,
-            yearTo: 1994,
-          },
-          {
-            name: 'X300-based',
-            yearFrom: 1994,
-            yearTo: 1997,
-          },
-        ],
-      },
-      {
         name: 'XJ6',
         generations: [
           {
@@ -13408,6 +15893,36 @@ export const brands = [
             name: 'X351',
             yearFrom: 2009,
             yearTo: 2019,
+          },
+        ],
+      },
+      {
+        name: 'XJ12',
+        generations: [
+          {
+            name: 'Series I',
+            yearFrom: 1972,
+            yearTo: 1973,
+          },
+          {
+            name: 'Series II',
+            yearFrom: 1973,
+            yearTo: 1979,
+          },
+          {
+            name: 'Series III',
+            yearFrom: 1979,
+            yearTo: 1992,
+          },
+          {
+            name: 'XJ40-based',
+            yearFrom: 1993,
+            yearTo: 1994,
+          },
+          {
+            name: 'X300-based',
+            yearFrom: 1994,
+            yearTo: 1997,
           },
         ],
       },
@@ -13499,7 +16014,7 @@ export const brands = [
     ],
   },
   {
-    brand: 'Jeep',
+    make: 'Jeep',
     models: [
       {
         name: 'Cherokee',
@@ -13699,14 +16214,94 @@ export const brands = [
     ],
   },
   {
-    brand: 'Jetour',
+    make: 'Jetour',
     models: [
+      {
+        name: 'Dashing',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2022,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'T1',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'T2',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'T2 i-DM',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Traveler',
+        generations: [
+          {
+            name: 'Mk1 (T2)',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'X50',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
       {
         name: 'X70',
         generations: [
           {
             name: 'First Gen',
             yearFrom: 2018,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'X70 Plus',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2020,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'X70 Pro',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2019,
             yearTo: null,
           },
         ],
@@ -13721,10 +16316,30 @@ export const brands = [
           },
         ],
       },
+      {
+        name: 'X90 Plus',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2021,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'X90 Pro',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
     ],
   },
   {
-    brand: 'Jetta',
+    make: 'Jetta',
     models: [
       {
         name: 'VA3',
@@ -13784,7 +16399,7 @@ export const brands = [
     ],
   },
   {
-    brand: 'John Deere',
+    make: 'John Deere',
     models: [
       {
         name: '2R Series',
@@ -13864,7 +16479,52 @@ export const brands = [
     ],
   },
   {
-    brand: 'Kia',
+    make: 'Kaiyi',
+    models: [
+      {
+        name: 'E5',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2021,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'X3',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2020,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'X3 Pro',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2022,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'X7 Kunlun',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    make: 'Kia',
     models: [
       {
         name: 'Avella',
@@ -13944,6 +16604,11 @@ export const brands = [
             yearFrom: 2020,
             yearTo: null,
           },
+          {
+            name: 'Mk4 (KA4)',
+            yearFrom: 2020,
+            yearTo: null,
+          },
         ],
       },
       {
@@ -14012,11 +16677,46 @@ export const brands = [
         ],
       },
       {
+        name: 'EV3',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'EV5',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+      {
         name: 'EV6',
         generations: [
           {
             name: 'CV',
             yearFrom: 2021,
+            yearTo: null,
+          },
+          {
+            name: 'Mk1 (CV)',
+            yearFrom: 2021,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'EV9',
+        generations: [
+          {
+            name: 'Mk1 (MV)',
+            yearFrom: 2023,
             yearTo: null,
           },
         ],
@@ -14066,6 +16766,16 @@ export const brands = [
           },
           {
             name: 'SG2',
+            yearFrom: 2022,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Niro EV',
+        generations: [
+          {
+            name: 'Mk2 (SG2 EV)',
             yearFrom: 2022,
             yearTo: null,
           },
@@ -14135,6 +16845,11 @@ export const brands = [
             yearTo: 2023,
           },
           {
+            name: 'Mk3 (JA)',
+            yearFrom: 2017,
+            yearTo: null,
+          },
+          {
             name: 'LA',
             yearFrom: 2023,
             yearTo: null,
@@ -14188,6 +16903,16 @@ export const brands = [
             name: 'CD',
             yearFrom: 2018,
             yearTo: 2023,
+          },
+        ],
+      },
+      {
+        name: 'PV5',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2025,
+            yearTo: null,
           },
         ],
       },
@@ -14307,6 +17032,16 @@ export const brands = [
         ],
       },
       {
+        name: 'Sonet',
+        generations: [
+          {
+            name: 'Mk1 (QY)',
+            yearFrom: 2020,
+            yearTo: null,
+          },
+        ],
+      },
+      {
         name: 'Sorento',
         generations: [
           {
@@ -14400,8 +17135,23 @@ export const brands = [
             yearTo: 2023,
           },
           {
+            name: 'Mk1 (YB)',
+            yearFrom: 2017,
+            yearTo: null,
+          },
+          {
             name: 'Facelift',
             yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Tasman',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2025,
             yearTo: null,
           },
         ],
@@ -14416,10 +17166,20 @@ export const brands = [
           },
         ],
       },
+      {
+        name: 'XCeed',
+        generations: [
+          {
+            name: 'Mk1 (CD)',
+            yearFrom: 2019,
+            yearTo: null,
+          },
+        ],
+      },
     ],
   },
   {
-    brand: 'Kogel',
+    make: 'Kogel',
     models: [
       {
         name: 'Cargo',
@@ -14484,7 +17244,7 @@ export const brands = [
     ],
   },
   {
-    brand: 'Komatsu',
+    make: 'Komatsu',
     models: [
       {
         name: 'PC30MR‑5',
@@ -14539,7 +17299,7 @@ export const brands = [
     ],
   },
   {
-    brand: 'Krone',
+    make: 'Krone',
     models: [
       {
         name: 'AX forage wagon',
@@ -14609,7 +17369,7 @@ export const brands = [
     ],
   },
   {
-    brand: 'Lada',
+    make: 'Lada',
     models: [
       {
         name: '110',
@@ -14772,16 +17532,6 @@ export const brands = [
         ],
       },
       {
-        name: '21099',
-        generations: [
-          {
-            name: 'VAZ-21099 (Samara sedan)',
-            yearFrom: 1990,
-            yearTo: 2011,
-          },
-        ],
-      },
-      {
         name: '2110',
         generations: [
           {
@@ -14842,6 +17592,26 @@ export const brands = [
         ],
       },
       {
+        name: '21099',
+        generations: [
+          {
+            name: 'VAZ-21099 (Samara sedan)',
+            yearFrom: 1990,
+            yearTo: 2011,
+          },
+        ],
+      },
+      {
+        name: 'Aura',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
+      {
         name: 'Granta',
         generations: [
           {
@@ -14852,6 +17622,16 @@ export const brands = [
           {
             name: 'Second generation (facelift)',
             yearFrom: 2018,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Iskra',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2025,
             yearTo: null,
           },
         ],
@@ -14887,6 +17667,16 @@ export const brands = [
         ],
       },
       {
+        name: 'Largus Cross',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2015,
+            yearTo: null,
+          },
+        ],
+      },
+      {
         name: 'Niva',
         generations: [
           {
@@ -14907,6 +17697,21 @@ export const brands = [
           {
             name: 'Niva Legend',
             yearFrom: 2021,
+            yearTo: null,
+          },
+          {
+            name: 'Mk1 (4x4)',
+            yearFrom: 2021,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Niva Travel',
+        generations: [
+          {
+            name: 'Mk1 (4x4)',
+            yearFrom: 2020,
             yearTo: null,
           },
         ],
@@ -14964,7 +17769,7 @@ export const brands = [
     ],
   },
   {
-    brand: 'Lamborghini',
+    make: 'Lamborghini',
     models: [
       {
         name: 'Aventador',
@@ -15094,7 +17899,7 @@ export const brands = [
     ],
   },
   {
-    brand: 'Lancia',
+    make: 'Lancia',
     models: [
       {
         name: '2000',
@@ -15204,7 +18009,7 @@ export const brands = [
     ],
   },
   {
-    brand: 'Land Rover',
+    make: 'Land Rover',
     models: [
       {
         name: '109',
@@ -15389,7 +18194,7 @@ export const brands = [
     ],
   },
   {
-    brand: 'LDV',
+    make: 'LDV',
     models: [
       {
         name: 'Convoy',
@@ -15589,7 +18394,62 @@ export const brands = [
     ],
   },
   {
-    brand: 'Lexus',
+    make: 'Leapmotor',
+    models: [
+      {
+        name: 'B10',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'C10',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'C11',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2021,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'C16',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'T03',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2020,
+            yearTo: null,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    make: 'Lexus',
     models: [
       {
         name: 'CT',
@@ -15989,7 +18849,7 @@ export const brands = [
     ],
   },
   {
-    brand: 'Li Auto',
+    make: 'Li Auto',
     models: [
       {
         name: 'Li L6',
@@ -16054,7 +18914,7 @@ export const brands = [
     ],
   },
   {
-    brand: 'Lifan',
+    make: 'Lifan',
     models: [
       {
         name: '320',
@@ -16264,7 +19124,42 @@ export const brands = [
     ],
   },
   {
-    brand: 'Lincoln',
+    make: 'Ligier',
+    models: [
+      {
+        name: 'JS50',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2018,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'JS60',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2020,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Myli',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2022,
+            yearTo: null,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    make: 'Lincoln',
     models: [
       {
         name: 'Aviator',
@@ -16584,7 +19479,117 @@ export const brands = [
     ],
   },
   {
-    brand: 'MAN',
+    make: 'Livan',
+    models: [
+      {
+        name: 'S6 Pro',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'X3 Pro',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2022,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'X6 Pro',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    make: 'Lynk & Co',
+    models: [
+      {
+        name: '01',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2017,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: '02',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2018,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: '03',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2018,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: '05',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2020,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: '06',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: '08',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: '09',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2021,
+            yearTo: null,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    make: 'MAN',
     models: [
       {
         name: 'eTGE',
@@ -16739,7 +19744,7 @@ export const brands = [
     ],
   },
   {
-    brand: 'Maserati',
+    make: 'Maserati',
     models: [
       {
         name: '3200 GT',
@@ -16949,8 +19954,143 @@ export const brands = [
     ],
   },
   {
-    brand: 'Mazda',
+    make: 'Mazda',
     models: [
+      {
+        name: '2',
+        generations: [
+          {
+            name: 'First gen (DY)',
+            yearFrom: 2002,
+            yearTo: 2007,
+          },
+          {
+            name: 'Second gen (DE)',
+            yearFrom: 2007,
+            yearTo: 2014,
+          },
+          {
+            name: 'Third gen (DJ)',
+            yearFrom: 2014,
+            yearTo: 2019,
+          },
+          {
+            name: 'Fourth gen',
+            yearFrom: 2019,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: '2 Hybrid',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2022,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: '3',
+        generations: [
+          {
+            name: 'First gen (BK)',
+            yearFrom: 2003,
+            yearTo: 2009,
+          },
+          {
+            name: 'Second gen (BL)',
+            yearFrom: 2009,
+            yearTo: 2013,
+          },
+          {
+            name: 'Third gen (BM)',
+            yearFrom: 2013,
+            yearTo: 2019,
+          },
+          {
+            name: 'Fourth gen (BP)',
+            yearFrom: 2019,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: '5',
+        generations: [
+          {
+            name: 'First gen (CR)',
+            yearFrom: 2005,
+            yearTo: 2010,
+          },
+          {
+            name: 'Second gen (CW)',
+            yearFrom: 2010,
+            yearTo: 2015,
+          },
+        ],
+      },
+      {
+        name: '6',
+        generations: [
+          {
+            name: 'First gen (GG)',
+            yearFrom: 2002,
+            yearTo: 2007,
+          },
+          {
+            name: 'Second gen (GH)',
+            yearFrom: 2007,
+            yearTo: 2012,
+          },
+          {
+            name: 'Third gen (GJ)',
+            yearFrom: 2012,
+            yearTo: 2017,
+          },
+          {
+            name: 'Fourth gen (GL)',
+            yearFrom: 2017,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: '6 Combi',
+        generations: [
+          {
+            name: 'First gen (GG)',
+            yearFrom: 2002,
+            yearTo: 2007,
+          },
+          {
+            name: 'Second gen (GH)',
+            yearFrom: 2007,
+            yearTo: 2012,
+          },
+          {
+            name: 'Third gen (GJ)',
+            yearFrom: 2012,
+            yearTo: 2017,
+          },
+          {
+            name: 'Fourth gen (GL)',
+            yearFrom: 2017,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: '6e',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2025,
+            yearTo: null,
+          },
+        ],
+      },
       {
         name: '121',
         generations: [
@@ -16978,56 +20118,6 @@ export const brands = [
             name: 'Fifth gen (DW)',
             yearFrom: 1996,
             yearTo: 1998,
-          },
-        ],
-      },
-      {
-        name: '2',
-        generations: [
-          {
-            name: 'First gen (DY)',
-            yearFrom: 2002,
-            yearTo: 2007,
-          },
-          {
-            name: 'Second gen (DE)',
-            yearFrom: 2007,
-            yearTo: 2014,
-          },
-          {
-            name: 'Third gen (DJ)',
-            yearFrom: 2014,
-            yearTo: 2019,
-          },
-          {
-            name: 'Fourth gen',
-            yearFrom: 2019,
-            yearTo: null,
-          },
-        ],
-      },
-      {
-        name: '3',
-        generations: [
-          {
-            name: 'First gen (BK)',
-            yearFrom: 2003,
-            yearTo: 2009,
-          },
-          {
-            name: 'Second gen (BL)',
-            yearFrom: 2009,
-            yearTo: 2013,
-          },
-          {
-            name: 'Third gen (BM)',
-            yearFrom: 2013,
-            yearTo: 2019,
-          },
-          {
-            name: 'Fourth gen (BP)',
-            yearFrom: 2019,
-            yearTo: null,
           },
         ],
       },
@@ -17128,71 +20218,6 @@ export const brands = [
             name: 'Sixth gen (BG)',
             yearFrom: 1989,
             yearTo: 1994,
-          },
-        ],
-      },
-      {
-        name: '5',
-        generations: [
-          {
-            name: 'First gen (CR)',
-            yearFrom: 2005,
-            yearTo: 2010,
-          },
-          {
-            name: 'Second gen (CW)',
-            yearFrom: 2010,
-            yearTo: 2015,
-          },
-        ],
-      },
-      {
-        name: '6',
-        generations: [
-          {
-            name: 'First gen (GG)',
-            yearFrom: 2002,
-            yearTo: 2007,
-          },
-          {
-            name: 'Second gen (GH)',
-            yearFrom: 2007,
-            yearTo: 2012,
-          },
-          {
-            name: 'Third gen (GJ)',
-            yearFrom: 2012,
-            yearTo: 2017,
-          },
-          {
-            name: 'Fourth gen (GL)',
-            yearFrom: 2017,
-            yearTo: null,
-          },
-        ],
-      },
-      {
-        name: '6 Combi',
-        generations: [
-          {
-            name: 'First gen (GG)',
-            yearFrom: 2002,
-            yearTo: 2007,
-          },
-          {
-            name: 'Second gen (GH)',
-            yearFrom: 2007,
-            yearTo: 2012,
-          },
-          {
-            name: 'Third gen (GJ)',
-            yearFrom: 2012,
-            yearTo: 2017,
-          },
-          {
-            name: 'Fourth gen (GL)',
-            yearFrom: 2017,
-            yearTo: null,
           },
         ],
       },
@@ -17377,6 +20402,21 @@ export const brands = [
         ],
       },
       {
+        name: 'BT-50',
+        generations: [
+          {
+            name: 'Mk2 (UP)',
+            yearFrom: 2011,
+            yearTo: 2020,
+          },
+          {
+            name: 'Mk3 (UP)',
+            yearFrom: 2020,
+            yearTo: null,
+          },
+        ],
+      },
+      {
         name: 'Carol',
         generations: [
           {
@@ -17452,16 +20492,6 @@ export const brands = [
         ],
       },
       {
-        name: 'CX-30',
-        generations: [
-          {
-            name: 'First gen',
-            yearFrom: 2019,
-            yearTo: null,
-          },
-        ],
-      },
-      {
         name: 'CX-5',
         generations: [
           {
@@ -17511,6 +20541,56 @@ export const brands = [
           },
           {
             name: 'Third gen',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'CX-30',
+        generations: [
+          {
+            name: 'First gen',
+            yearFrom: 2019,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'CX-60',
+        generations: [
+          {
+            name: 'Mk1 (KH)',
+            yearFrom: 2022,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'CX-70',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'CX-80',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'CX-90',
+        generations: [
+          {
+            name: 'Mk1 (KK)',
             yearFrom: 2023,
             yearTo: null,
           },
@@ -17573,6 +20653,16 @@ export const brands = [
             name: 'Only gen (EC)',
             yearFrom: 1991,
             yearTo: 1998,
+          },
+        ],
+      },
+      {
+        name: 'EZ-6',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2024,
+            yearTo: null,
           },
         ],
       },
@@ -17713,6 +20803,16 @@ export const brands = [
             name: 'Second gen (GE)',
             yearFrom: 1992,
             yearTo: 1997,
+          },
+        ],
+      },
+      {
+        name: 'MX-30',
+        generations: [
+          {
+            name: 'Mk1 (DR)',
+            yearFrom: 2020,
+            yearTo: null,
           },
         ],
       },
@@ -17914,7 +21014,112 @@ export const brands = [
     ],
   },
   {
-    brand: 'Mercedes-Benz',
+    make: 'McLaren',
+    models: [
+      {
+        name: '540C',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2015,
+            yearTo: 2018,
+          },
+        ],
+      },
+      {
+        name: '570S',
+        generations: [
+          {
+            name: 'Mk1 (P13)',
+            yearFrom: 2015,
+            yearTo: 2021,
+          },
+        ],
+      },
+      {
+        name: '600LT',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2018,
+            yearTo: 2021,
+          },
+        ],
+      },
+      {
+        name: '650S',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2014,
+            yearTo: 2017,
+          },
+        ],
+      },
+      {
+        name: '720S',
+        generations: [
+          {
+            name: 'Mk1 (P14)',
+            yearFrom: 2017,
+            yearTo: 2023,
+          },
+        ],
+      },
+      {
+        name: '750S',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Artura',
+        generations: [
+          {
+            name: 'Mk1 (P16)',
+            yearFrom: 2021,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'GT',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2019,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'MP4-12C',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2011,
+            yearTo: 2014,
+          },
+        ],
+      },
+      {
+        name: 'P1',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2013,
+            yearTo: 2015,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    make: 'Mercedes-Benz',
     models: [
       {
         name: 'A-Class',
@@ -18047,6 +21252,16 @@ export const brands = [
         ],
       },
       {
+        name: 'CLE',
+        generations: [
+          {
+            name: 'Mk1 (C236/A236)',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+      {
         name: 'CLK',
         generations: [
           {
@@ -18117,12 +21332,37 @@ export const brands = [
         ],
       },
       {
+        name: 'EQA',
+        generations: [
+          {
+            name: 'Mk1 (H243)',
+            yearFrom: 2021,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'EQB',
+        generations: [
+          {
+            name: 'Mk1 (X243)',
+            yearFrom: 2021,
+            yearTo: null,
+          },
+        ],
+      },
+      {
         name: 'EQC',
         generations: [
           {
             name: 'N293',
             yearFrom: 2019,
             yearTo: null,
+          },
+          {
+            name: 'Mk1 (N293)',
+            yearFrom: 2019,
+            yearTo: 2023,
           },
         ],
       },
@@ -18134,6 +21374,21 @@ export const brands = [
             yearFrom: 2022,
             yearTo: null,
           },
+          {
+            name: 'Mk1 (V295)',
+            yearFrom: 2022,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'EQE SUV',
+        generations: [
+          {
+            name: 'Mk1 (X294)',
+            yearFrom: 2022,
+            yearTo: null,
+          },
         ],
       },
       {
@@ -18142,6 +21397,41 @@ export const brands = [
           {
             name: 'V297',
             yearFrom: 2021,
+            yearTo: null,
+          },
+          {
+            name: 'Mk1 (V297)',
+            yearFrom: 2021,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'EQS SUV',
+        generations: [
+          {
+            name: 'Mk1 (X296)',
+            yearFrom: 2022,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'EQT',
+        generations: [
+          {
+            name: 'Mk1 (W420)',
+            yearFrom: 2022,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'EQV',
+        generations: [
+          {
+            name: 'Mk1 (W447)',
+            yearFrom: 2020,
             yearTo: null,
           },
         ],
@@ -18387,6 +21677,16 @@ export const brands = [
         ],
       },
       {
+        name: 'T-Class',
+        generations: [
+          {
+            name: 'Mk1 (W420)',
+            yearFrom: 2022,
+            yearTo: null,
+          },
+        ],
+      },
+      {
         name: 'V-Class',
         generations: [
           {
@@ -18409,7 +21709,7 @@ export const brands = [
     ],
   },
   {
-    brand: 'Mercury',
+    make: 'Mercury',
     models: [
       {
         name: 'Bobcat',
@@ -18749,7 +22049,7 @@ export const brands = [
     ],
   },
   {
-    brand: 'MG',
+    make: 'MG',
     models: [
       {
         name: '3',
@@ -18974,7 +22274,32 @@ export const brands = [
     ],
   },
   {
-    brand: 'MINI',
+    make: 'Microlino',
+    models: [
+      {
+        name: 'Microlino',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2022,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Microlino Lite',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    make: 'MINI',
     models: [
       {
         name: 'Cabrio',
@@ -19434,7 +22759,7 @@ export const brands = [
     ],
   },
   {
-    brand: 'Mitsubishi',
+    make: 'Mitsubishi',
     models: [
       {
         name: '3000 GT',
@@ -19477,6 +22802,16 @@ export const brands = [
           {
             name: 'Third gen',
             yearFrom: 2019,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Attrage',
+        generations: [
+          {
+            name: 'Mk1 (A05)',
+            yearFrom: 2013,
             yearTo: null,
           },
         ],
@@ -19638,6 +22973,16 @@ export const brands = [
             name: 'Fifth gen (Cross)',
             yearFrom: 2017,
             yearTo: 2021,
+          },
+        ],
+      },
+      {
+        name: 'Eclipse Cross',
+        generations: [
+          {
+            name: 'Mk1 (GK)',
+            yearFrom: 2017,
+            yearTo: null,
           },
         ],
       },
@@ -20120,6 +23465,11 @@ export const brands = [
             yearTo: 2015,
           },
           {
+            name: 'Mk6 (A00)',
+            yearFrom: 2012,
+            yearTo: null,
+          },
+          {
             name: 'Ninth gen',
             yearFrom: 2015,
             yearTo: 2022,
@@ -20147,6 +23497,16 @@ export const brands = [
         ],
       },
       {
+        name: 'Montero Sport',
+        generations: [
+          {
+            name: 'Mk3 (KH)',
+            yearFrom: 2015,
+            yearTo: null,
+          },
+        ],
+      },
+      {
         name: 'Outlander',
         generations: [
           {
@@ -20167,6 +23527,16 @@ export const brands = [
           {
             name: 'Fourth gen',
             yearFrom: 2018,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Outlander Sport',
+        generations: [
+          {
+            name: 'Mk2 (GA)',
+            yearFrom: 2010,
             yearTo: null,
           },
         ],
@@ -20231,6 +23601,11 @@ export const brands = [
           },
           {
             name: 'Third gen (QH)',
+            yearFrom: 2015,
+            yearTo: null,
+          },
+          {
+            name: 'Mk2 (KH)',
             yearFrom: 2015,
             yearTo: null,
           },
@@ -20417,12 +23792,27 @@ export const brands = [
         ],
       },
       {
+        name: 'Triton',
+        generations: [
+          {
+            name: 'Mk5 (MQ)',
+            yearFrom: 2015,
+            yearTo: null,
+          },
+        ],
+      },
+      {
         name: 'Xpander',
         generations: [
           {
             name: 'First gen',
             yearFrom: 2017,
             yearTo: 2023,
+          },
+          {
+            name: 'Mk1',
+            yearFrom: 2017,
+            yearTo: null,
           },
           {
             name: 'Second gen',
@@ -20434,7 +23824,72 @@ export const brands = [
     ],
   },
   {
-    brand: 'Nissan',
+    make: 'Neta',
+    models: [
+      {
+        name: 'Aya',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'GT',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'L',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2022,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'S',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2022,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'V',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2022,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'X',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    make: 'Nissan',
     models: [
       {
         name: '100 NX',
@@ -20542,6 +23997,16 @@ export const brands = [
         ],
       },
       {
+        name: 'Ariya',
+        generations: [
+          {
+            name: 'Mk1 (FE0)',
+            yearFrom: 2022,
+            yearTo: null,
+          },
+        ],
+      },
+      {
         name: 'Cabstar E - T',
         generations: [
           {
@@ -20617,6 +24082,16 @@ export const brands = [
         ],
       },
       {
+        name: 'Kicks',
+        generations: [
+          {
+            name: 'Mk1 (P15)',
+            yearFrom: 2016,
+            yearTo: null,
+          },
+        ],
+      },
+      {
         name: 'King Cab',
         generations: [
           {
@@ -20640,8 +24115,28 @@ export const brands = [
             yearTo: 2017,
           },
           {
+            name: 'Mk1 (ZE0)',
+            yearFrom: 2010,
+            yearTo: 2017,
+          },
+          {
             name: 'ZE1',
             yearFrom: 2017,
+            yearTo: null,
+          },
+          {
+            name: 'Mk2 (ZE1)',
+            yearFrom: 2017,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Magnite',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2020,
             yearTo: null,
           },
         ],
@@ -20755,7 +24250,17 @@ export const brands = [
             yearTo: 2014,
           },
           {
+            name: 'Mk3 (D40)',
+            yearFrom: 2004,
+            yearTo: 2015,
+          },
+          {
             name: 'D23',
+            yearFrom: 2014,
+            yearTo: null,
+          },
+          {
+            name: 'Mk4 (D23)',
             yearFrom: 2014,
             yearTo: null,
           },
@@ -20765,14 +24270,34 @@ export const brands = [
         name: 'Note',
         generations: [
           {
+            name: 'Mk1 (E11)',
+            yearFrom: 2004,
+            yearTo: 2012,
+          },
+          {
             name: 'E11',
             yearFrom: 2005,
             yearTo: 2013,
           },
           {
+            name: 'Mk2 (E12)',
+            yearFrom: 2012,
+            yearTo: null,
+          },
+          {
             name: 'E12',
             yearFrom: 2013,
             yearTo: 2020,
+          },
+        ],
+      },
+      {
+        name: 'NP300',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2008,
+            yearTo: 2015,
           },
         ],
       },
@@ -20840,7 +24365,17 @@ export const brands = [
             yearTo: 2010,
           },
           {
+            name: 'Mk5 (Y61)',
+            yearFrom: 1997,
+            yearTo: 2023,
+          },
+          {
             name: 'Y62',
+            yearFrom: 2010,
+            yearTo: null,
+          },
+          {
+            name: 'Mk6 (Y62)',
             yearFrom: 2010,
             yearTo: null,
           },
@@ -20997,6 +24532,31 @@ export const brands = [
         ],
       },
       {
+        name: 'Qashqai+2',
+        generations: [
+          {
+            name: 'Mk1 (J10)',
+            yearFrom: 2008,
+            yearTo: 2013,
+          },
+        ],
+      },
+      {
+        name: 'Sentra',
+        generations: [
+          {
+            name: 'Mk7 (B17)',
+            yearFrom: 2012,
+            yearTo: 2019,
+          },
+          {
+            name: 'Mk8 (B18)',
+            yearFrom: 2019,
+            yearTo: null,
+          },
+        ],
+      },
+      {
         name: 'Serena',
         generations: [
           {
@@ -21052,6 +24612,16 @@ export const brands = [
         ],
       },
       {
+        name: 'Sylphy',
+        generations: [
+          {
+            name: 'Mk2 (B17)',
+            yearFrom: 2012,
+            yearTo: null,
+          },
+        ],
+      },
+      {
         name: 'Terrano',
         generations: [
           {
@@ -21060,9 +24630,24 @@ export const brands = [
             yearTo: 1995,
           },
           {
+            name: 'Mk3 (D21)',
+            yearFrom: 1986,
+            yearTo: 1995,
+          },
+          {
             name: 'R20',
             yearFrom: 1993,
             yearTo: 2006,
+          },
+          {
+            name: 'Mk4 (R20)',
+            yearFrom: 1993,
+            yearTo: 2006,
+          },
+          {
+            name: 'Mk5 (D10)',
+            yearFrom: 2013,
+            yearTo: 2022,
           },
         ],
       },
@@ -21071,6 +24656,11 @@ export const brands = [
         generations: [
           {
             name: 'C11',
+            yearFrom: 2004,
+            yearTo: 2012,
+          },
+          {
+            name: 'Mk1 (C11)',
             yearFrom: 2004,
             yearTo: 2012,
           },
@@ -21136,10 +24726,65 @@ export const brands = [
           },
         ],
       },
+      {
+        name: 'X-Trail e-Power',
+        generations: [
+          {
+            name: 'Mk4 (T33)',
+            yearFrom: 2022,
+            yearTo: null,
+          },
+        ],
+      },
     ],
   },
   {
-    brand: 'Opel',
+    make: 'Omoda',
+    models: [
+      {
+        name: 'C5',
+        generations: [
+          {
+            name: 'Mk1 (T19C)',
+            yearFrom: 2022,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'C7',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'C9',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2025,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'S5',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    make: 'Opel',
     models: [
       {
         name: 'Adam',
@@ -21287,6 +24932,16 @@ export const brands = [
         ],
       },
       {
+        name: 'Astra Electric',
+        generations: [
+          {
+            name: 'Mk6 (L)',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+      {
         name: 'Calibra',
         generations: [
           {
@@ -21337,6 +24992,16 @@ export const brands = [
         ],
       },
       {
+        name: 'Combo-e',
+        generations: [
+          {
+            name: 'Mk4 (E)',
+            yearFrom: 2021,
+            yearTo: null,
+          },
+        ],
+      },
+      {
         name: 'Corsa',
         generations: [
           {
@@ -21367,6 +25032,16 @@ export const brands = [
         ],
       },
       {
+        name: 'Corsa Electric',
+        generations: [
+          {
+            name: 'Mk6 (F)',
+            yearFrom: 2020,
+            yearTo: null,
+          },
+        ],
+      },
+      {
         name: 'Crossland',
         generations: [
           {
@@ -21389,6 +25064,11 @@ export const brands = [
             yearFrom: 1998,
             yearTo: 2004,
           },
+          {
+            name: 'Mk2',
+            yearFrom: 2024,
+            yearTo: null,
+          },
         ],
       },
       {
@@ -21398,6 +25078,11 @@ export const brands = [
             name: 'A',
             yearFrom: 2017,
             yearTo: 2024,
+          },
+          {
+            name: 'Mk2 (G2)',
+            yearFrom: 2021,
+            yearTo: null,
           },
           {
             name: 'B',
@@ -21502,6 +25187,16 @@ export const brands = [
         ],
       },
       {
+        name: 'Mokka-e',
+        generations: [
+          {
+            name: 'Mk2 (B)',
+            yearFrom: 2020,
+            yearTo: null,
+          },
+        ],
+      },
+      {
         name: 'Monza',
         generations: [
           {
@@ -21553,6 +25248,16 @@ export const brands = [
             name: 'E',
             yearFrom: 1977,
             yearTo: 1986,
+          },
+        ],
+      },
+      {
+        name: 'Rocks-e',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2021,
+            yearTo: null,
           },
         ],
       },
@@ -21662,6 +25367,16 @@ export const brands = [
         ],
       },
       {
+        name: 'Vivaro-e',
+        generations: [
+          {
+            name: 'Mk3 (K0)',
+            yearFrom: 2020,
+            yearTo: null,
+          },
+        ],
+      },
+      {
         name: 'Zafira',
         generations: [
           {
@@ -21684,7 +25399,52 @@ export const brands = [
     ],
   },
   {
-    brand: 'Pagani',
+    make: 'Ora',
+    models: [
+      {
+        name: '03',
+        generations: [
+          {
+            name: 'Mk1 (Funky Cat)',
+            yearFrom: 2020,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: '07',
+        generations: [
+          {
+            name: 'Mk1 (Lightning Cat)',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Good Cat',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2021,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Punk Cat',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2021,
+            yearTo: 2023,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    make: 'Pagani',
     models: [
       {
         name: 'Huayra',
@@ -21749,18 +25509,8 @@ export const brands = [
     ],
   },
   {
-    brand: 'Peugeot',
+    make: 'Peugeot',
     models: [
-      {
-        name: '1007',
-        generations: [
-          {
-            name: 'MK1',
-            yearFrom: 2004,
-            yearTo: 2009,
-          },
-        ],
-      },
       {
         name: '106',
         generations: [
@@ -21793,21 +25543,6 @@ export const brands = [
             name: 'MK1',
             yearFrom: 2014,
             yearTo: 2021,
-          },
-        ],
-      },
-      {
-        name: '2008',
-        generations: [
-          {
-            name: 'MK1',
-            yearFrom: 2013,
-            yearTo: 2019,
-          },
-          {
-            name: 'MK2',
-            yearFrom: 2019,
-            yearTo: null,
           },
         ],
       },
@@ -21942,26 +25677,6 @@ export const brands = [
         ],
       },
       {
-        name: '3008',
-        generations: [
-          {
-            name: 'MK1',
-            yearFrom: 2009,
-            yearTo: 2016,
-          },
-          {
-            name: 'MK2',
-            yearFrom: 2016,
-            yearTo: 2023,
-          },
-          {
-            name: 'MK3',
-            yearFrom: 2023,
-            yearTo: null,
-          },
-        ],
-      },
-      {
         name: '306',
         generations: [
           {
@@ -22082,31 +25797,6 @@ export const brands = [
         ],
       },
       {
-        name: '4007',
-        generations: [
-          {
-            name: 'MK1',
-            yearFrom: 2007,
-            yearTo: 2012,
-          },
-        ],
-      },
-      {
-        name: '4008',
-        generations: [
-          {
-            name: 'MK1',
-            yearFrom: 2012,
-            yearTo: 2016,
-          },
-          {
-            name: 'MK2',
-            yearFrom: 2016,
-            yearTo: null,
-          },
-        ],
-      },
-      {
         name: '405',
         generations: [
           {
@@ -22162,16 +25852,11 @@ export const brands = [
         ],
       },
       {
-        name: '5008',
+        name: '408',
         generations: [
           {
-            name: 'MK1',
-            yearFrom: 2009,
-            yearTo: 2017,
-          },
-          {
-            name: 'MK2',
-            yearFrom: 2017,
+            name: 'Mk2 (P54)',
+            yearFrom: 2022,
             yearTo: null,
           },
         ],
@@ -22257,6 +25942,91 @@ export const brands = [
         ],
       },
       {
+        name: '1007',
+        generations: [
+          {
+            name: 'MK1',
+            yearFrom: 2004,
+            yearTo: 2009,
+          },
+        ],
+      },
+      {
+        name: '2008',
+        generations: [
+          {
+            name: 'MK1',
+            yearFrom: 2013,
+            yearTo: 2019,
+          },
+          {
+            name: 'MK2',
+            yearFrom: 2019,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: '3008',
+        generations: [
+          {
+            name: 'MK1',
+            yearFrom: 2009,
+            yearTo: 2016,
+          },
+          {
+            name: 'MK2',
+            yearFrom: 2016,
+            yearTo: 2023,
+          },
+          {
+            name: 'MK3',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: '4007',
+        generations: [
+          {
+            name: 'MK1',
+            yearFrom: 2007,
+            yearTo: 2012,
+          },
+        ],
+      },
+      {
+        name: '4008',
+        generations: [
+          {
+            name: 'MK1',
+            yearFrom: 2012,
+            yearTo: 2016,
+          },
+          {
+            name: 'MK2',
+            yearFrom: 2016,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: '5008',
+        generations: [
+          {
+            name: 'MK1',
+            yearFrom: 2009,
+            yearTo: 2017,
+          },
+          {
+            name: 'MK2',
+            yearFrom: 2017,
+            yearTo: null,
+          },
+        ],
+      },
+      {
         name: 'Bipper',
         generations: [
           {
@@ -22287,6 +26057,31 @@ export const brands = [
         ],
       },
       {
+        name: 'e-208',
+        generations: [
+          {
+            name: 'MK2',
+            yearFrom: 2019,
+            yearTo: null,
+          },
+          {
+            name: 'Mk2 (P21 EV)',
+            yearFrom: 2019,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'e-308',
+        generations: [
+          {
+            name: 'Mk3 (P51 EV)',
+            yearFrom: 2022,
+            yearTo: null,
+          },
+        ],
+      },
+      {
         name: 'e-2008',
         generations: [
           {
@@ -22294,14 +26089,29 @@ export const brands = [
             yearFrom: 2019,
             yearTo: null,
           },
+          {
+            name: 'Mk2 (P24 EV)',
+            yearFrom: 2019,
+            yearTo: null,
+          },
         ],
       },
       {
-        name: 'e-208',
+        name: 'e-Rifter',
         generations: [
           {
-            name: 'MK2',
-            yearFrom: 2019,
+            name: 'Mk1',
+            yearFrom: 2021,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'e-Traveller',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2021,
             yearTo: null,
           },
         ],
@@ -22384,7 +26194,7 @@ export const brands = [
     ],
   },
   {
-    brand: 'Plymouth',
+    make: 'Plymouth',
     models: [
       {
         name: 'Acclaim',
@@ -22739,7 +26549,52 @@ export const brands = [
     ],
   },
   {
-    brand: 'Pontiac',
+    make: 'Polestar',
+    models: [
+      {
+        name: '1',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2019,
+            yearTo: 2021,
+          },
+        ],
+      },
+      {
+        name: '2',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2020,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: '3',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: '4',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    make: 'Pontiac',
     models: [
       {
         name: '6000',
@@ -23144,7 +26999,7 @@ export const brands = [
     ],
   },
   {
-    brand: 'Porsche',
+    make: 'Porsche',
     models: [
       {
         name: '356',
@@ -23390,13 +27245,13 @@ export const brands = [
             yearTo: 1991,
           },
           {
-            name: 'Turbo',
-            yearFrom: 1985,
+            name: 'S2',
+            yearFrom: 1989,
             yearTo: 1991,
           },
           {
-            name: 'S2',
-            yearFrom: 1989,
+            name: 'Turbo',
+            yearFrom: 1985,
             yearTo: 1991,
           },
         ],
@@ -23584,7 +27439,7 @@ export const brands = [
     ],
   },
   {
-    brand: 'Proton',
+    make: 'Proton',
     models: [
       {
         name: 'Arena',
@@ -23814,7 +27669,7 @@ export const brands = [
     ],
   },
   {
-    brand: 'Ravon',
+    make: 'Ravon',
     models: [
       {
         name: 'Cobalt',
@@ -23859,13 +27714,18 @@ export const brands = [
     ],
   },
   {
-    brand: 'Renault',
+    make: 'Renault',
     models: [
       {
         name: 'Arkana',
         generations: [
           {
             name: 'Mk1 (KH3)',
+            yearFrom: 2019,
+            yearTo: null,
+          },
+          {
+            name: 'Mk1 (LCM)',
             yearFrom: 2019,
             yearTo: null,
           },
@@ -23876,6 +27736,11 @@ export const brands = [
         generations: [
           {
             name: 'Mk1 (KH4)',
+            yearFrom: 2022,
+            yearTo: null,
+          },
+          {
+            name: 'Mk1 (HHN)',
             yearFrom: 2022,
             yearTo: null,
           },
@@ -24072,6 +27937,16 @@ export const brands = [
         ],
       },
       {
+        name: 'Kangoo E-Tech',
+        generations: [
+          {
+            name: 'Mk3 (FW)',
+            yearFrom: 2021,
+            yearTo: null,
+          },
+        ],
+      },
+      {
         name: 'Kangoo Express',
         generations: [
           {
@@ -24222,6 +28097,16 @@ export const brands = [
         ],
       },
       {
+        name: 'Megane E-Tech',
+        generations: [
+          {
+            name: 'Mk4 (RF)',
+            yearFrom: 2022,
+            yearTo: null,
+          },
+        ],
+      },
+      {
         name: 'Mégane Grandtour',
         generations: [
           {
@@ -24249,6 +28134,11 @@ export const brands = [
             yearFrom: 2023,
             yearTo: null,
           },
+          {
+            name: 'Mk1',
+            yearFrom: 2024,
+            yearTo: null,
+          },
         ],
       },
       {
@@ -24272,6 +28162,26 @@ export const brands = [
           {
             name: 'Mk4 (KG0)',
             yearFrom: 2016,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Scenic E-Tech',
+        generations: [
+          {
+            name: 'Mk5 (RF)',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Symbioz',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2024,
             yearTo: null,
           },
         ],
@@ -24351,11 +28261,161 @@ export const brands = [
           },
         ],
       },
+      {
+        name: 'Zoe',
+        generations: [
+          {
+            name: 'Mk1 (BFM)',
+            yearFrom: 2012,
+            yearTo: null,
+          },
+        ],
+      },
     ],
   },
   {
-    brand: 'Rover',
+    make: 'Rolls-Royce',
     models: [
+      {
+        name: 'Cullinan',
+        generations: [
+          {
+            name: 'Mk1 (RR31)',
+            yearFrom: 2018,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Dawn',
+        generations: [
+          {
+            name: 'Mk1 (RR6)',
+            yearFrom: 2015,
+            yearTo: 2023,
+          },
+        ],
+      },
+      {
+        name: 'Ghost',
+        generations: [
+          {
+            name: 'Mk1 (RR4)',
+            yearFrom: 2009,
+            yearTo: 2020,
+          },
+          {
+            name: 'Mk2 (RR22)',
+            yearFrom: 2020,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Phantom',
+        generations: [
+          {
+            name: 'Mk7 (EWB)',
+            yearFrom: 2003,
+            yearTo: 2017,
+          },
+          {
+            name: 'Mk8 (EWB)',
+            yearFrom: 2017,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Spectre',
+        generations: [
+          {
+            name: 'Mk1 (RR25)',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Wraith',
+        generations: [
+          {
+            name: 'Mk1 (RR5)',
+            yearFrom: 2013,
+            yearTo: 2023,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    make: 'Rover',
+    models: [
+      {
+        name: '25',
+        generations: [
+          {
+            name: 'R3',
+            yearFrom: 1999,
+            yearTo: 2005,
+          },
+        ],
+      },
+      {
+        name: '25 Streetwise',
+        generations: [
+          {
+            name: 'R3',
+            yearFrom: 2003,
+            yearTo: 2005,
+          },
+        ],
+      },
+      {
+        name: '45',
+        generations: [
+          {
+            name: 'R3',
+            yearFrom: 1999,
+            yearTo: 2004,
+          },
+          {
+            name: 'R3 Facelift',
+            yearFrom: 2004,
+            yearTo: 2005,
+          },
+        ],
+      },
+      {
+        name: '75',
+        generations: [
+          {
+            name: 'R40',
+            yearFrom: 1999,
+            yearTo: 2004,
+          },
+          {
+            name: 'R40 Facelift',
+            yearFrom: 2004,
+            yearTo: 2005,
+          },
+        ],
+      },
+      {
+        name: '75 Tourer',
+        generations: [
+          {
+            name: 'R40',
+            yearFrom: 2001,
+            yearTo: 2004,
+          },
+          {
+            name: 'R40 Facelift',
+            yearFrom: 2004,
+            yearTo: 2005,
+          },
+        ],
+      },
       {
         name: '100',
         generations: [
@@ -24457,26 +28517,6 @@ export const brands = [
         ],
       },
       {
-        name: '25',
-        generations: [
-          {
-            name: 'R3',
-            yearFrom: 1999,
-            yearTo: 2005,
-          },
-        ],
-      },
-      {
-        name: '25 Streetwise',
-        generations: [
-          {
-            name: 'R3',
-            yearFrom: 2003,
-            yearTo: 2005,
-          },
-        ],
-      },
-      {
         name: '400',
         generations: [
           {
@@ -24557,21 +28597,6 @@ export const brands = [
         ],
       },
       {
-        name: '45',
-        generations: [
-          {
-            name: 'R3',
-            yearFrom: 1999,
-            yearTo: 2004,
-          },
-          {
-            name: 'R3 Facelift',
-            yearFrom: 2004,
-            yearTo: 2005,
-          },
-        ],
-      },
-      {
         name: '600',
         generations: [
           {
@@ -24592,36 +28617,6 @@ export const brands = [
           {
             name: 'R17 Facelift',
             yearFrom: 1999,
-            yearTo: 2005,
-          },
-        ],
-      },
-      {
-        name: '75',
-        generations: [
-          {
-            name: 'R40',
-            yearFrom: 1999,
-            yearTo: 2004,
-          },
-          {
-            name: 'R40 Facelift',
-            yearFrom: 2004,
-            yearTo: 2005,
-          },
-        ],
-      },
-      {
-        name: '75 Tourer',
-        generations: [
-          {
-            name: 'R40',
-            yearFrom: 2001,
-            yearTo: 2004,
-          },
-          {
-            name: 'R40 Facelift',
-            yearFrom: 2004,
             yearTo: 2005,
           },
         ],
@@ -24754,7 +28749,7 @@ export const brands = [
     ],
   },
   {
-    brand: 'Saab',
+    make: 'Saab',
     models: [
       {
         name: '9-3',
@@ -24847,56 +28842,6 @@ export const brands = [
         ],
       },
       {
-        name: '900',
-        generations: [
-          {
-            name: 'Classic 900 (First Gen)',
-            yearFrom: 1978,
-            yearTo: 1993,
-          },
-          {
-            name: 'New Generation 900 (Second Gen)',
-            yearFrom: 1993,
-            yearTo: 1998,
-          },
-        ],
-      },
-      {
-        name: '900 C',
-        generations: [
-          {
-            name: 'Classic 900 C',
-            yearFrom: 1984,
-            yearTo: 1993,
-          },
-        ],
-      },
-      {
-        name: '900 C Turbo',
-        generations: [
-          {
-            name: 'Classic 900 Turbo',
-            yearFrom: 1978,
-            yearTo: 1993,
-          },
-        ],
-      },
-      {
-        name: '9000',
-        generations: [
-          {
-            name: 'First Gen',
-            yearFrom: 1984,
-            yearTo: 1991,
-          },
-          {
-            name: 'Second Gen',
-            yearFrom: 1991,
-            yearTo: 1998,
-          },
-        ],
-      },
-      {
         name: '92',
         generations: [
           {
@@ -24947,6 +28892,56 @@ export const brands = [
         ],
       },
       {
+        name: '900',
+        generations: [
+          {
+            name: 'Classic 900 (First Gen)',
+            yearFrom: 1978,
+            yearTo: 1993,
+          },
+          {
+            name: 'New Generation 900 (Second Gen)',
+            yearFrom: 1993,
+            yearTo: 1998,
+          },
+        ],
+      },
+      {
+        name: '900 C',
+        generations: [
+          {
+            name: 'Classic 900 C',
+            yearFrom: 1984,
+            yearTo: 1993,
+          },
+        ],
+      },
+      {
+        name: '900 C Turbo',
+        generations: [
+          {
+            name: 'Classic 900 Turbo',
+            yearFrom: 1978,
+            yearTo: 1993,
+          },
+        ],
+      },
+      {
+        name: '9000',
+        generations: [
+          {
+            name: 'First Gen',
+            yearFrom: 1984,
+            yearTo: 1991,
+          },
+          {
+            name: 'Second Gen',
+            yearFrom: 1991,
+            yearTo: 1998,
+          },
+        ],
+      },
+      {
         name: 'Sonett',
         generations: [
           {
@@ -24969,7 +28964,7 @@ export const brands = [
     ],
   },
   {
-    brand: 'Saturn',
+    make: 'Saturn',
     models: [
       {
         name: 'Astra',
@@ -25074,7 +29069,7 @@ export const brands = [
     ],
   },
   {
-    brand: 'Scania',
+    make: 'Scania',
     models: [
       {
         name: '3-Series',
@@ -25199,7 +29194,7 @@ export const brands = [
     ],
   },
   {
-    brand: 'Schmitz',
+    make: 'Schmitz',
     models: [
       {
         name: 'Cargobull',
@@ -25254,7 +29249,7 @@ export const brands = [
     ],
   },
   {
-    brand: 'Seat',
+    make: 'Seat',
     models: [
       {
         name: 'Alhambra',
@@ -25288,6 +29283,26 @@ export const brands = [
             name: 'Mk1 (5P5)',
             yearFrom: 2007,
             yearTo: 2015,
+          },
+        ],
+      },
+      {
+        name: 'Arona',
+        generations: [
+          {
+            name: 'Mk1 (KJ1)',
+            yearFrom: 2017,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Arona e-HYBRID',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2023,
+            yearTo: null,
           },
         ],
       },
@@ -25452,6 +29467,16 @@ export const brands = [
         ],
       },
       {
+        name: 'Leon e-HYBRID',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2020,
+            yearTo: null,
+          },
+        ],
+      },
+      {
         name: 'Leon ST',
         generations: [
           {
@@ -25514,7 +29539,42 @@ export const brands = [
     ],
   },
   {
-    brand: 'Setra',
+    make: 'Seres',
+    models: [
+      {
+        name: '3',
+        generations: [
+          {
+            name: 'Mk1 (SF5)',
+            yearFrom: 2020,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: '5',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2022,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: '7',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    make: 'Setra',
     models: [
       {
         name: 'ComfortClass 500',
@@ -25589,7 +29649,7 @@ export const brands = [
     ],
   },
   {
-    brand: 'Skoda',
+    make: 'Skoda',
     models: [
       {
         name: '100',
@@ -25637,11 +29697,46 @@ export const brands = [
         ],
       },
       {
+        name: 'Elroq',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
+      {
         name: 'Enyaq',
         generations: [
           {
             name: 'MK1',
             yearFrom: 2020,
+            yearTo: null,
+          },
+          {
+            name: 'Mk1 (NW)',
+            yearFrom: 2020,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Enyaq Coupé',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2022,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Epiaq',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2025,
             yearTo: null,
           },
         ],
@@ -25744,6 +29839,11 @@ export const brands = [
             yearFrom: 2019,
             yearTo: null,
           },
+          {
+            name: 'Mk1 (NW)',
+            yearFrom: 2019,
+            yearTo: null,
+          },
         ],
       },
       {
@@ -25751,6 +29851,11 @@ export const brands = [
         generations: [
           {
             name: 'MK1',
+            yearFrom: 2017,
+            yearTo: null,
+          },
+          {
+            name: 'Mk1 (NU)',
             yearFrom: 2017,
             yearTo: null,
           },
@@ -25763,6 +29868,11 @@ export const brands = [
             name: 'MK1',
             yearFrom: 2016,
             yearTo: 2021,
+          },
+          {
+            name: 'Mk1 (NS)',
+            yearFrom: 2016,
+            yearTo: null,
           },
           {
             name: 'MK1 (facelift)',
@@ -25884,6 +29994,11 @@ export const brands = [
             yearFrom: 2019,
             yearTo: null,
           },
+          {
+            name: 'Mk1 (NW)',
+            yearFrom: 2019,
+            yearTo: null,
+          },
         ],
       },
       {
@@ -25949,7 +30064,32 @@ export const brands = [
     ],
   },
   {
-    brand: 'Smart',
+    make: 'Skywell',
+    models: [
+      {
+        name: 'ET5',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2021,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'ET5 Premium',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    make: 'Smart',
     models: [
       {
         name: '#1',
@@ -26299,7 +30439,122 @@ export const brands = [
     ],
   },
   {
-    brand: 'SsangYong',
+    make: 'Solaris',
+    models: [
+      {
+        name: 'HC',
+        generations: [
+          {
+            name: 'Mk1 (Creta)',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'HS',
+        generations: [
+          {
+            name: 'Mk1 (Solaris)',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'KRS',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2025,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'KRX',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2025,
+            yearTo: null,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    make: 'Sollers',
+    models: [
+      {
+        name: 'Argo',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Atlant',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2022,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'SF1',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    make: 'Soueast',
+    models: [
+      {
+        name: 'DX8S',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2022,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'S07',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'S09',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    make: 'SsangYong',
     models: [
       {
         name: 'Actyon',
@@ -26464,7 +30719,7 @@ export const brands = [
     ],
   },
   {
-    brand: 'Subaru',
+    make: 'Subaru',
     models: [
       {
         name: '360',
@@ -26505,8 +30760,28 @@ export const brands = [
             yearTo: 2020,
           },
           {
+            name: 'Mk1 (ZC6)',
+            yearFrom: 2012,
+            yearTo: 2020,
+          },
+          {
             name: 'Second gen (ZD8)',
             yearFrom: 2021,
+            yearTo: null,
+          },
+          {
+            name: 'Mk2 (ZD8)',
+            yearFrom: 2021,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Crosstrek',
+        generations: [
+          {
+            name: 'Mk1 (GT)',
+            yearFrom: 2017,
             yearTo: null,
           },
         ],
@@ -26795,7 +31070,17 @@ export const brands = [
             yearTo: 2020,
           },
           {
+            name: 'Mk1 (VM)',
+            yearFrom: 2014,
+            yearTo: 2020,
+          },
+          {
             name: 'Second gen (VS)',
+            yearFrom: 2020,
+            yearTo: null,
+          },
+          {
+            name: 'Mk2 (VN)',
             yearFrom: 2020,
             yearTo: null,
           },
@@ -26947,6 +31232,16 @@ export const brands = [
         ],
       },
       {
+        name: 'Solterra',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2022,
+            yearTo: null,
+          },
+        ],
+      },
+      {
         name: 'Stella',
         generations: [
           {
@@ -26973,6 +31268,16 @@ export const brands = [
             name: 'Only gen',
             yearFrom: 2001,
             yearTo: 2004,
+          },
+        ],
+      },
+      {
+        name: 'Trezia',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2011,
+            yearTo: 2016,
           },
         ],
       },
@@ -27035,7 +31340,17 @@ export const brands = [
             yearTo: 2021,
           },
           {
+            name: 'Mk4 (VA)',
+            yearFrom: 2014,
+            yearTo: 2021,
+          },
+          {
             name: 'Fifth gen (VB)',
+            yearFrom: 2021,
+            yearTo: null,
+          },
+          {
+            name: 'Mk5 (VB)',
             yearFrom: 2021,
             yearTo: null,
           },
@@ -27089,7 +31404,7 @@ export const brands = [
     ],
   },
   {
-    brand: 'Suzuki',
+    make: 'Suzuki',
     models: [
       {
         name: 'Across',
@@ -27404,7 +31719,122 @@ export const brands = [
     ],
   },
   {
-    brand: 'Tesla',
+    make: 'SWM',
+    models: [
+      {
+        name: 'G01',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2018,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'G05',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2019,
+            yearTo: null,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    make: 'Tank',
+    models: [
+      {
+        name: '300',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2021,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: '400',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: '500',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2021,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: '700',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    make: 'Tenet',
+    models: [
+      {
+        name: 'T4',
+        generations: [
+          {
+            name: 'Mk1 (Tiggo 4)',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'T5',
+        generations: [
+          {
+            name: 'Mk1 (Tiggo 7)',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'T7',
+        generations: [
+          {
+            name: 'Mk1 (Tiggo 7L)',
+            yearFrom: 2025,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'T8',
+        generations: [
+          {
+            name: 'Mk1 (Tiggo 8 Pro Max)',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    make: 'Tesla',
     models: [
       {
         name: 'Cybertruck',
@@ -27684,7 +32114,7 @@ export const brands = [
     ],
   },
   {
-    brand: 'Toyota',
+    make: 'Toyota',
     models: [
       {
         name: '4-Runner',
@@ -27717,6 +32147,21 @@ export const brands = [
         ],
       },
       {
+        name: 'Alphard',
+        generations: [
+          {
+            name: 'Mk2 (AH20)',
+            yearFrom: 2008,
+            yearTo: 2015,
+          },
+          {
+            name: 'Mk3 (AH30)',
+            yearFrom: 2015,
+            yearTo: null,
+          },
+        ],
+      },
+      {
         name: 'Auris',
         generations: [
           {
@@ -27728,6 +32173,21 @@ export const brands = [
             name: 'E180',
             yearFrom: 2013,
             yearTo: 2018,
+          },
+        ],
+      },
+      {
+        name: 'Avalon',
+        generations: [
+          {
+            name: 'Mk4 (XX40)',
+            yearFrom: 2012,
+            yearTo: 2018,
+          },
+          {
+            name: 'Mk5 (XX50)',
+            yearFrom: 2018,
+            yearTo: 2022,
           },
         ],
       },
@@ -28077,6 +32537,21 @@ export const brands = [
         ],
       },
       {
+        name: 'Fortuner',
+        generations: [
+          {
+            name: 'Mk1 (AN50)',
+            yearFrom: 2005,
+            yearTo: 2015,
+          },
+          {
+            name: 'Mk2 (AN150)',
+            yearFrom: 2015,
+            yearTo: null,
+          },
+        ],
+      },
+      {
         name: 'GR Supra',
         generations: [
           {
@@ -28212,6 +32687,21 @@ export const brands = [
         ],
       },
       {
+        name: 'Innova',
+        generations: [
+          {
+            name: 'Mk1 (K40)',
+            yearFrom: 2004,
+            yearTo: 2015,
+          },
+          {
+            name: 'Mk2 (K40)',
+            yearFrom: 2015,
+            yearTo: null,
+          },
+        ],
+      },
+      {
         name: 'Land Cruiser',
         generations: [
           {
@@ -28233,6 +32723,51 @@ export const brands = [
             name: 'J300',
             yearFrom: 2021,
             yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Land Cruiser 80',
+        generations: [
+          {
+            name: 'J80',
+            yearFrom: 1989,
+            yearTo: 1997,
+          },
+        ],
+      },
+      {
+        name: 'Land Cruiser Prado',
+        generations: [
+          {
+            name: 'J90',
+            yearFrom: 1996,
+            yearTo: 2002,
+          },
+          {
+            name: 'J120',
+            yearFrom: 2002,
+            yearTo: 2009,
+          },
+          {
+            name: 'J150',
+            yearFrom: 2009,
+            yearTo: 2023,
+          },
+          {
+            name: 'J250',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Matrix',
+        generations: [
+          {
+            name: 'Mk1 (E130)',
+            yearFrom: 2002,
+            yearTo: 2008,
           },
         ],
       },
@@ -28293,6 +32828,21 @@ export const brands = [
             name: 'CR10',
             yearFrom: 1995,
             yearTo: 2001,
+          },
+        ],
+      },
+      {
+        name: 'Previa',
+        generations: [
+          {
+            name: 'Mk2 (XR30)',
+            yearFrom: 2000,
+            yearTo: 2006,
+          },
+          {
+            name: 'Mk3 (XR50)',
+            yearFrom: 2006,
+            yearTo: 2019,
           },
         ],
       },
@@ -28372,6 +32922,26 @@ export const brands = [
           {
             name: 'XK50',
             yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Sienna',
+        generations: [
+          {
+            name: 'Mk2 (XL20)',
+            yearFrom: 2003,
+            yearTo: 2010,
+          },
+          {
+            name: 'Mk3 (XL30)',
+            yearFrom: 2010,
+            yearTo: 2020,
+          },
+          {
+            name: 'Mk4 (XL40)',
+            yearFrom: 2020,
             yearTo: null,
           },
         ],
@@ -28457,6 +33027,36 @@ export const brands = [
         ],
       },
       {
+        name: 'Vellfire',
+        generations: [
+          {
+            name: 'Mk2 (AH20)',
+            yearFrom: 2008,
+            yearTo: 2015,
+          },
+          {
+            name: 'Mk3 (AH30)',
+            yearFrom: 2015,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Venza',
+        generations: [
+          {
+            name: 'Mk1 (AV10)',
+            yearFrom: 2009,
+            yearTo: 2015,
+          },
+          {
+            name: 'Mk2 (XU80)',
+            yearFrom: 2020,
+            yearTo: null,
+          },
+        ],
+      },
+      {
         name: 'Verso',
         generations: [
           {
@@ -28468,6 +33068,16 @@ export const brands = [
             name: 'R50',
             yearFrom: 2013,
             yearTo: 2018,
+          },
+        ],
+      },
+      {
+        name: 'Wish',
+        generations: [
+          {
+            name: 'Mk1 (E10)',
+            yearFrom: 2003,
+            yearTo: 2017,
           },
         ],
       },
@@ -28519,7 +33129,7 @@ export const brands = [
     ],
   },
   {
-    brand: 'Triumph',
+    make: 'Triumph',
     models: [
       {
         name: 'Acclaim',
@@ -28725,11 +33335,6 @@ export const brands = [
             yearTo: 1978,
           },
           {
-            name: 'TR7 Sprint',
-            yearFrom: 1978,
-            yearTo: 1978,
-          },
-          {
             name: 'TR7 (convertible)',
             yearFrom: 1979,
             yearTo: 1981,
@@ -28738,6 +33343,11 @@ export const brands = [
             name: 'TR7 (DHC)',
             yearFrom: 1979,
             yearTo: 1981,
+          },
+          {
+            name: 'TR7 Sprint',
+            yearFrom: 1978,
+            yearTo: 1978,
           },
         ],
       },
@@ -28779,7 +33389,7 @@ export const brands = [
     ],
   },
   {
-    brand: 'Volkswagen',
+    make: 'Volkswagen',
     models: [
       {
         name: 'Amarok',
@@ -28790,12 +33400,22 @@ export const brands = [
             yearTo: 2020,
           },
           {
+            name: 'Mk1 (2H)',
+            yearFrom: 2010,
+            yearTo: 2022,
+          },
+          {
             name: 'Type 2H (Facelift)',
             yearFrom: 2016,
             yearTo: 2020,
           },
           {
             name: 'Type S',
+            yearFrom: 2022,
+            yearTo: null,
+          },
+          {
+            name: 'Mk2 (NF)',
             yearFrom: 2022,
             yearTo: null,
           },
@@ -28808,6 +33428,11 @@ export const brands = [
             name: 'Type 3G',
             yearFrom: 2017,
             yearTo: 2020,
+          },
+          {
+            name: 'Mk1 (3H)',
+            yearFrom: 2017,
+            yearTo: null,
           },
           {
             name: 'Type 3G (Facelift)',
@@ -29084,6 +33709,11 @@ export const brands = [
             yearFrom: 2020,
             yearTo: null,
           },
+          {
+            name: 'Mk1',
+            yearFrom: 2020,
+            yearTo: null,
+          },
         ],
       },
       {
@@ -29091,6 +33721,11 @@ export const brands = [
         generations: [
           {
             name: 'Type SU',
+            yearFrom: 2020,
+            yearTo: null,
+          },
+          {
+            name: 'Mk1',
             yearFrom: 2020,
             yearTo: null,
           },
@@ -29102,6 +33737,31 @@ export const brands = [
           {
             name: 'Type SU',
             yearFrom: 2021,
+            yearTo: null,
+          },
+          {
+            name: 'Mk1',
+            yearFrom: 2021,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'ID.7',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'ID.Buzz',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2022,
             yearTo: null,
           },
         ],
@@ -29302,10 +33962,25 @@ export const brands = [
         ],
       },
       {
+        name: 'T-Cross',
+        generations: [
+          {
+            name: 'Mk1 (C1)',
+            yearFrom: 2019,
+            yearTo: null,
+          },
+        ],
+      },
+      {
         name: 'T-Roc',
         generations: [
           {
             name: 'Type A11',
+            yearFrom: 2017,
+            yearTo: null,
+          },
+          {
+            name: 'Mk1 (A1)',
             yearFrom: 2017,
             yearTo: null,
           },
@@ -29316,6 +33991,11 @@ export const brands = [
         generations: [
           {
             name: 'Type C12',
+            yearFrom: 2021,
+            yearTo: null,
+          },
+          {
+            name: 'Mk1 (CS)',
             yearFrom: 2021,
             yearTo: null,
           },
@@ -29469,7 +34149,7 @@ export const brands = [
     ],
   },
   {
-    brand: 'Volvo',
+    make: 'Volvo',
     models: [
       {
         name: '240',
@@ -29552,6 +34232,16 @@ export const brands = [
         ],
       },
       {
+        name: 'C40',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2021,
+            yearTo: null,
+          },
+        ],
+      },
+      {
         name: 'C70',
         generations: [
           {
@@ -29588,6 +34278,46 @@ export const brands = [
             name: 'P80 Platform',
             yearFrom: 1997,
             yearTo: 2002,
+          },
+        ],
+      },
+      {
+        name: 'EM90',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'EX30',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'EX40',
+        generations: [
+          {
+            name: 'Mk1 (XC40 Recharge)',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'EX90',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2023,
+            yearTo: null,
           },
         ],
       },
@@ -29799,7 +34529,7 @@ export const brands = [
     ],
   },
   {
-    brand: 'Voyah',
+    make: 'Voyah',
     models: [
       {
         name: 'Courage',
@@ -29949,7 +34679,7 @@ export const brands = [
     ],
   },
   {
-    brand: 'Wartburg',
+    make: 'Wartburg',
     models: [
       {
         name: '1.3',
@@ -30015,21 +34745,71 @@ export const brands = [
             yearTo: 1975,
           },
           {
-            name: '353 (Tourist)',
-            yearFrom: 1966,
-            yearTo: 1988,
-          },
-          {
             name: '353 W (Wartburg 353W)',
             yearFrom: 1975,
             yearTo: 1982,
+          },
+          {
+            name: '353 (Tourist)',
+            yearFrom: 1966,
+            yearTo: 1988,
           },
         ],
       },
     ],
   },
   {
-    brand: 'Zeekr',
+    make: 'Xcite',
+    models: [
+      {
+        name: 'X-Cross 7',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'X-Cross 8',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2025,
+            yearTo: null,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    make: 'Xiaomi',
+    models: [
+      {
+        name: 'SU7',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'YU7',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2025,
+            yearTo: null,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    make: 'Zeekr',
     models: [
       {
         name: '001',
@@ -30062,21 +34842,6 @@ export const brands = [
         ],
       },
       {
-        name: '009',
-        generations: [
-          {
-            name: '009 (1)',
-            yearFrom: 2022,
-            yearTo: 2024,
-          },
-          {
-            name: '009 (restyling)',
-            yearFrom: 2024,
-            yearTo: null,
-          },
-        ],
-      },
-      {
         name: '7X',
         generations: [
           {
@@ -30092,6 +34857,21 @@ export const brands = [
           {
             name: '8X (1)',
             yearFrom: 2025,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: '009',
+        generations: [
+          {
+            name: '009 (1)',
+            yearFrom: 2022,
+            yearTo: 2024,
+          },
+          {
+            name: '009 (restyling)',
+            yearFrom: 2024,
             yearTo: null,
           },
         ],
@@ -30134,7 +34914,7 @@ export const brands = [
     ],
   },
   {
-    brand: 'ГАЗ',
+    make: 'ГАЗ',
     models: [
       {
         name: '12 ЗИМ',
@@ -30222,22 +35002,22 @@ export const brands = [
         ],
       },
       {
+        name: '69',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 1952,
+            yearTo: 1972,
+          },
+        ],
+      },
+      {
         name: '3102 «Волга»',
         generations: [
           {
             name: 'Mk1',
             yearFrom: 1981,
             yearTo: 2008,
-          },
-        ],
-      },
-      {
-        name: '31029 «Волга»',
-        generations: [
-          {
-            name: 'Mk1',
-            yearFrom: 1992,
-            yearTo: 1997,
           },
         ],
       },
@@ -30252,16 +35032,6 @@ export const brands = [
         ],
       },
       {
-        name: '31105 «Волга»',
-        generations: [
-          {
-            name: 'Mk1',
-            yearFrom: 2004,
-            yearTo: 2009,
-          },
-        ],
-      },
-      {
         name: '3111 «Волга»',
         generations: [
           {
@@ -30272,12 +35042,22 @@ export const brands = [
         ],
       },
       {
-        name: '69',
+        name: '31029 «Волга»',
         generations: [
           {
             name: 'Mk1',
-            yearFrom: 1952,
-            yearTo: 1972,
+            yearFrom: 1992,
+            yearTo: 1997,
+          },
+        ],
+      },
+      {
+        name: '31105 «Волга»',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2004,
+            yearTo: 2009,
           },
         ],
       },
@@ -30287,6 +35067,16 @@ export const brands = [
           {
             name: 'Mk1',
             yearFrom: 2004,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Валдай NEXT',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2018,
             yearTo: null,
           },
         ],
@@ -30312,6 +35102,21 @@ export const brands = [
           {
             name: 'Mk1',
             yearFrom: 2013,
+            yearTo: null,
+          },
+          {
+            name: 'Mk1 (A31R32)',
+            yearFrom: 2013,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'ГАЗель NN',
+        generations: [
+          {
+            name: 'Mk1 (A31R33)',
+            yearFrom: 2021,
             yearTo: null,
           },
         ],
@@ -30362,6 +35167,16 @@ export const brands = [
         ],
       },
       {
+        name: 'Соболь NN',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2021,
+            yearTo: null,
+          },
+        ],
+      },
+      {
         name: 'Урал',
         generations: [
           {
@@ -30374,7 +35189,122 @@ export const brands = [
     ],
   },
   {
-    brand: 'МАЗ',
+    make: 'ЗАЗ',
+    models: [
+      {
+        name: '965',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 1960,
+            yearTo: 1969,
+          },
+        ],
+      },
+      {
+        name: '966',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 1967,
+            yearTo: 1972,
+          },
+        ],
+      },
+      {
+        name: '968',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 1971,
+            yearTo: 1994,
+          },
+        ],
+      },
+      {
+        name: '1102 Tavria',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 1987,
+            yearTo: 1997,
+          },
+        ],
+      },
+      {
+        name: '1103 Slavuta',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 1999,
+            yearTo: 2011,
+          },
+        ],
+      },
+      {
+        name: '1105 Dana',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 1994,
+            yearTo: 1997,
+          },
+        ],
+      },
+      {
+        name: 'Chance',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2009,
+            yearTo: 2014,
+          },
+        ],
+      },
+      {
+        name: 'Forza',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2011,
+            yearTo: 2014,
+          },
+        ],
+      },
+      {
+        name: 'Lanos',
+        generations: [
+          {
+            name: 'Mk1 (T150)',
+            yearFrom: 2004,
+            yearTo: 2015,
+          },
+        ],
+      },
+      {
+        name: 'Sens',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2004,
+            yearTo: 2017,
+          },
+        ],
+      },
+      {
+        name: 'Vida',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2012,
+            yearTo: 2016,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    make: 'МАЗ',
     models: [
       {
         name: '500',
@@ -30383,6 +35313,16 @@ export const brands = [
             name: 'Mk1',
             yearFrom: 1963,
             yearTo: 1977,
+          },
+        ],
+      },
+      {
+        name: '700',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 1966,
+            yearTo: 1978,
           },
         ],
       },
@@ -30547,16 +35487,6 @@ export const brands = [
         ],
       },
       {
-        name: '700',
-        generations: [
-          {
-            name: 'Mk1',
-            yearFrom: 1966,
-            yearTo: 1978,
-          },
-        ],
-      },
-      {
         name: '7516',
         generations: [
           {
@@ -30619,8 +35549,143 @@ export const brands = [
     ],
   },
   {
-    brand: 'УАЗ',
+    make: 'Москвич',
     models: [
+      {
+        name: '3',
+        generations: [
+          {
+            name: 'Mk1 (JAC JS4)',
+            yearFrom: 2022,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: '3е',
+        generations: [
+          {
+            name: 'Mk1 (EV)',
+            yearFrom: 2023,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: '6',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2024,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: '401',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 1946,
+            yearTo: 1954,
+          },
+        ],
+      },
+      {
+        name: '402',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 1956,
+            yearTo: 1958,
+          },
+        ],
+      },
+      {
+        name: '403',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 1962,
+            yearTo: 1965,
+          },
+        ],
+      },
+      {
+        name: '407',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 1958,
+            yearTo: 1962,
+          },
+        ],
+      },
+      {
+        name: '408',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 1964,
+            yearTo: 1975,
+          },
+        ],
+      },
+      {
+        name: '412',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 1967,
+            yearTo: 1976,
+          },
+        ],
+      },
+      {
+        name: '2140',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 1976,
+            yearTo: 1988,
+          },
+        ],
+      },
+      {
+        name: '2141',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 1986,
+            yearTo: 2001,
+          },
+        ],
+      },
+      {
+        name: '2142',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 1998,
+            yearTo: 2002,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    make: 'УАЗ',
+    models: [
+      {
+        name: '469',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 1972,
+            yearTo: 2011,
+          },
+        ],
+      },
       {
         name: '3151',
         generations: [
@@ -30672,65 +35737,10 @@ export const brands = [
         ],
       },
       {
-        name: '469',
+        name: 'Карго',
         generations: [
           {
             name: 'Mk1',
-            yearFrom: 1972,
-            yearTo: 2011,
-          },
-        ],
-      },
-      {
-        name: 'Bukhanka',
-        generations: [
-          {
-            name: 'Mk1 (452)',
-            yearFrom: 1965,
-            yearTo: null,
-          },
-        ],
-      },
-      {
-        name: 'Cargo',
-        generations: [
-          {
-            name: 'Mk1',
-            yearFrom: 2008,
-            yearTo: null,
-          },
-        ],
-      },
-      {
-        name: 'Hunter',
-        generations: [
-          {
-            name: 'Mk1 (3151)',
-            yearFrom: 2003,
-            yearTo: null,
-          },
-        ],
-      },
-      {
-        name: 'Patriot',
-        generations: [
-          {
-            name: 'Mk1',
-            yearFrom: 2005,
-            yearTo: 2014,
-          },
-          {
-            name: 'Mk2',
-            yearFrom: 2014,
-            yearTo: null,
-          },
-        ],
-      },
-      {
-        name: 'Pickup',
-        generations: [
-          {
-            name: 'Mk1 (23632)',
             yearFrom: 2008,
             yearTo: null,
           },
@@ -30747,6 +35757,36 @@ export const brands = [
         ],
       },
       {
+        name: 'Патриот',
+        generations: [
+          {
+            name: 'Mk1 (3163)',
+            yearFrom: 2005,
+            yearTo: null,
+          },
+          {
+            name: 'Mk1',
+            yearFrom: 2005,
+            yearTo: 2014,
+          },
+          {
+            name: 'Mk2',
+            yearFrom: 2014,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Пикап',
+        generations: [
+          {
+            name: 'Mk1 (23632)',
+            yearFrom: 2008,
+            yearTo: null,
+          },
+        ],
+      },
+      {
         name: 'Профи',
         generations: [
           {
@@ -30756,6 +35796,36 @@ export const brands = [
           },
         ],
       },
+      {
+        name: 'СГР',
+        generations: [
+          {
+            name: 'Mk1 (452/2206/3741/3909)',
+            yearFrom: 1965,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'СГР Экспедиция',
+        generations: [
+          {
+            name: 'Mk1',
+            yearFrom: 2020,
+            yearTo: null,
+          },
+        ],
+      },
+      {
+        name: 'Хантер',
+        generations: [
+          {
+            name: 'Mk1 (3151)',
+            yearFrom: 2003,
+            yearTo: null,
+          },
+        ],
+      },
     ],
   },
-] as const
+]
