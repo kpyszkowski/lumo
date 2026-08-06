@@ -5,7 +5,7 @@ import { createContext, useContext, type ComponentProps } from 'react'
 
 const commandRootStyles = createStyles({
   slots: {
-    container: 'flex w-2xl flex-col',
+    container: 'w-2xl flex flex-col',
   },
   variants: {
     variant: {
