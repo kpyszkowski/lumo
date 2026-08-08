@@ -14,11 +14,14 @@ export {
   SELECT_KEYS,
   RANGE_KEYS,
   ENUM_SELECT_KEYS,
+  SORT_VALUES,
+  DEFAULT_SORT,
   type OffersFilterValues,
   type OffersFilterFieldKey,
   type OffersFilterSelectKey,
   type OffersFilterRangeKey,
   type OffersFilterSelectOption,
+  type OffersFilterSortValue,
   type OffersFilterData,
 } from './offers-filter-root'
 export {

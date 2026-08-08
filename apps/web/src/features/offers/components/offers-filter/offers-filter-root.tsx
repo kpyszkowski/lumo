@@ -13,6 +13,8 @@ import {
   createParser,
   parseAsString,
   parseAsArrayOf,
+  parseAsStringLiteral,
+  useQueryState,
   useQueryStates,
   type Values,
   type SetValues,
@@ -82,6 +84,30 @@ const RANGE_KEYS = [
 const FILTER_KEYS = [...SELECT_KEYS, ...RANGE_KEYS] as const
 
 /**
+ * Sort orders, in display order. The value is what lands in the URL and, once
+ * the listing is backed by the API, what gets passed through to it; display
+ * labels come from `sortLabels` on the context.
+ *
+ * Sorting deliberately lives outside `DEFAULT_STATE` — it is not a filter, so it
+ * must not produce a chip or feed the model/generation reset logic.
+ */
+const SORT_VALUES = [
+  'latest',
+  'price-asc',
+  'price-desc',
+  'mileage-asc',
+  'mileage-desc',
+  'year-asc',
+  'year-desc',
+  'power-asc',
+  'power-desc',
+] as const
+
+const DEFAULT_SORT = 'latest'
+
+const parseAsSort = parseAsStringLiteral(SORT_VALUES).withDefault(DEFAULT_SORT)
+
+/**
  * Select keys whose option values are enum tokens and therefore need to be
  * translated for display — unlike make/model/generation, whose values already
  * are their display names.
@@ -97,6 +123,8 @@ type OffersFilterValues = Values<typeof DEFAULT_STATE>
 type OffersFilterFieldKey = keyof typeof DEFAULT_STATE
 type OffersFilterSelectKey = (typeof SELECT_KEYS)[number]
 type OffersFilterRangeKey = (typeof RANGE_KEYS)[number]
+
+type OffersFilterSortValue = (typeof SORT_VALUES)[number]
 
 type OffersFilterSelectOption = { value: string; label: string }
 type RangeConfig = { min: number; max: number; step: number; unit?: string }
@@ -135,6 +163,12 @@ type OffersFilterContextValue =
       data: OffersFilterData
       labels: Record<OffersFilterFieldKey, string>
       placeholders: Record<OffersFilterFieldKey, string>
+      /** Currently applied sort order. */
+      sort: OffersFilterSortValue
+      /** Applies a sort order; `latest` is the default and clears the param. */
+      setSort: (sort: OffersFilterSortValue) => void
+      /** Translated label per sort order. */
+      sortLabels: Record<OffersFilterSortValue, string>
       /**
        * Open state of the command dialog. Lives here rather than in
        * `OffersFilterCommand` so triggers can sit in any subtree under the root
@@ -165,9 +199,20 @@ function OffersFilterRoot(props: OffersFilterRootProps) {
 
   const t = useTranslations('OffersFilter')
 
-  const [filters, setFilters] = useQueryStates(DEFAULT_STATE)
+  const [filters, setFilters] = useQueryStates(DEFAULT_STATE, {})
+
+  const [sort, setSortQuery] = useQueryState('sort', parseAsSort)
 
   const [commandOpen, setCommandOpen] = useState(false)
+
+  const handleSetSort = useCallback(
+    (nextSort: OffersFilterSortValue) => {
+      // `nuqs` clears the param once it equals the default, so the URL stays
+      // clean while sorting by `latest`.
+      void setSortQuery(nextSort)
+    },
+    [setSortQuery],
+  )
 
   const handleSetFilters = useCallback<SetValues<typeof DEFAULT_STATE>>(
     async (setter) => {
@@ -261,6 +306,21 @@ function OffersFilterRoot(props: OffersFilterRootProps) {
     [t],
   )
 
+  const sortLabels = useMemo(
+    () => ({
+      latest: t('labels.latest'),
+      'price-asc': t('labels.lowestPrice'),
+      'price-desc': t('labels.highestPrice'),
+      'mileage-asc': t('labels.lowestMileage'),
+      'mileage-desc': t('labels.highestMileage'),
+      'year-asc': t('labels.lowestYear'),
+      'year-desc': t('labels.highestYear'),
+      'power-asc': t('labels.lowestPower'),
+      'power-desc': t('labels.highestPower'),
+    }),
+    [t],
+  )
+
   const contextValue = useMemo<NonNullable<OffersFilterContextValue>>(
     () => ({
       get: filters,
@@ -268,10 +328,23 @@ function OffersFilterRoot(props: OffersFilterRootProps) {
       data,
       labels,
       placeholders,
+      sort,
+      setSort: handleSetSort,
+      sortLabels,
       commandOpen,
       setCommandOpen,
     }),
-    [filters, handleSetFilters, data, labels, placeholders, commandOpen],
+    [
+      filters,
+      handleSetFilters,
+      data,
+      labels,
+      placeholders,
+      sort,
+      handleSetSort,
+      sortLabels,
+      commandOpen,
+    ],
   )
 
   return (
@@ -288,11 +361,14 @@ export {
   SELECT_KEYS,
   RANGE_KEYS,
   ENUM_SELECT_KEYS,
+  SORT_VALUES,
+  DEFAULT_SORT,
   type OffersFilterRootProps,
   type OffersFilterValues,
   type OffersFilterFieldKey,
   type OffersFilterSelectKey,
   type OffersFilterRangeKey,
   type OffersFilterSelectOption,
+  type OffersFilterSortValue,
   type OffersFilterData,
 }

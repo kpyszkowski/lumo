@@ -36,7 +36,18 @@
       "from": "{noun} from",
       "to": "{noun} to",
       "minimum": "{gender, select, other {Minimum {noun}}}",
-      "maximum": "{gender, select, other {Maximum {noun}}}"
+      "maximum": "{gender, select, other {Maximum {noun}}}",
+      "allFilters": "All filters",
+      "sorting": "Sorting",
+      "latest": "Latest",
+      "lowestPrice": "Lowest price",
+      "highestPrice": "Highest price",
+      "lowestMileage": "Lowest mileage",
+      "highestMileage": "Highest mileage",
+      "lowestYear": "Oldest",
+      "highestYear": "Newest",
+      "lowestPower": "Lowest power",
+      "highestPower": "Highest power"
     },
     "values": {
       "fuelType": {

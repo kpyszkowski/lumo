@@ -4,11 +4,18 @@ import { useTranslations } from 'next-intl'
 import {
   FILTER_KEYS,
   RANGE_KEYS,
+  SORT_VALUES,
   useOffersFilterContext,
   type OffersFilterFieldKey,
   type OffersFilterRangeKey,
 } from '~/features/offers/components/offers-filter'
-import { Button, Chip, MultiSelect, RangeSelect } from '@lumo/ui/components'
+import {
+  Button,
+  Chip,
+  Menu,
+  MultiSelect,
+  RangeSelect,
+} from '@lumo/ui/components'
 import { motion, LayoutGroup, AnimatePresence } from '@lumo/ui/motion'
 import { IconArrowsSort, IconChevronDown } from '@lumo/ui/icons'
 import { useResizeObserver } from '@lumo/ui/hooks'
@@ -60,7 +67,8 @@ function OffersFilterBar(props: OffersFilterBarProps) {
 
   const styles = offersFilterBarStyles()
 
-  const { get, set, data, labels } = useOffersFilterContext()
+  const { get, set, data, labels, sort, setSort, sortLabels } =
+    useOffersFilterContext()
 
   const t = useTranslations('OffersFilter')
 
@@ -316,16 +324,38 @@ function OffersFilterBar(props: OffersFilterBarProps) {
                 />
               }
             >
-              Wszystkie filtry
+              {t('labels.allFilters')}
             </Button>
 
-            {/* TODO: Implement sorting functionality */}
-            <Button
-              variant="ghost"
-              icon={IconArrowsSort}
-            >
-              Sortowanie
-            </Button>
+            <Menu.Root>
+              <Menu.Trigger
+                variant="ghost"
+                icon={IconArrowsSort}
+              >
+                {sortLabels[sort]}
+              </Menu.Trigger>
+
+              <Menu.Content align="end">
+                <Menu.RadioGroup
+                  value={sort}
+                  onValueChange={(nextSort) => {
+                    const value = SORT_VALUES.find((item) => item === nextSort)
+                    if (value) setSort(value)
+                  }}
+                >
+                  <Menu.GroupLabel>{t('labels.sorting')}</Menu.GroupLabel>
+
+                  {SORT_VALUES.map((value) => (
+                    <Menu.RadioItem
+                      key={value}
+                      value={value}
+                    >
+                      {sortLabels[value]}
+                    </Menu.RadioItem>
+                  ))}
+                </Menu.RadioGroup>
+              </Menu.Content>
+            </Menu.Root>
           </div>
         </div>
 
