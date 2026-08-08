@@ -3,6 +3,10 @@ export {
   type OffersFilterCommandProps as CommandProps,
 } from './offers-filter-command'
 export {
+  OffersFilterCommandTrigger as CommandTrigger,
+  type OffersFilterCommandTriggerProps as CommandTriggerProps,
+} from './offers-filter-command-trigger'
+export {
   OffersFilterRoot as Root,
   type OffersFilterRootProps as RootProps,
   useOffersFilterContext,

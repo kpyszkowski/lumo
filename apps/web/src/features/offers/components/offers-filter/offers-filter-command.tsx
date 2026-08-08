@@ -38,6 +38,7 @@ import {
   type OffersFilterRangeKey,
   type OffersFilterSelectOption,
 } from '~/features/offers/components/offers-filter'
+import { OffersFilterCommandTrigger } from '~/features/offers/components/offers-filter/offers-filter-command-trigger'
 
 export const adFilterCommandStyles = createStyles({
   slots: {
@@ -91,11 +92,11 @@ function OffersFilterCommand(props: OffersFilterCommandProps) {
 
   const styles = adFilterCommandStyles()
 
-  const { get, set, data, labels, placeholders } = useOffersFilterContext()
+  const { get, set, data, labels, placeholders, commandOpen, setCommandOpen } =
+    useOffersFilterContext()
 
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const [open, setOpen] = useState(false)
   const [currentFilterKey, setCurrentFilterKey] =
     useState<OffersFilterFieldKey>(FILTER_KEYS[0])
   const [searchValue, setSearchValue] = useState('')
@@ -364,19 +365,22 @@ function OffersFilterCommand(props: OffersFilterCommandProps) {
 
   return (
     <>
-      <Button
-        variant="solid"
-        onClick={() => setOpen(true)}
-        icon={IconSearch}
+      <OffersFilterCommandTrigger
         className={styles.triggerButton({ className })}
+        render={
+          <Button
+            variant="solid"
+            icon={IconSearch}
+          />
+        }
       >
         {t('placeholders.default')}
-      </Button>
+      </OffersFilterCommandTrigger>
 
       <Command.Dialog
         className={styles.commandDialog()}
-        open={open}
-        onOpenChange={setOpen}
+        open={commandOpen}
+        onOpenChange={setCommandOpen}
         loop
         onKeyDown={handleDialogKeyDown}
         {...restProps}
@@ -386,7 +390,7 @@ function OffersFilterCommand(props: OffersFilterCommandProps) {
           className={styles.submitButton()}
           icon={IconSearch}
           label={t('labels.submit')}
-          onClick={() => setOpen(false)}
+          onClick={() => setCommandOpen(false)}
         />
         <Command.Input
           placeholder={placeholders[currentFilterKey]}

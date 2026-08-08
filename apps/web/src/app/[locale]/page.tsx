@@ -8,6 +8,7 @@ import {
 } from '@lumo/ui/icons'
 import { createStyles } from '@lumo/ui/utils'
 import { OfferTile } from '~/features/offers/components/offer-tile'
+import * as OffersFilter from '~/features/offers/components/offers-filter'
 import RecommendedSearchQueries from '~/features/recommendations/components/recommended-search-queries'
 import { getTranslations } from 'next-intl/server'
 
@@ -69,6 +70,7 @@ export default async function Homepage() {
           className="ml-auto"
           variant="ghost"
           icon={IconAdjustmentsHorizontal}
+          render={<OffersFilter.CommandTrigger />}
         >
           {t('filter')}
         </Button>

@@ -4,7 +4,10 @@ import {
   useCallback,
   useContext,
   useMemo,
+  useState,
+  type Dispatch,
   type ReactNode,
+  type SetStateAction,
 } from 'react'
 import {
   createParser,
@@ -132,6 +135,13 @@ type OffersFilterContextValue =
       data: OffersFilterData
       labels: Record<OffersFilterFieldKey, string>
       placeholders: Record<OffersFilterFieldKey, string>
+      /**
+       * Open state of the command dialog. Lives here rather than in
+       * `OffersFilterCommand` so triggers can sit in any subtree under the root
+       * — the header renders the dialog, the offers list triggers it.
+       */
+      commandOpen: boolean
+      setCommandOpen: Dispatch<SetStateAction<boolean>>
     }
   | undefined
 
@@ -156,6 +166,8 @@ function OffersFilterRoot(props: OffersFilterRootProps) {
   const t = useTranslations('OffersFilter')
 
   const [filters, setFilters] = useQueryStates(DEFAULT_STATE)
+
+  const [commandOpen, setCommandOpen] = useState(false)
 
   const handleSetFilters = useCallback<SetValues<typeof DEFAULT_STATE>>(
     async (setter) => {
@@ -256,8 +268,10 @@ function OffersFilterRoot(props: OffersFilterRootProps) {
       data,
       labels,
       placeholders,
+      commandOpen,
+      setCommandOpen,
     }),
-    [filters, handleSetFilters, data, labels, placeholders],
+    [filters, handleSetFilters, data, labels, placeholders, commandOpen],
   )
 
   return (
