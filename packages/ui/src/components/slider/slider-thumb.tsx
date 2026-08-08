@@ -6,7 +6,7 @@ import { useSliderRootContext } from '~/components/slider/slider-root'
 const sliderThumbStyles = createStyles({
   slots: {
     container:
-      'bg-main border-subtle-inv hover:border-muted-inv has-focus-visible:border-accent has-focus-visible:ring-accent/30 cursor-grab rounded-full border-2 active:cursor-grabbing has-focus-visible:ring-2 data-disabled:cursor-not-allowed',
+      'bg-main border-subtle-inv hover:border-muted-inv has-focus-visible:border-accent has-focus-visible:ring-accent/30 has-focus-visible:ring-2 data-disabled:cursor-not-allowed cursor-grab rounded-full border-2 active:cursor-grabbing',
   },
   variants: {
     variant: {
