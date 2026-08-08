@@ -8,10 +8,12 @@ import {
 import { createStyles, type StylesProps } from '@lumo/ui/utils'
 import * as OffersFilter from '~/features/offers/components/offers-filter'
 import { getTranslations } from 'next-intl/server'
+import Link from 'next/link'
 
 const headerStyles = createStyles({
   slots: {
     container: 'flex place-content-center p-6',
+    logoLink: 'inline-flex',
     searchBarWrapper: 'flex flex-1 justify-center',
     userPanelWrapper: 'flex place-items-center gap-10',
     userPanelActionsWrapper: 'flex place-content-center gap-2',
@@ -35,7 +37,12 @@ async function Header(props: HeaderProps) {
       className={styles.container({ className })}
       {...restProps}
     >
-      <Logo />
+      <Link
+        href="/"
+        className={styles.logoLink()}
+      >
+        <Logo />
+      </Link>
 
       <div className={styles.searchBarWrapper()}>
         <OffersFilter.Command />
