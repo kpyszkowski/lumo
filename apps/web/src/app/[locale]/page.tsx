@@ -72,7 +72,7 @@ export default async function Homepage() {
           icon={IconAdjustmentsHorizontal}
           render={<OffersFilter.CommandTrigger />}
         >
-          {t('filter')}
+          {t('filtering')}
         </Button>
       </div>
 

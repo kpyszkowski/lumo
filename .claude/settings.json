@@ -4,5 +4,8 @@
     "allow": [
       "mcp__context7"
     ]
+  },
+   "worktree": {
+    "bgIsolation": "none"
   }
 }

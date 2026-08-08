@@ -14,7 +14,7 @@
     "promoted": "Promowane",
     "newest": "Najnowsze",
     "mostPopular": "Najpopularniejsze",
-    "filter": "Filtrowanie"
+    "filtering": "Filtrowanie"
   },
   "OffersFilter": {
     "labels": {
@@ -36,7 +36,18 @@
       "from": "{noun} od",      
       "to": "{noun} do",
       "minimum": "{gender, select, masculine {Minimalny {noun}} other {Minimalna {noun}}}",
-      "maximum": "{gender, select, masculine {Maksymalny {noun}} other {Maksymalna {noun}}}"
+      "maximum": "{gender, select, masculine {Maksymalny {noun}} other {Maksymalna {noun}}}",
+      "allFilters": "Wszystkie filtry",
+      "sorting": "Sortowanie",
+      "latest": "Najnowsze",
+      "lowestPrice": "Najniższa cena",
+      "highestPrice": "Najwyższa cena",
+      "lowestMileage": "Najniższy przebieg",
+      "highestMileage": "Najwyższy przebieg",
+      "lowestYear": "Najstarsze",
+      "highestYear": "Najmłodsze",
+      "lowestPower": "Najmniejsza moc",
+      "highestPower": "Największa moc"
     },
     "values": {
       "fuelType": {
