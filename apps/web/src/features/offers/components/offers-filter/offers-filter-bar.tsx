@@ -43,9 +43,9 @@ export const offersFilterBarStyles = createStyles({
     triggerWrapper: 'flex items-center gap-2',
     triggerButton: 'data-active:border-accent',
     triggerIcon: '-mr-1 size-4',
-    buttonsWrapper: 'border-subtle-inv ml-5 flex border-l pl-5',
+    buttonsWrapper: 'border-subtle-inv relative ml-5 flex border-l pl-5',
     listOverlay:
-      'bg-main pointer-events-none absolute inset-y-0 right-0 w-36 mask-l-from-25%',
+      'bg-main pointer-events-none absolute inset-y-0 -left-px w-36 -translate-x-full mask-l-from-25%',
   },
 })
 
@@ -306,14 +306,18 @@ function OffersFilterBar(props: OffersFilterBarProps) {
                 )
               })}
             </motion.ul>
+          </motion.div>
+
+          <motion.div
+            layout
+            className={styles.buttonsWrapper()}
+          >
             <motion.div
               className={styles.listOverlay()}
               initial={false}
               animate={{ opacity: expanded ? 0 : 1 }}
             />
-          </motion.div>
 
-          <div className={styles.buttonsWrapper()}>
             <Button
               variant="ghost"
               onClick={() => setExpanded((prev) => !prev)}
@@ -356,7 +360,7 @@ function OffersFilterBar(props: OffersFilterBarProps) {
                 </Menu.RadioGroup>
               </Menu.Content>
             </Menu.Root>
-          </div>
+          </motion.div>
         </div>
 
         <AnimatePresence>
