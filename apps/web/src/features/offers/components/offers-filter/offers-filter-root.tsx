@@ -13,9 +13,9 @@ import {
   createParser,
   parseAsString,
   parseAsArrayOf,
-  parseAsStringLiteral,
   useQueryState,
   useQueryStates,
+  type UrlKeys,
   type Values,
   type SetValues,
 } from 'nuqs'
@@ -84,9 +84,10 @@ const RANGE_KEYS = [
 const FILTER_KEYS = [...SELECT_KEYS, ...RANGE_KEYS] as const
 
 /**
- * Sort orders, in display order. The value is what lands in the URL and, once
- * the listing is backed by the API, what gets passed through to it; display
- * labels come from `sortLabels` on the context.
+ * Sort orders, in display order. These are the canonical values used in the
+ * codebase and, once the listing is backed by the API, passed through to it —
+ * the URL carries the localized spelling from `OffersFilter.urlValues.sort`, and
+ * display labels come from `sortLabels` on the context.
  *
  * Sorting deliberately lives outside `DEFAULT_STATE` — it is not a filter, so it
  * must not produce a chip or feed the model/generation reset logic.
@@ -104,8 +105,6 @@ const SORT_VALUES = [
 ] as const
 
 const DEFAULT_SORT = 'latest'
-
-const parseAsSort = parseAsStringLiteral(SORT_VALUES).withDefault(DEFAULT_SORT)
 
 /**
  * Select keys whose option values are enum tokens and therefore need to be
@@ -198,10 +197,52 @@ function OffersFilterRoot(props: OffersFilterRootProps) {
   const { children } = props
 
   const t = useTranslations('OffersFilter')
+  const tUrlKeys = useTranslations('OffersFilter.urlKeys')
+  const tUrlValues = useTranslations('OffersFilter.urlValues')
 
-  const [filters, setFilters] = useQueryStates(DEFAULT_STATE, {})
+  // Search param names are localized alongside the pathnames in the routing
+  // config — `/oferty?marka=…` in Polish, `/offers?make=…` in English. Only the
+  // keys are localized; values stay canonical (`fuelType=petrol`,
+  // `sort=price-asc`) since they double as the contract with the backend.
+  const urlKeys = useMemo<UrlKeys<typeof DEFAULT_STATE>>(
+    () => ({
+      make: tUrlKeys('make'),
+      model: tUrlKeys('model'),
+      generation: tUrlKeys('generation'),
+      bodyType: tUrlKeys('bodyType'),
+      fuelType: tUrlKeys('fuelType'),
+      transmission: tUrlKeys('transmission'),
+      condition: tUrlKeys('condition'),
+      price: tUrlKeys('price'),
+      year: tUrlKeys('year'),
+      mileage: tUrlKeys('mileage'),
+      power: tUrlKeys('power'),
+      engineCapacity: tUrlKeys('engineCapacity'),
+    }),
+    [tUrlKeys],
+  )
 
-  const [sort, setSortQuery] = useQueryState('sort', parseAsSort)
+  const [filters, setFilters] = useQueryStates(DEFAULT_STATE, { urlKeys })
+
+  // Sort values are localized too (`?sortowanie=przebieg-malejaco`), so the
+  // parser translates between the URL spelling and the canonical value the rest
+  // of the app — and eventually the API — works with.
+  const parseAsSort = useMemo(() => {
+    const toUrlValue = Object.fromEntries(
+      SORT_VALUES.map((value) => [value, tUrlValues(`sort.${value}`)]),
+    ) as Record<OffersFilterSortValue, string>
+
+    const fromUrlValue = new Map(
+      SORT_VALUES.map((value) => [toUrlValue[value], value]),
+    )
+
+    return createParser({
+      parse: (query) => fromUrlValue.get(query) ?? null,
+      serialize: (value: OffersFilterSortValue) => toUrlValue[value],
+    }).withDefault(DEFAULT_SORT)
+  }, [tUrlValues])
+
+  const [sort, setSortQuery] = useQueryState(tUrlKeys('sort'), parseAsSort)
 
   const [commandOpen, setCommandOpen] = useState(false)
 

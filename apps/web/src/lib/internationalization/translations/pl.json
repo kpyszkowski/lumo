@@ -33,7 +33,7 @@
       "alphabetical": "Alfabetycznie",
       "submit": "Wyszukaj",
       "selected": "Wybrane",
-      "from": "{noun} od",      
+      "from": "{noun} od",
       "to": "{noun} do",
       "minimum": "{gender, select, masculine {Minimalny {noun}} other {Minimalna {noun}}}",
       "maximum": "{gender, select, masculine {Maksymalny {noun}} other {Maksymalna {noun}}}",
@@ -44,8 +44,8 @@
       "highestPrice": "Najwyższa cena",
       "lowestMileage": "Najniższy przebieg",
       "highestMileage": "Najwyższy przebieg",
-      "lowestYear": "Najstarsze",
-      "highestYear": "Najmłodsze",
+      "lowestYear": "Najstarszy rok produkcji",
+      "highestYear": "Najmłodszy rok produkcji",
       "lowestPower": "Najmniejsza moc",
       "highestPower": "Największa moc"
     },
@@ -105,7 +105,21 @@
       "year": "rok",
       "mileage": "przebieg",
       "power": "moc",
-      "engineCapacity": "pojemnosc"
+      "engineCapacity": "pojemnosc",
+      "sort": "sortowanie"
+    },
+    "urlValues": {
+      "sort": {
+        "latest": "najnowsze",
+        "price-asc": "cena-rosnaco",
+        "price-desc": "cena-malejaco",
+        "mileage-asc": "przebieg-rosnaco",
+        "mileage-desc": "przebieg-malejaco",
+        "year-asc": "rok-rosnaco",
+        "year-desc": "rok-malejaco",
+        "power-asc": "moc-rosnaco",
+        "power-desc": "moc-malejaco"
+      }
     }
   },
   "OfferTile": {
@@ -120,29 +134,6 @@
     "mileageValue": "{value} km",
     "engineCapacityValue": "{value} L",
     "powerValue": "{value} KM"
-  },
-  "FilterData": {
-    "generationPresent": "obecnie",
-    "modelSeries": "Seria",
-    "modelClass": "Klasa",
-    "undamaged": "Nieuszkodzony",
-    "damaged": "Uszkodzony"
-  },
-  "OffersPage": {
-    "makesPlaceholder": "Marka",
-    "modelsPlaceholder": "Model",
-    "bodyTypesPlaceholder": "Typ nadwozia",
-    "fuelTypesPlaceholder": "Rodzaj paliwa",
-    "transmissionsPlaceholder": "Skrzynia biegów",
-    "pricePlaceholder": "Cena",
-    "yearPlaceholder": "Rok produkcji",
-    "mileagePlaceholder": "Przebieg",
-    "sortButton": "Sortowanie",
-    "sortRelevance": "Trafność",
-    "sortPriceAsc": "Cena: od najniższej",
-    "sortPriceDesc": "Cena: od najwyższej",
-    "sortYearDesc": "Najnowsze",
-    "sortMileageAsc": "Najniższy przebieg"
   },
   "RecommendedSearchQueries": {
     "popularBrandsHeading": "Popularne marki",
