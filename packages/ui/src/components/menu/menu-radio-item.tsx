@@ -6,12 +6,12 @@ import { IconCheck } from '~/icons'
 const menuRadioItemStyles = createStyles({
   slots: {
     container: [
-      'grid cursor-pointer select-none grid-cols-[1rem_1fr] items-center gap-3 rounded-md px-3 py-2 text-sm/none outline-none',
-      'data-highlighted:bg-elevated-inv dark:data-highlighted:bg-elevated',
+      'grid cursor-pointer grid-cols-[1rem_1fr] items-center gap-3 rounded-md px-3 py-2 outline-none select-none',
+      'hover:bg-highlighted-inv dark:hover:bg-highlighted focus:bg-highlighted-inv dark:focus:bg-highlighted',
       'data-disabled:text-subtle-inv dark:data-disabled:text-subtle data-disabled:pointer-events-none',
     ],
     indicator: 'col-start-1 flex items-center justify-center',
-    indicatorIcon: 'size-4 stroke-2',
+    indicatorIcon: 'size-4',
     label: 'col-start-2',
   },
 })

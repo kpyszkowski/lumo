@@ -3,7 +3,6 @@ import type { Preview } from 'storybook-react-rsbuild'
 import { themes } from 'storybook/theming'
 
 import './styles.css'
-import './satoshi-variable.ttf'
 
 const preview: Preview = {
   parameters: {

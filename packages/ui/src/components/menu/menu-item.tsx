@@ -6,11 +6,11 @@ import { type Icon } from '~/icons'
 const menuItemStyles = createStyles({
   slots: {
     container: [
-      'flex cursor-pointer select-none items-center gap-3 rounded-md px-3 py-2 text-sm/none outline-none',
-      'data-highlighted:bg-elevated-inv dark:data-highlighted:bg-elevated',
+      'flex cursor-pointer items-center gap-3 rounded-md px-3 py-2 text-sm/none outline-none select-none',
+      'hover:bg-highlighted-inv dark:hover:bg-highlighted focus:bg-highlighted-inv dark:focus:bg-highlighted',
       'data-disabled:text-subtle-inv dark:data-disabled:text-subtle data-disabled:pointer-events-none',
     ],
-    icon: 'size-4 shrink-0 stroke-[1.5]',
+    icon: 'size-4 shrink-0',
   },
 })
 
