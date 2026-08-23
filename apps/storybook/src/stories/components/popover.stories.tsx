@@ -43,7 +43,7 @@ export const Sides: Story = () => (
 export const CustomTrigger: Story = (args) => (
   <Popover.Root {...args}>
     <Popover.Trigger
-      render={({ open }) => (
+      render={(_, { open }) => (
         <Button variant="ghost">{open ? 'Close' : 'Open'}</Button>
       )}
     />
@@ -53,4 +53,55 @@ export const CustomTrigger: Story = (args) => (
       </div>
     </Popover.Content>
   </Popover.Root>
+)
+
+const popoverHandle = Popover.createHandle<React.ComponentType>()
+
+const createPayload = (title: string): React.ComponentType =>
+  function Payload() {
+    return (
+      <div>
+        <h1>{title}</h1>
+      </div>
+    )
+  }
+
+export const MultipleInstances: Story = (args) => (
+  <>
+    <div className="flex gap-3">
+      <Popover.Trigger
+        handle={popoverHandle}
+        payload={createPayload('Notifications')}
+      >
+        Notifications
+      </Popover.Trigger>
+
+      <Popover.Trigger
+        handle={popoverHandle}
+        payload={createPayload('Activities')}
+      >
+        Activities
+      </Popover.Trigger>
+
+      <Popover.Trigger
+        handle={popoverHandle}
+        payload={createPayload('Messages')}
+      >
+        Messages
+      </Popover.Trigger>
+    </div>
+
+    <Popover.Root
+      {...args}
+      handle={popoverHandle}
+    >
+      {({ payload: Payload }) =>
+        Payload !== undefined ? (
+          <Popover.Content>
+            <Payload />
+          </Popover.Content>
+        ) : null
+      }
+    </Popover.Root>
+  </>
 )

@@ -6,7 +6,7 @@ import {
   type RangeSelectRootContextValue,
   useRangeSelectRootContext,
 } from '~/components/range-select/range-select-root'
-import type { PopoverRootContextValue } from '~/components/popover/popover-root'
+import type { PopoverState } from '~/components/popover'
 
 type RangeSelectTriggerProps = Omit<PopoverTriggerProps, 'render'> & {
   /**
@@ -16,7 +16,7 @@ type RangeSelectTriggerProps = Omit<PopoverTriggerProps, 'render'> & {
   render?:
     | ((
         rangeSelectContext: RangeSelectRootContextValue,
-        popoverContext: PopoverRootContextValue,
+        popoverState: PopoverState,
       ) => ReactElement)
     | undefined
 }
@@ -53,7 +53,7 @@ function RangeSelectTrigger(props: RangeSelectTriggerProps) {
   return (
     <Popover.Trigger
       render={
-        render ? (popoverContext) => render(context, popoverContext) : undefined
+        render ? (_, popoverState) => render(context, popoverState) : undefined
       }
       {...restProps}
     />

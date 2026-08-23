@@ -1,8 +1,8 @@
 'use client'
 import { createStyles, type StylesProps } from '~/utils'
-import { usePopoverRootContext } from '~/components/popover/popover-root'
 import { AnimatePresence, motion } from '~/motion'
 import { Popover as PopoverPrimitive } from '@base-ui/react/popover'
+import { usePopoverRootContext } from '~/components/popover/popover-root'
 
 const MotionRootPopup = motion.create(PopoverPrimitive.Popup)
 const popoverContentStyles = createStyles({
@@ -48,7 +48,6 @@ function PopoverContent(props: PopoverContentProps) {
   } = props
 
   const { open } = usePopoverRootContext()
-
   const styles = popoverContentStyles()
 
   const sizeProperty = ['top', 'bottom'].includes(side) ? 'height' : 'width'
