@@ -60,8 +60,11 @@ const popoverHandle = Popover.createHandle<React.ComponentType>()
 const createPayload = (title: string): React.ComponentType =>
   function Payload() {
     return (
-      <div>
-        <h1>{title}</h1>
+      <div className="px-4 py-2">
+        <h1 className="mb-3 text-lg font-semibold">{title}</h1>
+        <p className={title === 'Messages' ? 'h-32 w-48' : ''}>
+          This is the content for {title}.
+        </p>
       </div>
     )
   }
@@ -95,13 +98,11 @@ export const MultipleInstances: Story = (args) => (
       {...args}
       handle={popoverHandle}
     >
-      {({ payload: Payload }) =>
-        Payload !== undefined ? (
-          <Popover.Content>
-            <Payload />
-          </Popover.Content>
-        ) : null
-      }
+      {({ payload: Payload }) => (
+        <Popover.Content>
+          {Payload !== undefined ? <Payload /> : null}
+        </Popover.Content>
+      )}
     </Popover.Root>
   </>
 )
