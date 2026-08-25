@@ -6,7 +6,7 @@ import { type Icon } from '~/icons'
 const menuItemStyles = createStyles({
   slots: {
     container: [
-      'flex cursor-pointer items-center gap-3 rounded-md px-3 py-2 text-sm/none outline-none select-none',
+      'flex cursor-pointer select-none items-center gap-3 rounded-md px-3 py-2 text-sm/none outline-none',
       'hover:bg-highlighted-inv dark:hover:bg-highlighted focus:bg-highlighted-inv dark:focus:bg-highlighted',
       'data-disabled:text-subtle-inv dark:data-disabled:text-subtle data-disabled:pointer-events-none',
     ],

@@ -4,7 +4,9 @@ packages:
 
 ignoredBuiltDependencies:
   - esbuild
-  - lefthook
   - rclone.js
   - sharp
   - workerd
+
+onlyBuiltDependencies:
+  - lefthook

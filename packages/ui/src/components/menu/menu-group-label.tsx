@@ -4,7 +4,7 @@ import { createStyles, type StylesProps } from '~/utils'
 
 const menuGroupLabelStyles = createStyles({
   slots: {
-    container: 'text-subtle px-3 py-1.5 text-sm/none select-none',
+    container: 'text-subtle select-none px-3 py-1.5 text-sm/none',
   },
 })
 

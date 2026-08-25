@@ -6,7 +6,7 @@ import { IconCheck } from '~/icons'
 const menuRadioItemStyles = createStyles({
   slots: {
     container: [
-      'grid cursor-pointer grid-cols-[1rem_1fr] items-center gap-3 rounded-md px-3 py-2 outline-none select-none',
+      'grid cursor-pointer select-none grid-cols-[1rem_1fr] items-center gap-3 rounded-md px-3 py-2 outline-none',
       'hover:bg-highlighted-inv dark:hover:bg-highlighted focus:bg-highlighted-inv dark:focus:bg-highlighted',
       'data-disabled:text-subtle-inv dark:data-disabled:text-subtle data-disabled:pointer-events-none',
     ],
