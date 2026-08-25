@@ -7,29 +7,15 @@ import {
   type ReactNode,
 } from 'react'
 import { Button, type ButtonProps } from '~/components'
-import {
-  type PopoverRootContextValue,
-  usePopoverRootContext,
-} from '~/components/popover/popover-root'
 
-type PopoverTriggerProps = Omit<ButtonProps, 'render' | 'children'> &
-  (
-    | {
-        /** Label rendered inside the default `Button`. */
-        children: ReactNode
-      }
-    | {
-        /**
-         * Custom render function; receives the `PopoverRoot` context (including `open` state).
-         * Use this to render a non-Button trigger or to reflect open state in the trigger.
-         */
-        render: ((context: PopoverRootContextValue) => ReactNode) | undefined
-      }
-  )
+type PopoverTriggerProps = Omit<ButtonProps, 'render'> &
+  Omit<PopoverPrimitive.Trigger.Props, 'render' | 'children'> & {
+    children?: ReactNode
+    render?: PopoverPrimitive.Trigger.Props['render']
+  }
 
 /**
  * Trigger element for a `Popover`. Renders as a `Button` by default.
- * Pass `render` to use a fully custom element; the function receives the popover context.
  *
  * @example
  * ```tsx
@@ -42,47 +28,65 @@ type PopoverTriggerProps = Omit<ButtonProps, 'render' | 'children'> &
  * )} />
  * ```
  */
-const PopoverTrigger = forwardRef<
-  HTMLButtonElement,
-  PopoverTriggerProps
-  // eslint-disable-next-line react-props/must-destructure-first
->((props, ref) => {
-  const context = usePopoverRootContext()
+const PopoverTrigger = forwardRef<HTMLButtonElement, PopoverTriggerProps>(
+  (props, ref) => {
+    const {
+      children,
+      render,
+      icon,
+      variant,
+      shape,
+      inverted,
+      iconPosition,
+      size,
+      contentAlignment,
+      ...triggerProps
+    } = props
 
-  if ('children' in props) {
-    const { children, ...restPropsWithChildren } = props
+    if (render === undefined) {
+      return (
+        <PopoverPrimitive.Trigger
+          ref={ref}
+          {...triggerProps}
+          render={(triggerProps) => (
+            <Button
+              icon={icon}
+              variant={variant}
+              shape={shape}
+              inverted={inverted}
+              iconPosition={iconPosition}
+              size={size}
+              contentAlignment={contentAlignment}
+              {...triggerProps}
+            >
+              {children}
+            </Button>
+          )}
+        />
+      )
+    }
+
     return (
       <PopoverPrimitive.Trigger
         ref={ref}
-        render={(triggerProps) => (
-          <Button
-            {...restPropsWithChildren}
-            {...triggerProps}
-          >
-            {children as ButtonProps['children']}
-          </Button>
-        )}
+        {...triggerProps}
+        render={
+          render
+            ? (triggerProps, state) =>
+                cloneElement(
+                  (typeof render === 'function'
+                    ? render(triggerProps, state)
+                    : render) as ReactElement,
+                  {
+                    ...triggerProps,
+                  },
+                )
+            : undefined
+        }
       />
     )
-  }
-
-  const { render, ...restPropsWithRenderFunction } = props
-
-  return (
-    <PopoverPrimitive.Trigger
-      ref={ref}
-      render={
-        render
-          ? (triggerProps) =>
-              cloneElement(render(context) as ReactElement, {
-                ...triggerProps,
-                ...restPropsWithRenderFunction,
-              })
-          : undefined
-      }
-    />
-  )
-})
+  },
+)
 
 PopoverTrigger.displayName = 'PopoverTrigger'
 

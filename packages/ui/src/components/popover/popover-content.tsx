@@ -1,14 +1,50 @@
 'use client'
 import { createStyles, type StylesProps } from '~/utils'
-import { usePopoverRootContext } from '~/components/popover/popover-root'
 import { AnimatePresence, motion } from '~/motion'
 import { Popover as PopoverPrimitive } from '@base-ui/react/popover'
+import { usePopoverRootContext } from '~/components/popover/popover-root'
 
-const MotionRootPopup = motion.create(PopoverPrimitive.Popup)
+// The animation is ported from https://github.com/mui/base-ui/blob/v1.7.0/docs/src/app/(docs)/react/components/popover/demos/detached-triggers-full/tailwind/index.tsx
+// Ideally it should be done entirely with `motion` library but I hit a ceiling and gave up.
+// TODO: Cycle back and see if we can do it entirely with `motion` library.
+
 const popoverContentStyles = createStyles({
   slots: {
-    container:
-      'bg-main-inv/96 text-main-inv dark:bg-elevated/96 dark:text-main flex flex-col overflow-hidden rounded-xl backdrop-blur-sm dark:backdrop-contrast-75',
+    popup: [
+      'bg-main-inv/96 text-main-inv dark:bg-elevated/96 dark:text-main',
+      'relative flex h-(--popup-height,auto) w-(--popup-width,auto) flex-col',
+      'overflow-hidden rounded-xl',
+      'backdrop-blur-sm dark:backdrop-contrast-75',
+      'transition-[width,height] duration-[0.35s] ease-[cubic-bezier(0.22,1,0.36,1)]',
+      'origin-(--transform-origin)',
+    ],
+    positioner: [
+      'h-(--positioner-height) w-(--positioner-width) max-w-(--available-width)',
+      'transition-[top,left,right,bottom,transform] duration-[0.35s] ease-[cubic-bezier(0.22,1,0.36,1)] data-instant:transition-none',
+    ],
+    viewport: [
+      'relative h-full w-full overflow-clip',
+      '**:data-current:w-(--popup-width)',
+      '**:data-current:translate-x-0',
+      '**:data-current:opacity-100',
+      '**:data-current:transition-[translate,opacity]',
+      '**:data-current:duration-[350ms,175ms]',
+      '**:data-current:ease-[cubic-bezier(0.22,1,0.36,1)]',
+      "data-[activation-direction~='left']:[&_[data-current][data-starting-style]]:-translate-x-1/2",
+      "data-[activation-direction~='left']:[&_[data-current][data-starting-style]]:opacity-0",
+      "data-[activation-direction~='right']:[&_[data-current][data-starting-style]]:translate-x-1/2",
+      "data-[activation-direction~='right']:[&_[data-current][data-starting-style]]:opacity-0",
+      '**:data-previous:w-(--popup-width)',
+      '**:data-previous:translate-x-0',
+      '**:data-previous:opacity-100',
+      '**:data-previous:transition-[translate,opacity]',
+      '**:data-previous:duration-[350ms,175ms]',
+      '**:data-previous:ease-[cubic-bezier(0.22,1,0.36,1)]',
+      "data-[activation-direction~='left']:[&_[data-previous][data-ending-style]]:translate-x-1/2",
+      "data-[activation-direction~='left']:[&_[data-previous][data-ending-style]]:opacity-0",
+      "data-[activation-direction~='right']:[&_[data-previous][data-ending-style]]:-translate-x-1/2",
+      "data-[activation-direction~='right']:[&_[data-previous][data-ending-style]]:opacity-0",
+    ],
   },
 })
 
@@ -48,57 +84,55 @@ function PopoverContent(props: PopoverContentProps) {
   } = props
 
   const { open } = usePopoverRootContext()
-
   const styles = popoverContentStyles()
 
-  const sizeProperty = ['top', 'bottom'].includes(side) ? 'height' : 'width'
-
   return (
-    <PopoverPrimitive.Portal keepMounted>
+    <PopoverPrimitive.Portal>
       <PopoverPrimitive.Positioner
         align={align}
         side={side}
         sideOffset={sideOffset}
+        className={styles.positioner()}
         {...restProps}
       >
-        <PopoverPrimitive.Viewport>
-          <AnimatePresence>
-            {open && (
-              <MotionRootPopup
-                className={styles.container({ className })}
-                style={{ transformOrigin: 'var(--transform-origin)' }}
-                initial={{
-                  opacity: 0,
-                  scale: 0.92,
-                  [sizeProperty]: `calc(var(--positioner-${sizeProperty}) * 0.96)`,
-                }}
-                animate={{
-                  opacity: 1,
-                  scale: 1,
-                  [sizeProperty]: `var(--positioner-${sizeProperty})`,
-                }}
-                exit={{
-                  opacity: 0,
-                  scale: 0.92,
-                  [sizeProperty]: `calc(var(--positioner-${sizeProperty}) * 0.96)`,
-                }}
-                transition={{
-                  type: 'spring',
-                  stiffness: 240,
-                  damping: 16,
-                  mass: 0.8,
-                  opacity: {
-                    type: 'tween',
-                    ease: [0.16, 1, 0.3, 1],
-                    delay: 0.04,
-                  },
-                }}
-              >
+        <AnimatePresence>
+          {open && (
+            <PopoverPrimitive.Popup
+              className={styles.popup({ className })}
+              render={
+                <motion.div
+                  initial={{
+                    opacity: 0,
+                    scale: 0.92,
+                  }}
+                  animate={{
+                    opacity: 1,
+                    scale: 1,
+                  }}
+                  exit={{
+                    opacity: 0,
+                    scale: 0.92,
+                  }}
+                  transition={{
+                    type: 'spring',
+                    stiffness: 240,
+                    damping: 16,
+                    mass: 0.8,
+                    opacity: {
+                      type: 'tween',
+                      ease: [0.16, 1, 0.3, 1],
+                      delay: 0.04,
+                    },
+                  }}
+                />
+              }
+            >
+              <PopoverPrimitive.Viewport className={styles.viewport()}>
                 {children}
-              </MotionRootPopup>
-            )}
-          </AnimatePresence>
-        </PopoverPrimitive.Viewport>
+              </PopoverPrimitive.Viewport>
+            </PopoverPrimitive.Popup>
+          )}
+        </AnimatePresence>
       </PopoverPrimitive.Positioner>
     </PopoverPrimitive.Portal>
   )

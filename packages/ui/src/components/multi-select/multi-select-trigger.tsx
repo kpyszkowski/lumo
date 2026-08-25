@@ -5,7 +5,7 @@ import {
   type MultiSelectRootContextValue,
   useMultiSelectRootContext,
 } from '~/components/multi-select/multi-select-root'
-import { type PopoverRootContextValue } from '~/components/popover/popover-root'
+import { type PopoverState } from '~/components/popover'
 
 type MultiSelectTriggerProps = Omit<Popover.TriggerProps, 'render'> & {
   /**
@@ -15,7 +15,7 @@ type MultiSelectTriggerProps = Omit<Popover.TriggerProps, 'render'> & {
   render?:
     | ((
         multiSelectContext: MultiSelectRootContextValue,
-        popoverContext: PopoverRootContextValue,
+        popoverState: PopoverState,
       ) => ReactElement)
     | undefined
 }
@@ -48,7 +48,7 @@ function MultiSelectTrigger(props: MultiSelectTriggerProps) {
     <Popover.Trigger
       ref={ref}
       render={
-        render ? (popoverContext) => render(context, popoverContext) : undefined
+        render ? (_, popoverState) => render(context, popoverState) : undefined
       }
       {...restProps}
     />

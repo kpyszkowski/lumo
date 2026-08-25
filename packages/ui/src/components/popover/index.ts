@@ -1,3 +1,5 @@
+import { Popover } from '@base-ui/react/popover'
+
 export {
   PopoverRoot as Root,
   type PopoverRootProps as RootProps,
@@ -10,3 +12,7 @@ export {
   PopoverTrigger as Trigger,
   type PopoverTriggerProps as TriggerProps,
 } from './popover-trigger'
+
+export const createHandle = Popover.createHandle
+
+export type PopoverState = Popover.Trigger.State

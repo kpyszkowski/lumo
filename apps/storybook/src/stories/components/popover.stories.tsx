@@ -43,7 +43,7 @@ export const Sides: Story = () => (
 export const CustomTrigger: Story = (args) => (
   <Popover.Root {...args}>
     <Popover.Trigger
-      render={({ open }) => (
+      render={(_, { open }) => (
         <Button variant="ghost">{open ? 'Close' : 'Open'}</Button>
       )}
     />
@@ -53,4 +53,56 @@ export const CustomTrigger: Story = (args) => (
       </div>
     </Popover.Content>
   </Popover.Root>
+)
+
+const popoverHandle = Popover.createHandle<React.ComponentType>()
+
+const createPayload = (title: string): React.ComponentType =>
+  function Payload() {
+    return (
+      <div className="px-4 py-2">
+        <h1 className="mb-3 text-lg font-semibold">{title}</h1>
+        <p className={title === 'Messages' ? 'h-32 w-48' : ''}>
+          This is the content for {title}.
+        </p>
+      </div>
+    )
+  }
+
+export const MultipleInstances: Story = (args) => (
+  <>
+    <div className="flex gap-3">
+      <Popover.Trigger
+        handle={popoverHandle}
+        payload={createPayload('Notifications')}
+      >
+        Notifications
+      </Popover.Trigger>
+
+      <Popover.Trigger
+        handle={popoverHandle}
+        payload={createPayload('Activities')}
+      >
+        Activities
+      </Popover.Trigger>
+
+      <Popover.Trigger
+        handle={popoverHandle}
+        payload={createPayload('Messages')}
+      >
+        Messages
+      </Popover.Trigger>
+    </div>
+
+    <Popover.Root
+      {...args}
+      handle={popoverHandle}
+    >
+      {({ payload: Payload }) => (
+        <Popover.Content>
+          {Payload !== undefined ? <Payload /> : null}
+        </Popover.Content>
+      )}
+    </Popover.Root>
+  </>
 )

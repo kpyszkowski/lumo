@@ -1,19 +1,13 @@
 'use client'
 import { Popover as PopoverPrimitive } from '@base-ui/react/popover'
-import {
-  createContext,
-  type ReactNode,
-  useContext,
-  useMemo,
-  useState,
-} from 'react'
+import { createContext, useContext, useState } from 'react'
 
-type PopoverRootProps = Pick<
-  PopoverPrimitive.Root.Props,
-  'defaultOpen' | 'open' | 'onOpenChange'
+type PopoverRootProps<Payload = unknown> = Pick<
+  PopoverPrimitive.Root.Props<Payload>,
+  'defaultOpen' | 'open' | 'onOpenChange' | 'handle'
 > & {
+  children?: PopoverPrimitive.Root.Props<Payload>['children']
   className?: string
-  children: ReactNode
   /** Controlled open state. */
   open?: boolean
   /** Uncontrolled initial open state (default `false`). */
@@ -23,22 +17,17 @@ type PopoverRootProps = Pick<
 }
 
 type PopoverRootContextValue = {
-  open: NonNullable<PopoverRootProps['open']>
-  onOpenChange: NonNullable<PopoverRootProps['onOpenChange']>
+  open: boolean
 }
 
 const PopoverRootContext = createContext<PopoverRootContextValue | null>(null)
 
-/**
- * Hook to access the `PopoverRoot` context
- * @returns The `PopoverRoot` context
- */
 const usePopoverRootContext = () => {
   const context = useContext(PopoverRootContext)
   if (!context) {
     throw new Error('usePopoverRootContext must be used within a PopoverRoot')
   }
-  return useMemo(() => context, [context])
+  return context
 }
 
 /**
@@ -55,7 +44,7 @@ const usePopoverRootContext = () => {
  * </Popover.Root>
  * ```
  */
-function PopoverRoot(props: PopoverRootProps) {
+function PopoverRoot<Payload = unknown>(props: PopoverRootProps<Payload>) {
   const {
     open: controlledOpen,
     onOpenChange: controlledOnOpenChange,
@@ -72,12 +61,7 @@ function PopoverRoot(props: PopoverRootProps) {
       : _onOpenChange
 
   return (
-    <PopoverRootContext.Provider
-      value={{
-        open,
-        onOpenChange,
-      }}
-    >
+    <PopoverRootContext.Provider value={{ open }}>
       <PopoverPrimitive.Root
         open={open}
         onOpenChange={onOpenChange}
