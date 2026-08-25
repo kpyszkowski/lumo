@@ -10,7 +10,7 @@ const menuContentStyles = createStyles({
   slots: {
     positioner: 'outline-none',
     container:
-      'bg-main-inv/96 text-main-inv dark:bg-elevated/96 dark:text-main flex min-w-48 flex-col gap-0.5 overflow-hidden rounded-xl p-1.5 outline-none backdrop-blur-sm dark:backdrop-contrast-75',
+      'bg-main-inv/96 text-main-inv dark:bg-elevated/96 dark:text-main flex min-w-48 flex-col gap-0.5 overflow-hidden rounded-xl p-1.5 backdrop-blur-sm outline-none dark:backdrop-contrast-75',
   },
 })
 
