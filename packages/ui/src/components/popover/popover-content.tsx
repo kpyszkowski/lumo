@@ -10,12 +10,13 @@ import { usePopoverRootContext } from '~/components/popover/popover-root'
 
 const popoverContentStyles = createStyles({
   slots: {
-    container: [
+    popup: [
       'bg-main-inv/96 text-main-inv dark:bg-elevated/96 dark:text-main',
       'relative flex h-(--popup-height,auto) w-(--popup-width,auto) flex-col',
       'overflow-hidden rounded-xl',
       'backdrop-blur-sm dark:backdrop-contrast-75',
       'transition-[width,height] duration-[0.35s] ease-[cubic-bezier(0.22,1,0.36,1)]',
+      'origin-(--transform-origin)',
     ],
     positioner: [
       'h-(--positioner-height) w-(--positioner-width) max-w-(--available-width)',
@@ -97,8 +98,7 @@ function PopoverContent(props: PopoverContentProps) {
         <AnimatePresence>
           {open && (
             <PopoverPrimitive.Popup
-              className={styles.container({ className })}
-              style={{ transformOrigin: 'var(--transform-origin)' }}
+              className={styles.popup({ className })}
               render={
                 <motion.div
                   initial={{
