@@ -10,6 +10,7 @@ const config: Config = {
   tabWidth: 2,
   plugins: [import.meta.resolve('prettier-plugin-tailwindcss')],
   tailwindFunctions: ['createStyles', 'tv'],
+  tailwindStylesheet: '../../ui/src/theme.css',
   singleAttributePerLine: true,
 }
 

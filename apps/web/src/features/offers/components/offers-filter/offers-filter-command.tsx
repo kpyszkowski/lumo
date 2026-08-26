@@ -43,7 +43,7 @@ import { OffersFilterCommandTrigger } from '~/features/offers/components/offers-
 export const adFilterCommandStyles = createStyles({
   slots: {
     commandDialog: 'lg:-ml-14',
-    submitButton: 'absolute top-0 right-0 -mr-14',
+    submitButton: 'absolute right-0 top-0 -mr-14',
     triggerButton:
       'text-muted current:[&>div]:text-muted bg-elevated hover:bg-highlighted focus-visible:bg-highlighted mx-auto w-full max-w-lg [&>div]:justify-end',
     commandWrapper: 'flex overflow-hidden',

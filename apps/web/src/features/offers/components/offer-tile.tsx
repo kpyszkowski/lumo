@@ -22,19 +22,19 @@ const offerTileStyles = createStyles({
       'bg-elevated relative mb-4 aspect-video w-full grow rounded-2xl p-2',
     gallery: 'absolute inset-0',
     galleryButtons: 'hidden gap-2', // TODO: Show later
-    detailsList: 'mt-3 ml-14 flex flex-wrap gap-1',
+    detailsList: 'ml-14 mt-3 flex flex-wrap gap-1',
     // TODO: Establish semantic color token for border color
     detailItem:
-      'flex items-center gap-2 rounded-3xl border border-(--background-color-elevated) px-3 py-2',
+      'border-(--background-color-elevated) flex items-center gap-2 rounded-3xl border px-3 py-2',
     detailIcon: 'text-subtle size-4 stroke-[1.5]',
-    detailValue: 'text-sm tracking-tight whitespace-nowrap',
+    detailValue: 'whitespace-nowrap text-sm tracking-tight',
     infoWrapper: 'flex items-start gap-3',
     makeIconWrapper: 'bg-elevated size-12 rounded-2xl',
     makeModelWrapper: 'flex flex-1 grow flex-col',
     makeModel: 'mb-1 font-semibold',
     locationWrapper: 'text-muted flex items-center gap-2',
     locationIcon: 'size-4',
-    location: 'text-sm whitespace-nowrap',
+    location: 'whitespace-nowrap text-sm',
     price: 'text-lg font-semibold',
   },
 })

@@ -16,7 +16,7 @@ type Story = StoryFn<typeof ScrollArea.Root>
 
 export const Default: Story = (args) => (
   <ScrollArea.Root {...args}>
-    <ScrollArea.Viewport className="bg-main-inv text-main-inv max-h-48 w-sm rounded-xl p-6">
+    <ScrollArea.Viewport className="bg-main-inv text-main-inv w-sm max-h-48 rounded-xl p-6">
       <ScrollArea.Content>
         Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laboriosam quo
         fuga, explicabo consectetur minima quia autem nesciunt alias atque

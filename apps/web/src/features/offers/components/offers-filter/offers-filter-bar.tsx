@@ -45,7 +45,7 @@ export const offersFilterBarStyles = createStyles({
     triggerIcon: '-mr-1 size-4',
     buttonsWrapper: 'border-subtle-inv relative ml-5 flex border-l pl-5',
     listOverlay:
-      'bg-main pointer-events-none absolute inset-y-0 -left-px w-36 -translate-x-full mask-l-from-25%',
+      'bg-main mask-l-from-25% pointer-events-none absolute inset-y-0 -left-px w-36 -translate-x-full',
   },
 })
 
